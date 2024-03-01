@@ -2,10 +2,10 @@
 import React from 'react';
 import TextQuestion from '../../components/TextQuestion'; // Assuming Question.js is the file name
 
-const Question2 = ({ previousStep, nextStep, handleChange }) => {
+const Question2 = ({ previousStep, nextStep, handleChange, stepNumber }) => {
   return (
     <TextQuestion
-      questionText="2. What is your email address?"
+      questionText={`${stepNumber}. What is your email address?"`}
       inputId="email"
       placeholderText="example@gmail.com"
       handleChange={handleChange}

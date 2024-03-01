@@ -4,7 +4,7 @@ import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
 import './ImageComparison.css';
 
-const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, onComplete, comparisonContext}) => {
+const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, onComplete, comparisonContext, stepNumber}) => {
     const [currentPair, setCurrentPair] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -130,10 +130,12 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
         }
     };
 
+    console.log("currentComparison: ", comparisonContext);
+
     return (
         <div className="image-comparison-container">
             <div className="image-comparison-content"> 
-                <h2>6B. When using your current mobility aid, which one is easier to pass?</h2>
+                <h2>{`${stepNumber} When using your current mobility aid, which one is easier to pass?`}</h2>
                 <div className="flex-row-justify-center">
                     {currentPair.map((src, index) => (
                         <div 

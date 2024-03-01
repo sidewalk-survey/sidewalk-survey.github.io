@@ -5,9 +5,8 @@ import ResponseButtons from '../../components/ResponseButtons';
 import './ImageSelection.css';
 
 
-const ImageSelection = ({ previousStep, nextStep, images, onComplete }) => {
+const ImageSelection = ({ previousStep, nextStep, images, onComplete, stepNumber }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-
     const [groupAImages, setGroupAImages] = useState([]);
     const [groupBImages, setGroupBImages] = useState([]);
 
@@ -67,7 +66,7 @@ return (
         <div className="question-container">
             <div className="image-content">
                 <div className="text-center bg-gray-200 p-5 rounded mb-4">
-                    <h2 className="question-header">5. When using your current mobility aid, do you feel comfortable passing this?</h2>
+                    <h2 className="question-header"> {`${stepNumber}. When using your current mobility aid, do you feel comfortable passing this?`}</h2>
                 </div>
                 <div className="image-selection-options">
                     <div className="image-wrapper">

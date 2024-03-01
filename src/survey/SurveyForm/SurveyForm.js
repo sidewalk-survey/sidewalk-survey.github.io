@@ -129,25 +129,25 @@ const renderCurrentStep = () => {
   switch(currentStep) {
     // Questions 1-4
     case 1:
-      return <Question1 nextStep={nextStep} handleChange={handleChange} />;
+      return <Question1 stepNumber={currentStep} nextStep={nextStep} handleChange={handleChange} />;
     case 2:
-      return <Question2 nextStep={nextStep} previousStep={previousStep} handleChange={handleChange} />;
+      return <Question2 stepNumber={currentStep} nextStep={nextStep} previousStep={previousStep} handleChange={handleChange} />;
     case 3:
-      return <Question3 nextStep={nextStep} previousStep={previousStep} updateAnswers={updateAnswers} />;
+      return <Question3 stepNumber={currentStep} nextStep={nextStep} previousStep={previousStep} updateAnswers={updateAnswers} />;
     case 4:
-      return <Question4 nextStep={nextStep} previousStep={previousStep} answers={answers} handleChange={handleChange} />;
+      return <Question4 stepNumber={currentStep} nextStep={nextStep} previousStep={previousStep} answers={answers} handleChange={handleChange} />;
     case 5: // After original questions, start with surface ImageSelection
-      return <ImageSelection images={surfaceImages} onComplete={handleSurfaceSelectionComplete} />;
+      return <ImageSelection stepNumber={currentStep} images={surfaceImages} onComplete={handleSurfaceSelectionComplete} />;
     case 6: // Surface ImageComparison A
-      return <ImageComparison images={surfaceSelection.surfaceA} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceAcompare" onComplete={() => setCurrentStep(7)} />;
+      return <ImageComparison stepNumber={currentStep} images={surfaceSelection.surfaceA} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceAcompare" onComplete={() => setCurrentStep(7)} />;
     case 7: // Surface ImageComparison B
-      return <ImageComparisonB images={surfaceSelection.surfaceB} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceBcompare" onComplete={() => setCurrentStep(8)} />;
+      return <ImageComparisonB stepNumber={currentStep} images={surfaceSelection.surfaceB} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceBcompare" onComplete={() => setCurrentStep(8)} />;
     case 8:
-      return <ImageSelection images={obstacleImages} onComplete={handleObstacleSelectionComplete} />;
+      return <ImageSelection stepNumber={currentStep} images={obstacleImages} onComplete={handleObstacleSelectionComplete} />;
     case 9:
-      return <ImageComparison images={obstacleSelection.obstacleA} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleAcompare" onComplete={() => setCurrentStep(10)} />;
+      return <ImageComparison stepNumber={currentStep} images={obstacleSelection.obstacleA} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleAcompare" onComplete={() => setCurrentStep(10)} />;
     case 10:
-      return <ImageComparisonB images={obstacleSelection.obstacleB} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleBcompare" onComplete={() => setCurrentStep(11)} />;
+      return <ImageComparisonB stepNumber={currentStep} images={obstacleSelection.obstacleB} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleBcompare" onComplete={() => setCurrentStep(11)} />;
     case 11:
       return <EndingPage previousStep={previousStep} onSubmit={handleSubmit} />;
     default:

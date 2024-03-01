@@ -11,7 +11,7 @@ const questionOptions = [
   { value: "Something else", label: "Something else" },
 ];
 
-const Question3 = ({ previousStep, nextStep, updateAnswers}) => {
+const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber}) => {
   const [selectedOption, setSelectedOption] = useState('');
 
   const handleChange = (event) => {
@@ -22,7 +22,7 @@ const Question3 = ({ previousStep, nextStep, updateAnswers}) => {
 
   return (
     <RadioQuestion
-      questionText="3. When going outside your home and into the community, do you use any of the following?"
+      questionText={`${stepNumber}. When going outside your home and into the community, do you use any of the following?`}
       instructionText="If you use multiple, please select the one that you use most frequently."
       options={questionOptions}
       handleChange={handleChange} // Simplified the handleChange usage
