@@ -1,12 +1,13 @@
-//ImageComparison.js
+//ImageComparisonB.js
 import React, { useState, useEffect } from 'react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import PageNavigations from '../../components/PageNavigations';
 import './ImageComparison.css';
 import ResponseButtons from '../../components/ResponseButtons';
 import LRButton from '../../components/LeftRightButtons';
 
 
-const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, onComplete,comparisonContext}) => {
+const ImageComparisonB = ({nextStep, previousStep, images, firestore, onComplete}) => {
     const [displayedPairs, setDisplayedPairs] = useState(new Set());
     const [currentPair, setCurrentPair] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
     const handleMouseLeave = () => {
         setHoverButton(null);
     };
+
 
     useEffect(() => {
         // set the maximum number of comparisons dynamically
@@ -71,13 +73,13 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
                     direction="left"
                     onClick={goToPreviousPair}
                     disabled={loading || historyIndex <= 0}
-                />
+                    />
                 {dots}
                 <LRButton
                     direction="right"
                     onClick={goToNextPair}
                     disabled={loading || historyIndex >= history.length}
-                />
+                    />
             </div>
         );
     };
@@ -120,16 +122,23 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
         }
     };
 
+
     const selectImage = (index) => {
         const selectedImage = currentPair[index - 1];
         setSelectedImage(selectedImage);
         console.log("Image selected: ", selectedImage);
-
-        onSelectionComplete({
+    
+        addDoc(collection(firestore, "imageComparisons"), {
             image1: currentPair[0],
             image2: currentPair[1],
             selectedImage: selectedImage,
-            comparisonContext,
+            timestamp: serverTimestamp()
+        })
+        .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error);
         });
     
         setTimeout(() => {
@@ -148,12 +157,18 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
     const recordEqualSelection = () => {
         if (currentPair.length === 2) {
             console.log("Equal selected for: ", currentPair);
-
-            onSelectionComplete({
+    
+            addDoc(collection(firestore, "imageComparisons"), {
                 image1: currentPair[0],
                 image2: currentPair[1],
                 selection: 'equal',
-                comparisonContext,
+                timestamp: serverTimestamp()
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
             });
     
             setComparisonCount(prevCount => {
@@ -187,27 +202,27 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
         <div className="image-comparison-container">
             <div className="image-comparison-content"> 
                 <h2>6B. When using your current mobility aid, which one is easier to pass?</h2>
-                <div className="flex-row-justify-center">
-                    {currentPair.map((src, index) => (
-                        <div 
-                            className={`comparison-image-wrapper rounded-xl ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-500 glow-shadow' : ''}`}
-                            key={index}
-                            style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '4px' : '2px' }} // Keep dynamic styles inline
-                        >
-                            <div className="card-style" onClick={() => selectImage(index + 1)}>
-                                <img src={src} alt={`Image ${index + 1}`} className="card-media-style" />
-                                {selectedImage === src && (
-                                    <div className="overlay-style">
-                                    </div>
-                                )}
-                            </div>
+            <div className="flex flex-row justify-center">
+                {currentPair.map((src, index) => (
+                    <div 
+                        style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '4px' : '2px', width: '50%' }}
+                        className={`m-4 rounded-xl ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-500 glow-shadow' : ''}`}
+                        key={index}
+                    >
+                        <div className="cardStyle relative cursor-pointer" onClick={() => selectImage(index + 1)}>
+                            <img src={src} alt={`Image ${index + 1}`} className="cardMediaStyle w-full object-cover rounded-lg" />
+                            {selectedImage === src && (
+                                <div className="overlayStyle absolute inset-0 flex justify-center items-center">
+                                </div>
+                            )}
                         </div>
-                    ))}
-                </div>
-                {renderComparisonDots()}
-                <ResponseButtons
+                    </div>
+                ))}
+            </div>
+            {renderComparisonDots()}
+            <ResponseButtons
                 gap="24px"
-                disabled={loading} 
+                disabled={loading} // Assume `loading` is a state indicating if the buttons should be disabled
                 buttons={[
                     {
                     text: 'Left Image',
@@ -230,7 +245,6 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
                     },
                 ]}
                 />
-
             </div>
             <PageNavigations onPrevious={previousStep} onNext={nextStep} />
             </div>

@@ -42,6 +42,28 @@ const SurveyComponent = () => {
 
   const progressValue = (currentStep / totalSteps) * 100;
 
+  
+  // for handling the case where the image group is empty
+  useEffect(() => {
+    if (currentStep === 6 && surfaceSelection.surfaceA.length === 0) {
+      setCurrentStep(7); // Skip Surface ImageComparison A if no images
+    } else if (currentStep === 7 && surfaceSelection.surfaceB.length === 0) {
+      setCurrentStep(8); // Skip Surface ImageComparison B if no images
+    }
+    // Repeat the pattern for other selections
+    else if (currentStep === 9 && obstacleSelection.obstacleA.length === 0) {
+      setCurrentStep(10); // Skip Obstacle ImageComparison A if no images
+    } else if (currentStep === 10 && obstacleSelection.obstacleB.length === 0) {
+      setCurrentStep(11); // Skip Obstacle ImageComparison B if no images
+    }
+    // Add similar checks for noCurbSelection if needed
+    else if (currentStep === 12 && noCurbSelection.noCurbA.length === 0) {
+      setCurrentStep(13); // Skip No Curb ImageComparison A if no images
+    } else if (currentStep === 13 && noCurbSelection.noCurbB.length === 0) {
+      setCurrentStep(14); // Skip No Curb ImageComparison B if no images
+    }
+  }, [currentStep, surfaceSelection, obstacleSelection, noCurbSelection]);
+
 
   const startSurvey = () => {
     setCurrentStep(1); // Start the survey
@@ -131,8 +153,21 @@ const renderCurrentStep = () => {
       return <ImageComparison images={surfaceSelection.surfaceA} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceAcompare" onComplete={() => setCurrentStep(7)} />;
     case 7: // Surface ImageComparison B
       return <ImageComparisonB images={surfaceSelection.surfaceB} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceBcompare" onComplete={() => setCurrentStep(8)} />;
+    // case 8: // Obstacle ImageSelection
+    //   return <ImageSelection images={obstacleImages} onComplete={handleObstacleSelectionComplete} />;
+    // case 9: // Obstacle ImageComparison A
+    //   return <ImageComparisonC images={obstacleSelection.obstacleA} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleAcompare" onComplete={() => setCurrentStep(10)} />;
+    // case 10: // Obstacle ImageComparison B
+    //   return <ImageComparisonD images={obstacleSelection.obstacleB} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleBcompare" onComplete={() => setCurrentStep(11)} />;
+    // case 11: // No Curb ImageSelection
+    //   return <ImageSelection images={noCurbImagesImages} onComplete={handleNoCurbSelectionComplete} />;
+    // case 12: // No Curb ImageComparison A
+    //   return <ImageComparison images={noCurbSelection.noCurbA} onSelectionComplete={onSelectionComplete} comparisonContext="noCurbAcompare" onComplete={() => setCurrentStep(13)} />;
+    // case 13: // No Curb ImageComparison B 
+    //   return <ImageComparison images={noCurbSelection.noCurbB} onSelectionComplete={onSelectionComplete} comparisonContext="noCurbBcompare" onComplete={() => setCurrentStep(14)} />;
     case 8:
       return <EndingPage previousStep={previousStep} onSubmit={handleSubmit} />;
+    // Ending Page remains the same
     default:
       return <WelcomePage onStart={startSurvey}/>;
   }
