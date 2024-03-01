@@ -1,0 +1,58 @@
+/* ImageComparison.css */
+.image-comparison-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    margin: auto;
+    width: 90vw;
+  }
+  
+  .question-content {
+    width: 90vw;
+    margin: auto;
+  }
+  
+  .flex-row-justify-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .comparison-image-wrapper {
+    margin: 1rem; /* Adjusted from m-4 for clarity */
+    border-radius: 0.75rem; /* Equivalent to rounded-xl */
+    width: 50%;
+  }
+  
+  .glow-shadow {
+    box-shadow: -4px 4px 12px 2px #26a69962; /* Example glow effect */
+  }
+  
+  .card-style {
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .card-media-style {
+    width: 100%;
+    object-fit: cover; /* Ensures the image covers the area, respecting aspect ratio */
+    border-radius: 0.5rem; /* Equivalent to rounded-lg */
+  }
+  
+  .overlay-style {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .flex-justify-center-gap {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Adjusted from gap-4 for clarity */
+    margin-top: 1.25rem; /* Equivalent to mt-5 */
+  }
+  

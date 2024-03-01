@@ -1,0 +1,62 @@
+/* ImageSelection.css */
+.image-selection-container {
+    margin: auto;
+  }
+  
+  .image-content {
+    margin: auto;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .question-header {
+    text-align: left;
+  }
+  
+  .image-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .image {
+    aspect-ratio: 5 / 3;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .image-selection-options {
+    width: 60vw;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    margin-bottom: 4rem; /* Adjusted to use rem for consistency */
+  }
+  
+  .options-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 1em;
+  }
+  
+  .label-marker {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color:#EF6074;
+    border: 3px solid #fff;
+    /* opacity: 0.8; */
+    mix-blend-mode: hard-light;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+  }
