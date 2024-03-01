@@ -1,28 +1,17 @@
 //ImageComparison.js
 import React, { useState, useEffect } from 'react';
 import PageNavigations from '../../components/PageNavigations';
-import './ImageComparison.css';
 import ResponseButtons from '../../components/ResponseButtons';
+import './ImageComparison.css';
 
-
-const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, onComplete,comparisonContext}) => {
-    const [displayedPairs, setDisplayedPairs] = useState(new Set());
+const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, onComplete, comparisonContext}) => {
     const [currentPair, setCurrentPair] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [history, setHistory] = useState([]); 
     const [historyIndex, setHistoryIndex] = useState(-1); 
-    const [comparisonCount, setComparisonCount] = useState(0);
     const [maxComparisons, setMaxComparisons] = useState(0);
     const [hoverButton, setHoverButton] = useState(null);
-
-    const handleMouseEnter = (button) => {
-        setHoverButton(button);
-    };
-
-    const handleMouseLeave = () => {
-        setHoverButton(null);
-    };
 
     useEffect(() => {
         // set the maximum number of comparisons dynamically
@@ -33,17 +22,24 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
         displayImages();
     }, [images]);
 
+    const handleMouseEnter = (button) => {
+        setHoverButton(button);
+    };
+
+    const handleMouseLeave = () => {
+        setHoverButton(null);
+    };
+
     const getRandomImagePair = () => {
         if (!images || images.length < 2) {
             console.error("Images array is empty or not enough images for comparison.");
             return [];
-          }
+        }
         let pair;
         do {
             pair = [images[Math.floor(Math.random() * images.length)], images[Math.floor(Math.random() * images.length)]];
-        } while (displayedPairs.has(pair.toString()) || pair[0] === pair[1]);
+        } while (pair[0] === pair[1] || history.some(h => h.toString() === pair.toString()));
 
-        displayedPairs.add(pair.toString());
         setCurrentPair(pair);
         return pair;
     };
@@ -71,79 +67,45 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
         );
     };
     
-
     const displayImages = () => {
         setLoading(true);
-        setTimeout(() => {
-            let nextPair;
-            if (historyIndex + 1 < history.length) {
+        let nextPair;
+        if (historyIndex + 1 < history.length) {
                 // If there's a next pair in history, use it
                 nextPair = history[historyIndex + 1];
                 setHistoryIndex(historyIndex + 1);
-            } else {
+        } else {
                 // Otherwise, get a new random pair and update history
                 nextPair = getRandomImagePair();
                 const newHistory = [...history, nextPair];
                 setHistory(newHistory);
                 setHistoryIndex(newHistory.length - 1);
             }
-            setCurrentPair(nextPair);
-            setLoading(false);
-        }, 0);
+        setCurrentPair(nextPair);
+        setLoading(false);
+    };
+
+    const updateSelectionAndDisplayNext = (selectedImage, comparisonResult = {}) => {
+        setSelectedImage(selectedImage);
+        console.log("Image selected: ", selectedImage);
+        onSelectionComplete({ ...comparisonResult, comparisonContext });
+        if (historyIndex + 1 >= maxComparisons) {
+            onComplete();
+        } else {
+            displayImages();
+        }
     };
 
     const selectImage = (index) => {
-        const selectedImage = currentPair[index - 1];
-        setSelectedImage(selectedImage);
-        console.log("Image selected: ", selectedImage);
-
-        onSelectionComplete({
+        const selected = currentPair[index - 1];
+        updateSelectionAndDisplayNext(selected, {
             image1: currentPair[0],
             image2: currentPair[1],
-            selectedImage: selectedImage,
-            comparisonContext,
-        });
-    
-        setTimeout(() => {
-            displayImages();
-        }, 100);
-
-        setComparisonCount(prevCount => {
-            const newCount = prevCount + 1;
-            if (newCount >= maxComparisons) {
-                onComplete(); 
-            }
-            return newCount;
+            selectedImage: selected,
         });
     };
 
-    const recordEqualSelection = () => {
-        if (currentPair.length === 2) {
-            console.log("Equal selected for: ", currentPair);
-
-            onSelectionComplete({
-                image1: currentPair[0],
-                image2: currentPair[1],
-                selection: 'equal',
-                comparisonContext,
-            });
-    
-            setComparisonCount(prevCount => {
-                const newCount = prevCount + 1;
-                if (newCount >= maxComparisons) {
-                    onComplete();
-                    return prevCount; 
-                } else {
-                    displayImages(); 
-                    return newCount;
-                }
-            });
-        } else {
-            console.log("No image pair is currently displayed.");
-        }
-    }; 
-
-     const selectLeftImage = () => {
+    const selectLeftImage = () => {
         if(currentPair.length === 2) {
             selectImage(1);
         }
@@ -152,6 +114,19 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
     const selectRightImage = () => {
         if(currentPair.length === 2) {
             selectImage(2);
+        }
+    };
+
+    const recordEqualSelection = () => {
+        if (currentPair.length === 2) {
+            console.log("Equal selected for: ", currentPair);
+            updateSelectionAndDisplayNext(null, {
+                image1: currentPair[0],
+                image2: currentPair[1],
+                selection: 'equal',
+            });
+        } else {
+            console.log("No image pair is currently displayed.");
         }
     };
 
@@ -209,4 +184,4 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
     );
 };
 
-export default ImageComparisonB;
+export default ImageComparison;

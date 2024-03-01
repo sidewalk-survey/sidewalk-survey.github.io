@@ -71,7 +71,6 @@ return (
                 </div>
                 <div className="image-selection-options">
                     <div className="image-wrapper">
-                        <div class="label-marker"></div>
                         <img
                             className="image rounded-xl"
                             src={images[currentIndex]}
