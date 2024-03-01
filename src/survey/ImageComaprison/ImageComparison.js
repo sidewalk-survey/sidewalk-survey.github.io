@@ -67,17 +67,17 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
         }
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px 0' }}>
-                <LRButton
+                {/* <LRButton
                     direction="left"
                     onClick={goToPreviousPair}
                     disabled={loading || historyIndex <= 0}
-                />
+                /> */}
                 {dots}
-                <LRButton
+                {/* <LRButton
                     direction="right"
                     onClick={goToNextPair}
                     disabled={loading || historyIndex >= history.length}
-                />
+                /> */}
             </div>
         );
     };

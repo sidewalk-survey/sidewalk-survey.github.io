@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
 import './ImageSelection.css';
-import LRButton from '../../components/LeftRightButtons';
 
 
 const ImageSelection = ({ previousStep, nextStep, images, onComplete }) => {
@@ -43,29 +42,10 @@ const ImageSelection = ({ previousStep, nextStep, images, onComplete }) => {
         const nextIndex = currentIndex + 1;
         setCurrentIndex(nextIndex);
     };
-    
-    const progress = (currentIndex / images.length) * 100;
-
-    const goToPreviousImage = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
-        }
-    };
-
-    const goToNextImage = () => {
-        if (currentIndex < images.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-        }
-    };
 
     const renderDotsAndNavigation = () => {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
-                <LRButton 
-                direction="left" 
-                onClick={goToPreviousImage}  
-                style={{ cursor: currentIndex > 0 ? 'pointer' : 'not-allowed', opacity: currentIndex > 0 ? 1 : 0.5 }}
-                />
                 {images.map((_, index) => (
                     <span
                         key={index}
@@ -77,11 +57,6 @@ const ImageSelection = ({ previousStep, nextStep, images, onComplete }) => {
                         }}
                     ></span>
                 ))}
-                <LRButton 
-                direction="right"
-                onClick={goToNextImage} 
-                style={{ cursor: currentIndex < images.length - 1 ? 'pointer' : 'not-allowed', opacity: currentIndex < images.length - 1 ? 1 : 0.5 }}
-                />
             </div>
         );
     };

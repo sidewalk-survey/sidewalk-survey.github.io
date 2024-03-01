@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import PageNavigations from '../../components/PageNavigations';
 import './ImageComparison.css';
 import ResponseButtons from '../../components/ResponseButtons';
-import LRButton from '../../components/LeftRightButtons';
 
 
 const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, onComplete,comparisonContext}) => {
@@ -67,17 +66,7 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
         }
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '20px 0' }}>
-                <LRButton
-                    direction="left"
-                    onClick={goToPreviousPair}
-                    disabled={loading || historyIndex <= 0}
-                />
                 {dots}
-                <LRButton
-                    direction="right"
-                    onClick={goToNextPair}
-                    disabled={loading || historyIndex >= history.length}
-                />
             </div>
         );
     };
@@ -101,23 +90,6 @@ const ImageComparisonB = ({nextStep, previousStep, images, onSelectionComplete, 
             setCurrentPair(nextPair);
             setLoading(false);
         }, 0);
-    };
-
-    const goToPreviousPair = () => {
-        if (historyIndex > 0) {
-            setCurrentPair(history[historyIndex - 1]);
-            setHistoryIndex(historyIndex - 1);
-        }
-    };
-    
-    const goToNextPair = () => {
-        if (historyIndex + 1 < history.length) {
-            setCurrentPair(history[historyIndex + 1]);
-            setHistoryIndex(historyIndex + 1);
-        } else {
-            // If at the end of history, display a new pair
-            displayImages();
-        }
     };
 
     const selectImage = (index) => {
