@@ -12,10 +12,6 @@ const EndingPage = ({ previousStep, onSubmit }) => {
           color="teal"
           variant ="outlined"
           size="lg"
-          rounded={false}
-          block={false}
-          iconOnly={false}
-          ripple="light"
           onClick={previousStep}
         >
           Go Back
@@ -24,10 +20,6 @@ const EndingPage = ({ previousStep, onSubmit }) => {
          className='lg-font-size-button'
           color="teal"
           size="lg"
-          rounded={false}
-          block={false}
-          iconOnly={false}
-          ripple="light"
           onClick={onSubmit}
         >
           Submit

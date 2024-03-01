@@ -70,6 +70,27 @@ const obstacleImages = [
   '/img/img05.png',
 ];
 
+  // for handling the case where the image group is empty
+  useEffect(() => {
+    if (currentStep === 6 && surfaceSelection.surfaceA.length === 0) {
+      setCurrentStep(7); // Skip Surface ImageComparison A if no images
+    } else if (currentStep === 7 && surfaceSelection.surfaceB.length === 0) {
+      setCurrentStep(8); // Skip Surface ImageComparison B if no images
+    }
+    // Repeat the pattern for other selections
+    else if (currentStep === 9 && obstacleSelection.obstacleA.length === 0) {
+      setCurrentStep(10); // Skip Obstacle ImageComparison A if no images
+    } else if (currentStep === 10 && obstacleSelection.obstacleB.length === 0) {
+      setCurrentStep(11); // Skip Obstacle ImageComparison B if no images
+    }
+    // Add similar checks for noCurbSelection if needed
+    else if (currentStep === 12 && noCurbSelection.noCurbA.length === 0) {
+      setCurrentStep(13); // Skip No Curb ImageComparison A if no images
+    } else if (currentStep === 13 && noCurbSelection.noCurbB.length === 0) {
+      setCurrentStep(14); // Skip No Curb ImageComparison B if no images
+    }
+  }, [currentStep, surfaceSelection, obstacleSelection, noCurbSelection]);
+
 const handleSurfaceSelectionComplete = (selection) => {
   setSurfaceSelection({surfaceA: selection.groupAImages, surfaceB: selection.groupBImages});
   setCurrentStep(currentStep + 1);
@@ -145,7 +166,6 @@ const handleSubmit = async () => {
       timestamp: serverTimestamp(), 
     });
     console.log("Document written with ID: ", docRef.id);
-    // Optionally, reset state or navigate to a "thank you" page
   } catch (e) {
     console.error("Error adding document: ", e);
   }

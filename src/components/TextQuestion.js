@@ -17,7 +17,7 @@ const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, pr
             type="text"
             placeholder={placeholderText}
             onChange={handleChange(inputId)}
-            fullWidth
+            // fullWidth
           />
           <div className="question-button-group">
             <Button size='lg' className="lg-font-size-button" color="teal" onClick={nextStep}>OK</Button>

@@ -13,12 +13,7 @@ const WelcomePage = ({ onStart }) => {
         <Button
         className='lg-font-size-button'
           color="teal"
-          buttonType="filled"
           size="lg"
-          rounded={false}
-          block={false}
-          iconOnly={false}
-          ripple="light"
           onClick={onStart}
         >
           Start

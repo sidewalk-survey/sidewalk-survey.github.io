@@ -14,7 +14,6 @@ const ResponseButtons = ({ buttons, gap, disabled = false }) => {
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           disabled={disabled}
-          ripple="light"
         >
           {text}
         </Button>
