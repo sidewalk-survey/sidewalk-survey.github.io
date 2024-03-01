@@ -120,9 +120,12 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     const selectImage = (index) => {
         const selected = currentPair[index - 1];
         updateSelectionAndDisplayNext(selected, {
-            image1LabelID: currentPair[0].LabelID, 
-            image2LabelID: currentPair[1].LabelID, 
+            image1LabelID: currentPair[0].LabelID,
+            image1City: currentPair[0].City, 
+            image2LabelID: currentPair[1].LabelID,
+            image2City: currentPair[1].City,
             selectedImageLabelID: selected.LabelID, 
+            selectedImageCity: selected.City,
         });
     };
 
@@ -141,8 +144,10 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     const recordEqualSelection = () => {
         if (currentPair.length === 2) {
             updateSelectionAndDisplayNext(null, {
-                image1LabelID: currentPair[0].LabelID, 
-                image2LabelID: currentPair[1].LabelID, 
+                image1LabelID: currentPair[0].LabelID,
+                image1City: currentPair[0].City, 
+                image2LabelID: currentPair[1].LabelID,
+                image2City: currentPair[1].City,
                 selection: 'equal',
             });
         } else {
@@ -155,7 +160,7 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     return (
         <div className="image-comparison-container">
             <div className="image-comparison-content"> 
-                <h2>{`${stepNumber} When using your current mobility aid, which one is easier to pass?`}</h2>
+                <h2>{`${stepNumber}. When using your current mobility aid, which one is easier to pass?`}</h2>
                 <div className="comparison-twin">
                 {/* <div className="flex-row-justify-center"> */}
                 {currentPair.map((imageData, index) => (

@@ -7,9 +7,10 @@ import Question1 from '../Questions/Question1';
 import Question2 from '../Questions/Question2';
 import Question3 from '../Questions/Question3';
 import Question4 from '../Questions/Question4';
+import QuestionSurfaceProblem from '../Questions/QuestionSurfaceProblem';
+import QuestionObstacle from '../Questions/QuestionObstacle';
 import ImageSelection from '../ImageSelection/ImageSelection';
 import ImageComparison from '../ImageComaprison/ImageComparison';
-import ImageComparisonB from '../ImageComaprison/ImageComparisonB';
 import WelcomePage from '../StartEndPages/WelcomePage'; 
 import EndingPage from '../StartEndPages/EndingPage';
 
@@ -36,7 +37,7 @@ const SurveyComponent = () => {
 
 
   useEffect(() => {
-    let steps = 8; // base number of steps
+    let steps = 13; // base number of steps
     setTotalSteps(steps);
   }, [/* dependencies that might change the number of steps, e.g., answers */]);
 
@@ -51,7 +52,9 @@ const SurveyComponent = () => {
     name: '',
     email: '',
     mobilityAid: '',
-    sidewalkBarriers: ''
+    sidewalkBarriers: '',
+    surfaceProblemOccur: '',
+    obstacleOccur: '',
   });
 
 const surfaceCropsData = [
@@ -67,6 +70,59 @@ const surfaceCropsData = [
       "CanvasX": 326,
       "CanvasY": 216
   },
+  {
+      "City": "seattle",
+      "LabelID": 205972,
+      "LabelTypeID": 4,
+      "PanoID": "EwjRCeSEVWFQGRnqsXM_DA",
+      "Heading": 205.7209777832,
+      "Pitch": -22.125,
+      "Zoom": 1,
+      "FOV": 90,
+      "CanvasX": 486,
+      "CanvasY": 192
+  },
+
+  {
+    "City": "seattle",
+    "LabelID": 194344,
+    "LabelTypeID": 4,
+    "PanoID": "JWaaynPQwfIX3QmAPpA8gg",
+    "Heading": 210.3660736084,
+    "Pitch": -6.4642858505,
+    "Zoom": 2,
+    "FOV": 45,
+    "CanvasX": 536,
+    "CanvasY": 242
+},
+{
+    "City": "seattle",
+    "LabelID": 208040,
+    "LabelTypeID": 4,
+    "PanoID": "YDaym1DloFZnBdGoaDUyDQ",
+    "Heading": 311.375,
+    "Pitch": -35,
+    "Zoom": 1,
+    "FOV": 90,
+    "CanvasX": 448,
+    "CanvasY": 122
+},
+
+{
+  "City": "seattle",
+  "LabelID": 107450,
+  "LabelTypeID": 4,
+  "PanoID": "ibbpox2xm6Y8ZhdcWYTMHw",
+  "Heading": 220.9821472168,
+  "Pitch": -20.0892848969,
+  "Zoom": 2,
+  "FOV": 45,
+  "CanvasX": 463,
+  "CanvasY": 172
+},
+];
+
+const obstacleCropsData = [
   {
       "City": "seattle",
       "LabelID": 169928,
@@ -93,18 +149,6 @@ const surfaceCropsData = [
   },
   {
       "City": "seattle",
-      "LabelID": 205972,
-      "LabelTypeID": 4,
-      "PanoID": "EwjRCeSEVWFQGRnqsXM_DA",
-      "Heading": 205.7209777832,
-      "Pitch": -22.125,
-      "Zoom": 1,
-      "FOV": 90,
-      "CanvasX": 486,
-      "CanvasY": 192
-  },
-  {
-      "City": "seattle",
       "LabelID": 100492,
       "LabelTypeID": 3,
       "PanoID": "Ml-OCQTY1s5k7b6DSxHZ-A",
@@ -114,15 +158,31 @@ const surfaceCropsData = [
       "FOV": 45,
       "CanvasX": 193,
       "CanvasY": 190
-  }
-];
-
-const obstacleImages = [
-  '/img/img01.png',
-  '/img/img02.png',
-  '/img/img03.png',
-  '/img/img04.png',
-  '/img/img05.png',
+  },
+  {
+    "City": "seattle",
+    "LabelID": 191782,
+    "LabelTypeID": 3,
+    "PanoID": "tSDTx7aNmeGUosgKkWJC8Q",
+    "Heading": 65.796875,
+    "Pitch": -3.609375,
+    "Zoom": 3,
+    "FOV": 23,
+    "CanvasX": 361,
+    "CanvasY": 328
+},
+{
+  "City": "seattle",
+  "LabelID": 214878,
+  "LabelTypeID": 3,
+  "PanoID": "6aS515xppGK6FIZ8i5FxnQ",
+  "Heading": 133.0758972168,
+  "Pitch": -14.5647325516,
+  "Zoom": 1,
+  "FOV": 90,
+  "CanvasX": 300,
+  "CanvasY": 291
+}
 ];
 
   // for handling the case where the image group is empty
@@ -139,11 +199,11 @@ const obstacleImages = [
       setCurrentStep(11); // Skip Obstacle ImageComparison B if no images
     }
     // Add similar checks for noCurbSelection if needed
-    else if (currentStep === 12 && noCurbSelection.noCurbA.length === 0) {
-      setCurrentStep(13); // Skip No Curb ImageComparison A if no images
-    } else if (currentStep === 13 && noCurbSelection.noCurbB.length === 0) {
-      setCurrentStep(14); // Skip No Curb ImageComparison B if no images
-    }
+    // else if (currentStep === 12 && noCurbSelection.noCurbA.length === 0) {
+    //   setCurrentStep(13); // Skip No Curb ImageComparison A if no images
+    // } else if (currentStep === 13 && noCurbSelection.noCurbB.length === 0) {
+    //   setCurrentStep(14); // Skip No Curb ImageComparison B if no images
+    // }
   }, [currentStep, surfaceSelection, obstacleSelection, noCurbSelection]);
 
 const handleSurfaceSelectionComplete = (selection) => {
@@ -157,7 +217,7 @@ const handleObstacleSelectionComplete = (selection) => {
 };
 
 const nextStep = () => {
-  if (currentStep < 7) {
+  if (currentStep < 13) {
     setCurrentStep(currentStep + 1);
   }
 };
@@ -197,18 +257,26 @@ const renderCurrentStep = () => {
       return <ImageComparison key="GroupA" stepNumber={currentStep} images={surfaceSelection.surfaceA} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceAcompare" onComplete={() => setCurrentStep(7)} />;
     case 7: // Surface ImageComparison B
       return <ImageComparison key="GroupB" stepNumber={currentStep} images={surfaceSelection.surfaceB} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceBcompare" onComplete={() => setCurrentStep(8)} />;
-    // case 8:
-    //   return <ImageSelection stepNumber={currentStep} images={obstacleImages} onComplete={handleObstacleSelectionComplete} />;
-    // case 9:
-    //   return <ImageComparison stepNumber={currentStep} images={obstacleSelection.obstacleA} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleAcompare" onComplete={() => setCurrentStep(10)} />;
-    // case 10:
-    //   return <ImageComparisonB stepNumber={currentStep} images={obstacleSelection.obstacleB} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleBcompare" onComplete={() => setCurrentStep(11)} />;
     case 8:
+      return <ImageSelection stepNumber={currentStep} images={obstacleCropsData} onComplete={handleObstacleSelectionComplete} />;
+    case 9:
+      return <ImageComparison key="GroupC" stepNumber={currentStep} images={obstacleSelection.obstacleA} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleAcompare" onComplete={() => setCurrentStep(10)} />;
+    case 10:
+      return <ImageComparison key="GroupD" stepNumber={currentStep} images={obstacleSelection.obstacleB} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleBcompare" onComplete={() => setCurrentStep(11)} />;
+    case 11:
+      return <QuestionSurfaceProblem stepNumber={currentStep} nextStep={nextStep} previousStep={previousStep} updateAnswers={updateAnswers}/>;
+    case 12:
+      return <QuestionObstacle stepNumber={currentStep} nextStep={nextStep} previousStep={previousStep} updateAnswers={updateAnswers}/>;
+    case 13:
       return <EndingPage previousStep={previousStep} onSubmit={handleSubmit} />;
     default:
       return <WelcomePage onStart={startSurvey}/>;
   }
 };
+
+useEffect(() => {
+  console.log("Current Step is now:", currentStep);
+}, [currentStep]);
 
 const handleSubmit = async () => {
   try {

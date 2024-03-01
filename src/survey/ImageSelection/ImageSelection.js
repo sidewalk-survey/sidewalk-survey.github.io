@@ -19,8 +19,6 @@ const ImageSelection = ({ previousStep, nextStep, images, onComplete, stepNumber
         }
     }, [currentIndex, groupAImages, groupBImages, images.length, onComplete]);
     
-
-
     const handleResponse = (response) => {
         console.log (currentIndex);
 
@@ -29,8 +27,6 @@ const ImageSelection = ({ previousStep, nextStep, images, onComplete, stepNumber
             console.log("All images have been processed.");
             return;
           }
-
-        console.log(`Response for ${images[currentIndex]}: ${response}`);
         const updatedGroupA = [...groupAImages];
         const updatedGroupB = [...groupBImages];
         

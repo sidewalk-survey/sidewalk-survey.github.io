@@ -69,7 +69,6 @@ return (
                     <h2 className="question-header"> {`${stepNumber}. When using your current mobility aid, do you feel comfortable passing this?`}</h2>
                 </div>
                 <div className="image-selection-options">
-                    //replace with ImageComponent
                     <div className="image-wrapper">
                         <img
                             className="image rounded-xl"
