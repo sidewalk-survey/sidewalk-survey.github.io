@@ -62,8 +62,21 @@ const SurveyComponent = () => {
     '/img/img05.png',
 ];
 
+const obstacleImages = [
+  '/img/img01.png',
+  '/img/img02.png',
+  '/img/img03.png',
+  '/img/img04.png',
+  '/img/img05.png',
+];
+
 const handleSurfaceSelectionComplete = (selection) => {
   setSurfaceSelection({surfaceA: selection.groupAImages, surfaceB: selection.groupBImages});
+  setCurrentStep(currentStep + 1);
+};
+
+const handleObstacleSelectionComplete = (selection) => {
+  setObstacleSelection({obstacleA: selection.groupAImages, obstacleB: selection.groupBImages});
   setCurrentStep(currentStep + 1);
 };
 
@@ -109,6 +122,12 @@ const renderCurrentStep = () => {
     case 7: // Surface ImageComparison B
       return <ImageComparisonB images={surfaceSelection.surfaceB} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceBcompare" onComplete={() => setCurrentStep(8)} />;
     case 8:
+      return <ImageSelection images={obstacleImages} onComplete={handleObstacleSelectionComplete} />;
+    case 9:
+      return <ImageComparison images={obstacleSelection.obstacleA} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleAcompare" onComplete={() => setCurrentStep(10)} />;
+    case 10:
+      return <ImageComparisonB images={obstacleSelection.obstacleB} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleBcompare" onComplete={() => setCurrentStep(11)} />;
+    case 11:
       return <EndingPage previousStep={previousStep} onSubmit={handleSubmit} />;
     default:
       return <WelcomePage onStart={startSurvey}/>;
