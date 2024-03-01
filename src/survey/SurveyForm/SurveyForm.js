@@ -53,13 +53,68 @@ const SurveyComponent = () => {
     mobilityAid: '',
     sidewalkBarriers: ''
   });
-  
-  const surfaceImages = [
-    '/img/img01.png', 
-    '/img/img02.png', 
-    '/img/img03.png',
-    '/img/img04.png',
-    '/img/img05.png',
+
+const surfaceCropsData = [
+  {
+      "City": "seattle",
+      "LabelID": 111698,
+      "LabelTypeID": 4,
+      "PanoID": "8UyaKl2zh2BE6ZwRTCxkyA",
+      "Heading": 227.6875,
+      "Pitch": -35,
+      "Zoom": 1,
+      "FOV": 90,
+      "CanvasX": 326,
+      "CanvasY": 216
+  },
+  {
+      "City": "seattle",
+      "LabelID": 169928,
+      "LabelTypeID": 3,
+      "PanoID": "o0Uq8GMm_BMCOxaKE1FYoQ",
+      "Heading": 161.5892791748,
+      "Pitch": -35,
+      "Zoom": 1,
+      "FOV": 90,
+      "CanvasX": 216,
+      "CanvasY": 146
+  },
+  {
+      "City": "seattle",
+      "LabelID": 139731,
+      "LabelTypeID": 3,
+      "PanoID": "tE85ocVCFwcoXIbDpQRVDQ",
+      "Heading": 7.8656058311,
+      "Pitch": -35,
+      "Zoom": 1,
+      "FOV": 90,
+      "CanvasX": 318,
+      "CanvasY": 203
+  },
+  {
+      "City": "seattle",
+      "LabelID": 205972,
+      "LabelTypeID": 4,
+      "PanoID": "EwjRCeSEVWFQGRnqsXM_DA",
+      "Heading": 205.7209777832,
+      "Pitch": -22.125,
+      "Zoom": 1,
+      "FOV": 90,
+      "CanvasX": 486,
+      "CanvasY": 192
+  },
+  {
+      "City": "seattle",
+      "LabelID": 100492,
+      "LabelTypeID": 3,
+      "PanoID": "Ml-OCQTY1s5k7b6DSxHZ-A",
+      "Heading": 160.5535736084,
+      "Pitch": -17.0982151031,
+      "Zoom": 2,
+      "FOV": 45,
+      "CanvasX": 193,
+      "CanvasY": 190
+  }
 ];
 
 const obstacleImages = [
@@ -137,18 +192,18 @@ const renderCurrentStep = () => {
     case 4:
       return <Question4 stepNumber={currentStep} nextStep={nextStep} previousStep={previousStep} answers={answers} handleChange={handleChange} />;
     case 5: // After original questions, start with surface ImageSelection
-      return <ImageSelection stepNumber={currentStep} images={surfaceImages} onComplete={handleSurfaceSelectionComplete} />;
+      return <ImageSelection stepNumber={currentStep} images={surfaceCropsData}  onComplete={handleSurfaceSelectionComplete} />;
     case 6: // Surface ImageComparison A
-      return <ImageComparison stepNumber={currentStep} images={surfaceSelection.surfaceA} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceAcompare" onComplete={() => setCurrentStep(7)} />;
+      return <ImageComparison key="GroupA" stepNumber={currentStep} images={surfaceSelection.surfaceA} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceAcompare" onComplete={() => setCurrentStep(7)} />;
     case 7: // Surface ImageComparison B
-      return <ImageComparisonB stepNumber={currentStep} images={surfaceSelection.surfaceB} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceBcompare" onComplete={() => setCurrentStep(8)} />;
+      return <ImageComparison key="GroupB" stepNumber={currentStep} images={surfaceSelection.surfaceB} onSelectionComplete={onSelectionComplete} comparisonContext="surfaceBcompare" onComplete={() => setCurrentStep(8)} />;
+    // case 8:
+    //   return <ImageSelection stepNumber={currentStep} images={obstacleImages} onComplete={handleObstacleSelectionComplete} />;
+    // case 9:
+    //   return <ImageComparison stepNumber={currentStep} images={obstacleSelection.obstacleA} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleAcompare" onComplete={() => setCurrentStep(10)} />;
+    // case 10:
+    //   return <ImageComparisonB stepNumber={currentStep} images={obstacleSelection.obstacleB} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleBcompare" onComplete={() => setCurrentStep(11)} />;
     case 8:
-      return <ImageSelection stepNumber={currentStep} images={obstacleImages} onComplete={handleObstacleSelectionComplete} />;
-    case 9:
-      return <ImageComparison stepNumber={currentStep} images={obstacleSelection.obstacleA} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleAcompare" onComplete={() => setCurrentStep(10)} />;
-    case 10:
-      return <ImageComparisonB stepNumber={currentStep} images={obstacleSelection.obstacleB} onSelectionComplete={onSelectionComplete} comparisonContext="obstacleBcompare" onComplete={() => setCurrentStep(11)} />;
-    case 11:
       return <EndingPage previousStep={previousStep} onSubmit={handleSubmit} />;
     default:
       return <WelcomePage onStart={startSurvey}/>;

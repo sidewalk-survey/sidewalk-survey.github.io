@@ -56,3 +56,17 @@
     margin-top: 1.25rem; /* Equivalent to mt-5 */
   }
   
+
+  .comparison-twin{
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    /* justify-content: space-between; */
+    align-items: center;
+    margin: 1rem;
+  }
+
+  .comparison-image-wrapper {
+    overflow: hidden;
+    border-radius: 0.8em;
+  }

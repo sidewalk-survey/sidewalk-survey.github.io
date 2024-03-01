@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
+import ImageComponent from '../../components/ImageComponent';
 import './ImageComparison.css';
 
 const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, onComplete, comparisonContext, stepNumber}) => {
@@ -31,18 +32,31 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     };
 
     const getRandomImagePair = () => {
+        console.log("getRandomImagePair called");
         if (!images || images.length < 2) {
             console.error("Images array is empty or not enough images for comparison.");
             return [];
         }
+        let attempts = 0;
         let pair;
         do {
             pair = [images[Math.floor(Math.random() * images.length)], images[Math.floor(Math.random() * images.length)]];
-        } while (pair[0] === pair[1] || history.some(h => h.toString() === pair.toString()));
-
-        setCurrentPair(pair);
+            attempts++;
+            if (attempts > 100) { // Prevent infinite loops by setting a max attempt count
+                console.log("Max attempts reached, breaking out of loop");
+                break;
+            }
+        } while (
+            pair[0].LabelID === pair[1].LabelID || // Prevent same image comparison
+            history.some(h => 
+                (h[0].LabelID === pair[0].LabelID && h[1].LabelID === pair[1].LabelID) || 
+                (h[0].LabelID === pair[1].LabelID && h[1].LabelID === pair[0].LabelID)) // Check if this pair has already been compared
+        );
+    
+        console.log("Pair generated:", pair.map(item => item.LabelID));
         return pair;
     };
+    
 
     const renderComparisonDots = () => {
         let dots = [];
@@ -68,26 +82,32 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     };
     
     const displayImages = () => {
+        console.log("displayImages called");
         setLoading(true);
         let nextPair;
         if (historyIndex + 1 < history.length) {
-                // If there's a next pair in history, use it
-                nextPair = history[historyIndex + 1];
-                setHistoryIndex(historyIndex + 1);
+            console.log("Using next pair from history");
+            nextPair = history[historyIndex + 1];
+            setHistoryIndex(historyIndex + 1);
         } else {
-                // Otherwise, get a new random pair and update history
-                nextPair = getRandomImagePair();
+            console.log("Generating new random pair");
+            nextPair = getRandomImagePair();
+            if (nextPair.length > 0) {
+                console.log("New pair generated:", nextPair.map(item => item.LabelID));
                 const newHistory = [...history, nextPair];
                 setHistory(newHistory);
                 setHistoryIndex(newHistory.length - 1);
+            } else {
+                console.log("Failed to generate a new valid pair");
             }
+        }
         setCurrentPair(nextPair);
         setLoading(false);
     };
+    
 
     const updateSelectionAndDisplayNext = (selectedImage, comparisonResult = {}) => {
         setSelectedImage(selectedImage);
-        console.log("Image selected: ", selectedImage);
         onSelectionComplete({ ...comparisonResult, comparisonContext });
         if (historyIndex + 1 >= maxComparisons) {
             onComplete();
@@ -95,13 +115,14 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
             displayImages();
         }
     };
+    
 
     const selectImage = (index) => {
         const selected = currentPair[index - 1];
         updateSelectionAndDisplayNext(selected, {
-            image1: currentPair[0],
-            image2: currentPair[1],
-            selectedImage: selected,
+            image1LabelID: currentPair[0].LabelID, 
+            image2LabelID: currentPair[1].LabelID, 
+            selectedImageLabelID: selected.LabelID, 
         });
     };
 
@@ -119,10 +140,9 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
 
     const recordEqualSelection = () => {
         if (currentPair.length === 2) {
-            console.log("Equal selected for: ", currentPair);
             updateSelectionAndDisplayNext(null, {
-                image1: currentPair[0],
-                image2: currentPair[1],
+                image1LabelID: currentPair[0].LabelID, 
+                image2LabelID: currentPair[1].LabelID, 
                 selection: 'equal',
             });
         } else {
@@ -135,20 +155,20 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     return (
         <div className="image-comparison-container">
             <div className="image-comparison-content"> 
-                <h2>{`${stepNumber}. When using your current mobility aid, which one is easier to pass?`}</h2>
-
-                <div className="flex-row-justify-center">
-                    {currentPair.map((src, index) => (
+                <h2>{`${stepNumber} When using your current mobility aid, which one is easier to pass?`}</h2>
+                <div className="comparison-twin">
+                {/* <div className="flex-row-justify-center"> */}
+                {currentPair.map((imageData, index) => (
                         <div 
-                            className={`comparison-image-wrapper rounded-xl ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-500 glow-shadow' : ''}`}
-                            key={index}
-                            style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '4px' : '2px' }} // Keep dynamic styles inline
+                            className={`comparison-image-wrapper ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-500 glow-shadow' : ''}`} // Additional classes and conditions
+                            key={imageData.LabelID} // Use unique identifier from the metadata
+                            style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '4px' : '4px' }}
                         >
                             <div className="card-style" onClick={() => selectImage(index + 1)}>
-                                <img src={src} alt={`Image ${index + 1}`} className="card-media-style" />
-                                {selectedImage === src && (
-                                    <div className="overlay-style">
-                                    </div>
+                                {/* Using ImageComponent with cropMetadata */}
+                                <ImageComponent cropMetadata={imageData} />
+                                {selectedImage && selectedImage.LabelID === imageData.LabelID && (
+                                    <div className="overlay-style"></div>
                                 )}
                             </div>
                         </div>

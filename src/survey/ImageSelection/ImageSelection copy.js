@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
-import ImageComponent from '../../components/ImageComponent';
 import './ImageSelection.css';
 
 
@@ -13,23 +12,14 @@ const ImageSelection = ({ previousStep, nextStep, images, onComplete, stepNumber
 
     useEffect(() => {
         // Check if the user has responded to the last image
-        if (currentIndex >= images.length) {
+        if (currentIndex === images.length) {
             // Call onComplete with the latest state
             onComplete({ groupAImages, groupBImages });
         }
     }, [currentIndex, groupAImages, groupBImages, images.length, onComplete]);
-    
 
 
     const handleResponse = (response) => {
-        console.log (currentIndex);
-
-        if (currentIndex >= images.length) {
-            // Prevent further action if we've already gone through all images
-            console.log("All images have been processed.");
-            return;
-          }
-
         console.log(`Response for ${images[currentIndex]}: ${response}`);
         const updatedGroupA = [...groupAImages];
         const updatedGroupB = [...groupBImages];
@@ -79,15 +69,14 @@ return (
                     <h2 className="question-header"> {`${stepNumber}. When using your current mobility aid, do you feel comfortable passing this?`}</h2>
                 </div>
                 <div className="image-selection-options">
-                {currentIndex < images.length ? (
-        <div className="image-wrapper">
-            {/* Assuming images[currentIndex] is valid and exists */}
-            <ImageComponent cropMetadata={images[currentIndex]} />
-        </div>
-    ) : (
-        // Optionally render a loading indicator, blank state, or nothing at all
-        <div>Loading next part of the survey...</div>
-    )}
+                    //replace with ImageComponent
+                    <div className="image-wrapper">
+                        <img
+                            className="image rounded-xl"
+                            src={images[currentIndex]}
+                            alt={`Image ${currentIndex + 1}`}
+                        />
+                    </div>
                     {renderDotsAndNavigation()}
                     <ResponseButtons
   gap="12px"
