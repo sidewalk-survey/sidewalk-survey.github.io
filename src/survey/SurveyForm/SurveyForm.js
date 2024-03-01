@@ -36,7 +36,7 @@ const SurveyComponent = () => {
 
 
   useEffect(() => {
-    let steps = 15; // base number of steps
+    let steps = 8; // base number of steps
     setTotalSteps(steps);
   }, [/* dependencies that might change the number of steps, e.g., answers */]);
 
@@ -62,30 +62,8 @@ const SurveyComponent = () => {
     '/img/img05.png',
 ];
 
-const obstacleImages = [
-  '/img/img01.png', 
-  '/img/img02.png', 
-  '/img/img03.png', 
-];
-
-const noCurbImagesImages = [
-  '/img/img01.png', 
-  '/img/img02.png', 
-  '/img/img03.png', 
-];
-
 const handleSurfaceSelectionComplete = (selection) => {
   setSurfaceSelection({surfaceA: selection.groupAImages, surfaceB: selection.groupBImages});
-  setCurrentStep(currentStep + 1);
-};
-
-const handleObstacleSelectionComplete = (selection) => {
-  setObstacleSelection({obstacleA: selection.groupAImages, obstacleB: selection.groupBImages});
-  setCurrentStep(currentStep + 1);
-};
-
-const handleNoCurbSelectionComplete = (selection) => {
-  setNoCurbSelection({noCurbA: selection.groupAImages, noCurbB: selection.groupBImages});
   setCurrentStep(currentStep + 1);
 };
 
@@ -113,7 +91,6 @@ const nextStep = () => {
     setImageComparisons(prev => [...prev, { ...data }]);
 };
 
-
 const renderCurrentStep = () => {
   switch(currentStep) {
     // Questions 1-4
@@ -137,7 +114,6 @@ const renderCurrentStep = () => {
       return <WelcomePage onStart={startSurvey}/>;
   }
 };
-
 
 const handleSubmit = async () => {
   try {
