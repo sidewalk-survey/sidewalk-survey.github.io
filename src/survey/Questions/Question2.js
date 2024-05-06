@@ -1,6 +1,6 @@
 
 import React from 'react';
-import TextQuestion from '../../components/TextQuestion'; // Assuming Question.js is the file name
+import TextQuestion from '../../components/TextQuestion'; 
 
 const Question2 = ({ previousStep, nextStep, handleChange, stepNumber }) => {
   return (

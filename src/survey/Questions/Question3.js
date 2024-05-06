@@ -17,7 +17,7 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber}) => {
   const handleChange = (event) => {
     const { value } = event.target;
     setSelectedOption(value);
-    updateAnswers('mobilityAid', value); // Assuming updateAnswers takes the key and value to update
+    updateAnswers('mobilityAid', value); 
   };
 
   return (
@@ -25,10 +25,10 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber}) => {
       questionText={`${stepNumber}. When going outside your home and into the community, do you use any of the following?`}
       instructionText="If you use multiple, please select the one that you use most frequently."
       options={questionOptions}
-      handleChange={handleChange} // Simplified the handleChange usage
+      handleChange={handleChange}
       previousStep={previousStep}
       nextStep={() => {
-        console.log(selectedOption); // For example, logging the selected option
+        console.log(selectedOption);
         nextStep();
       }}
     />

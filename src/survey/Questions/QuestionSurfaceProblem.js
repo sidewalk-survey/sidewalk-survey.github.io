@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RadioQuestion from '../../components/RadioQuestion'; // Adjust the import path as necessary
+import RadioQuestion from '../../components/RadioQuestion'; 
 
 const questionOptions = [
   { value: "Everyday or more often", label: "Everyday or more often" },
@@ -14,7 +14,7 @@ const QuestionSurfaceProblem = ({ previousStep, nextStep, updateAnswers, stepNum
   const handleChange = (event) => {
     const { value } = event.target;
     setSelectedOption(value);
-    updateAnswers('surfaceProblemOccur', value); // Assuming updateAnswers takes the key and value to update
+    updateAnswers('surfaceProblemOccur', value);
   };
 
   return (
@@ -22,7 +22,7 @@ const QuestionSurfaceProblem = ({ previousStep, nextStep, updateAnswers, stepNum
       questionText={`${stepNumber}. When going outside your home and into the community, how often do you experience surface problems?`}
       instructionText="e.g. cracks in sidewalks, uneven surfaces, etc."
       options={questionOptions}
-      handleChange={handleChange} // Simplified the handleChange usage
+      handleChange={handleChange} 
       previousStep={previousStep}
       nextStep={() => {
         console.log(selectedOption);

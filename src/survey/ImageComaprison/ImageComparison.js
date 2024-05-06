@@ -32,7 +32,6 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     };
 
     const getRandomImagePair = () => {
-        console.log("getRandomImagePair called");
         if (!images || images.length < 2) {
             console.error("Images array is empty or not enough images for comparison.");
             return [];
@@ -82,7 +81,6 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     };
     
     const displayImages = () => {
-        console.log("displayImages called");
         setLoading(true);
         let nextPair;
         if (historyIndex + 1 < history.length) {
@@ -90,7 +88,6 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
             nextPair = history[historyIndex + 1];
             setHistoryIndex(historyIndex + 1);
         } else {
-            console.log("Generating new random pair");
             nextPair = getRandomImagePair();
             if (nextPair.length > 0) {
                 console.log("New pair generated:", nextPair.map(item => item.LabelID));
@@ -154,8 +151,6 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
             console.log("No image pair is currently displayed.");
         }
     };
-
-    console.log("currentComparison: ", comparisonContext);
 
     return (
         <div className="image-comparison-container">

@@ -20,7 +20,6 @@ const ImageSelection = ({ previousStep, nextStep, images, onComplete, stepNumber
     }, [currentIndex, groupAImages, groupBImages, images.length, onComplete]);
     
     const handleResponse = (response) => {
-        console.log (currentIndex);
 
         if (currentIndex >= images.length) {
             // Prevent further action if we've already gone through all images

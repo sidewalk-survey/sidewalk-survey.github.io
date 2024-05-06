@@ -8,7 +8,6 @@ const WelcomePage = ({ onStart }) => {
       <div className="w-1/3 mx-auto">
       <img src="/img/ps_logo.jpg" alt="Welcome" className="w-full mb-4"/>
       </div>
-        {/* <Typography variant="h5" className="mb-2" color="teal">Perceptions on Sidewalk Barriers Survey</Typography> */}
         <h2 className="mb-4">Perceptions on Sidewalk Barriers Survey</h2>
         <Button
         className='lg-font-size-button'
