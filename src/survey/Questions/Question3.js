@@ -12,23 +12,36 @@ const questionOptions = [
 ];
 
 const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber}) => {
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState('');
+  const [customValue, setCustomValue] = useState(''); // this is for something else option
 
   const handleChange = (event) => {
-    const { value } = event.target;
-    setSelectedOption(value);
-    updateAnswers('mobilityAid', value); 
+    const { value, checked } = event.target;
+    setSelectedOptions((prevSelectedOptions) => {
+      if (checked) {
+        return [...prevSelectedOptions, value];
+      } else {
+        return prevSelectedOptions.filter((option) => option !== value);
+      }
+    });
   };
+
+  const handleCustomChange = (event) => {
+    setCustomValue(event.target.value);
+  }
 
   return (
     <CheckboxQuestion
       questionText={`${stepNumber}. When going outside your home and into the community, do you use any of the following?`}
       instructionText="If you use multiple, please select the one that you use most frequently."
       options={questionOptions}
+      selectedOptions={selectedOptions}
       handleChange={handleChange}
+      customValue={customValue}
+      handleCustomChange={handleCustomChange}
       previousStep={previousStep}
       nextStep={() => {
-        console.log(selectedOption);
+        console.log(selectedOptions);
         nextStep();
       }}
     />
