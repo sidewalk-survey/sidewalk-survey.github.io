@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RadioQuestion from '../../components/RadioQuestion'; // Adjust the import path as necessary
+import CheckboxQuestion from '../../components/CheckboxQuestion'; 
 
 const questionOptions = [
   { value: "Walking cane or stick", label: "Walking cane or stick" },
@@ -21,7 +21,7 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber}) => {
   };
 
   return (
-    <RadioQuestion
+    <CheckboxQuestion
       questionText={`${stepNumber}. When going outside your home and into the community, do you use any of the following?`}
       instructionText="If you use multiple, please select the one that you use most frequently."
       options={questionOptions}
