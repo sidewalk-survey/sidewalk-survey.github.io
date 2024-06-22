@@ -6,7 +6,7 @@ import ImageComponent from '../../components/ImageComponent';
 import './ImageSelection.css';
 
 
-const ImageSelection = ({ previousStep, nextStep, images, onComplete, stepNumber }) => {
+const ImageSelection = ({ stepNumber, nextStep, previousStep, images, onComplete }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [groupAImages, setGroupAImages] = useState([]);
     const [groupBImages, setGroupBImages] = useState([]);
