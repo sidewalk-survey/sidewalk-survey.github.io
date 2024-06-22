@@ -188,16 +188,16 @@ const obstacleCropsData = [
 
   // for handling the case where the image group is empty
   useEffect(() => {
-    if (currentStep === 6 && surfaceSelection.surfaceA.length < 1 ) {
-      setCurrentStep(7); // Skip Surface ImageComparison A if no images
-    } else if (currentStep === 7 && surfaceSelection.surfaceB.length < 1 ) {
-      setCurrentStep(8); // Skip Surface ImageComparison B if no images
+    if (currentStep === 7 && surfaceSelection.surfaceA.length < 1 ) {
+      setCurrentStep(8); // Skip Surface ImageComparison A if no images
+    } else if (currentStep === 8 && surfaceSelection.surfaceB.length < 1 ) {
+      setCurrentStep(9); // Skip Surface ImageComparison B if no images
     }
     // Repeat the pattern for other selections
-    else if (currentStep === 9 && obstacleSelection.obstacleA.length < 1) {
-      setCurrentStep(10); // Skip Obstacle ImageComparison A if no images
-    } else if (currentStep === 10 && obstacleSelection.obstacleB.length < 1) {
-      setCurrentStep(11); // Skip Obstacle ImageComparison B if no images
+    else if (currentStep === 10 && obstacleSelection.obstacleA.length < 1) {
+      setCurrentStep(11); // Skip Obstacle ImageComparison A if no images
+    } else if (currentStep === 11 && obstacleSelection.obstacleB.length < 1) {
+      setCurrentStep(12); // Skip Obstacle ImageComparison B if no images
     }
   }, [currentStep, surfaceSelection, obstacleSelection, noCurbSelection]);
 
@@ -212,7 +212,7 @@ const handleObstacleSelectionComplete = (selection) => {
 };
 
 const nextStep = () => {
-  if (currentStep < 13) {
+  if (currentStep < 14) {
     setCurrentStep(currentStep + 1);
   }
 };
@@ -286,7 +286,7 @@ const renderCurrentStep = () => {
               previousStep={previousStep}
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="surfaceAcompare" 
-              onComplete={() => setCurrentStep(7)} />;
+              onComplete={() => setCurrentStep(8)} />;
     case 8: // Surface ImageComparison B
       return <ImageComparison 
               key="GroupB" 
@@ -296,7 +296,7 @@ const renderCurrentStep = () => {
               images={surfaceSelection.surfaceB} 
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="surfaceBcompare" 
-              onComplete={() => setCurrentStep(8)} />;
+              onComplete={() => setCurrentStep(9)} />;
     case 9:
       return <ImageSelection 
               stepNumber={currentStep}
@@ -313,7 +313,7 @@ const renderCurrentStep = () => {
               images={obstacleSelection.obstacleA} 
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="obstacleAcompare" 
-              onComplete={() => setCurrentStep(10)} />;
+              onComplete={() => setCurrentStep(11)} />;
     case 11:
       return <ImageComparison 
               key="GroupD" 
@@ -323,7 +323,7 @@ const renderCurrentStep = () => {
               images={obstacleSelection.obstacleB} 
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="obstacleBcompare" 
-              onComplete={() => setCurrentStep(11)} />;
+              onComplete={() => setCurrentStep(12)} />;
     case 12:
       return <QuestionSurfaceProblem 
               stepNumber={currentStep} 
