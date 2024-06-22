@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CheckboxQuestion from '../../components/CheckboxQuestion'; 
+import CheckboxQuestion from '../../components/CheckboxQuestion';
 
 const questionOptions = [
   { value: "Walking cane or stick", label: "Walking cane or stick" },
@@ -11,8 +11,8 @@ const questionOptions = [
   { value: "Something else", label: "Something else" },
 ];
 
-const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber}) => {
-  const [selectedOptions, setSelectedOptions] = useState('');
+const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber }) => {
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [customValue, setCustomValue] = useState(''); // this is for something else option
 
   const handleChange = (event) => {
@@ -28,7 +28,13 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber}) => {
 
   const handleCustomChange = (event) => {
     setCustomValue(event.target.value);
-  }
+  };
+
+  const handleNextStep = () => {
+    console.log(selectedOptions);
+    updateAnswers('mobilityAidOptions', { mobilityAidOptions: selectedOptions, customMobilityAid: customValue });
+    nextStep();
+  };
 
   return (
     <CheckboxQuestion
@@ -40,13 +46,9 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber}) => {
       customValue={customValue}
       handleCustomChange={handleCustomChange}
       previousStep={previousStep}
-      nextStep={() => {
-        console.log(selectedOptions);
-        nextStep();
-      }}
+      nextStep={handleNextStep}
     />
   );
 };
 
 export default Question3;
-

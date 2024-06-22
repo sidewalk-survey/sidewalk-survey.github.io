@@ -1,13 +1,36 @@
-import React from 'react';
-import TextQuestion from '../../components/TextQuestion'; 
+import React, { useState, useEffect } from 'react';
+import RadioQuestion from '../../components/RadioQuestion';
 
-const Question4 = ({ previousStep, nextStep, handleChange, stepNumber }) => {
+const Question4 = ({ previousStep, nextStep, handleChange, stepNumber, answers }) => {
+  const [selectedOption, setSelectedOption] = useState('');
+  const [filteredOptions, setFilteredOptions] = useState([]);
+
+  useEffect(() => {
+    if (answers && answers.mobilityAidOptions) {
+      const { mobilityAidOptions, customMobilityAid } = answers.mobilityAidOptions;
+      let options = mobilityAidOptions.filter(option => option !== "Something else").map(option => ({ value: option, label: option }));
+
+      // Add custom input if it exists
+      if (customMobilityAid) {
+        options.push({ value: customMobilityAid, label: customMobilityAid });
+      }
+
+      setFilteredOptions(options);
+    }
+  }, [answers]);
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+    handleChange('mobilityAid')(event);
+  };
+
   return (
-    <TextQuestion
-      questionText={`${stepNumber}. When using your current mobility aid, what are the most difficult sidewalk barriers that you encounter?`}
-      inputId="sidewalkBarriers"
-      placeholderText="e.g. missing curb ramps, poles..."
-      handleChange={handleChange}
+    <RadioQuestion
+      questionText={`${stepNumber}. Which mobility aid do you use the most frequently?`}
+      inputId="mobilityAid"
+      instructionText="Select one option"
+      options={filteredOptions}
+      handleChange={handleOptionChange}
       previousStep={previousStep}
       nextStep={nextStep}
     />
@@ -15,4 +38,3 @@ const Question4 = ({ previousStep, nextStep, handleChange, stepNumber }) => {
 };
 
 export default Question4;
-

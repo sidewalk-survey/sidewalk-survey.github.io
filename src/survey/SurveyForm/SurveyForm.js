@@ -7,6 +7,7 @@ import Question1 from '../Questions/Question1';
 import Question2 from '../Questions/Question2';
 import Question3 from '../Questions/Question3';
 import Question4 from '../Questions/Question4';
+import Question5 from '../Questions/Question5';
 import QuestionSurfaceProblem from '../Questions/QuestionSurfaceProblem';
 import QuestionObstacle from '../Questions/QuestionObstacle';
 import ImageSelection from '../ImageSelection/ImageSelection';
@@ -255,20 +256,28 @@ const renderCurrentStep = () => {
               previousStep={previousStep} 
               updateAnswers={updateAnswers} />;
     case 4:
-      return <Question4 
+      return <Question4
+              stepNumber={currentStep}
+              nextStep={nextStep}
+              previousStep={previousStep}
+              answers={answers}
+              handleChange={handleChange}
+            />
+    case 5:
+      return <Question5 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               answers={answers} 
               handleChange={handleChange} />;
-    case 5: // After original questions, start with surface ImageSelection
+    case 6: // After original questions, start with surface ImageSelection
       return <ImageSelection 
               stepNumber={currentStep}
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={surfaceCropsData}  
               onComplete={handleSurfaceSelectionComplete} />;
-    case 6: // Surface ImageComparison A
+    case 7: // Surface ImageComparison A
       return <ImageComparison 
               key="GroupA" 
               stepNumber={currentStep} 
@@ -278,7 +287,7 @@ const renderCurrentStep = () => {
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="surfaceAcompare" 
               onComplete={() => setCurrentStep(7)} />;
-    case 7: // Surface ImageComparison B
+    case 8: // Surface ImageComparison B
       return <ImageComparison 
               key="GroupB" 
               stepNumber={currentStep}
@@ -288,14 +297,14 @@ const renderCurrentStep = () => {
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="surfaceBcompare" 
               onComplete={() => setCurrentStep(8)} />;
-    case 8:
+    case 9:
       return <ImageSelection 
               stepNumber={currentStep}
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={obstacleCropsData} 
               onComplete={handleObstacleSelectionComplete} />;
-    case 9:
+    case 10:
       return <ImageComparison 
               key="GroupC" 
               stepNumber={currentStep} 
@@ -305,7 +314,7 @@ const renderCurrentStep = () => {
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="obstacleAcompare" 
               onComplete={() => setCurrentStep(10)} />;
-    case 10:
+    case 11:
       return <ImageComparison 
               key="GroupD" 
               stepNumber={currentStep} 
@@ -315,19 +324,19 @@ const renderCurrentStep = () => {
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="obstacleBcompare" 
               onComplete={() => setCurrentStep(11)} />;
-    case 11:
+    case 12:
       return <QuestionSurfaceProblem 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               updateAnswers={updateAnswers}/>;
-    case 12:
+    case 13:
       return <QuestionObstacle 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               updateAnswers={updateAnswers}/>;
-    case 13:
+    case 14:
       return <EndingPage 
               previousStep={previousStep} 
               onSubmit={handleSubmit} />;
