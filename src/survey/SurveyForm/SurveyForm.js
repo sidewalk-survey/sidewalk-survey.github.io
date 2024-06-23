@@ -273,6 +273,7 @@ const renderCurrentStep = () => {
     case 6: // After original questions, start with surface ImageSelection
       return <ImageSelection 
               stepNumber={currentStep}
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={surfaceCropsData}  
@@ -281,6 +282,7 @@ const renderCurrentStep = () => {
       return <ImageComparison 
               key="GroupA" 
               stepNumber={currentStep} 
+              answers={answers}
               images={surfaceSelection.surfaceA} 
               nextStep={nextStep} 
               previousStep={previousStep}
@@ -291,6 +293,7 @@ const renderCurrentStep = () => {
       return <ImageComparison 
               key="GroupB" 
               stepNumber={currentStep}
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={surfaceSelection.surfaceB} 
@@ -300,6 +303,7 @@ const renderCurrentStep = () => {
     case 9:
       return <ImageSelection 
               stepNumber={currentStep}
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={obstacleCropsData} 
@@ -308,6 +312,7 @@ const renderCurrentStep = () => {
       return <ImageComparison 
               key="GroupC" 
               stepNumber={currentStep} 
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep}
               images={obstacleSelection.obstacleA} 
@@ -318,6 +323,7 @@ const renderCurrentStep = () => {
       return <ImageComparison 
               key="GroupD" 
               stepNumber={currentStep} 
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep}
               images={obstacleSelection.obstacleB} 

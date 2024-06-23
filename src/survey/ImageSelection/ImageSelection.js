@@ -6,10 +6,11 @@ import ImageComponent from '../../components/ImageComponent';
 import './ImageSelection.css';
 
 
-const ImageSelection = ({ stepNumber, nextStep, previousStep, images, onComplete }) => {
+const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, onComplete }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [groupAImages, setGroupAImages] = useState([]);
     const [groupBImages, setGroupBImages] = useState([]);
+    const mobilityAid = answers.mobilityAid;
 
     useEffect(() => {
         // Check if the user has responded to the last image
@@ -71,7 +72,7 @@ return (
         <div className="question-container">
             <div className="image-content">
                 <div className="text-center bg-gray-200 p-5 rounded mb-4">
-                    <h2 className="question-header"> {`${stepNumber}. When using your current mobility aid, do you feel comfortable passing this?`}</h2>
+                    <h2 className="question-header"> {`${stepNumber}. When using your ${mobilityAid}, do you feel comfortable passing this?`}</h2>
                 </div>
                 <div className="image-selection-options">
                 {currentIndex < images.length ? (
