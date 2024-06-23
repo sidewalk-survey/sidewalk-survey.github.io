@@ -31,8 +31,12 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber }) => {
   };
 
   const handleNextStep = () => {
-    console.log(selectedOptions);
-    updateAnswers('mobilityAidOptions', { mobilityAidOptions: selectedOptions, customMobilityAid: customValue });
+    // Maintain the order of options as per the screen order
+    const orderedSelectedOptions = questionOptions
+      .map((option) => option.value)
+      .filter((option) => selectedOptions.includes(option));
+
+    updateAnswers('mobilityAidOptions', { mobilityAidOptions: orderedSelectedOptions, customMobilityAid: customValue });
     nextStep();
   };
 
