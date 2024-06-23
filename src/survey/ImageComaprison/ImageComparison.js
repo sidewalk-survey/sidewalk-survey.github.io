@@ -5,7 +5,7 @@ import ResponseButtons from '../../components/ResponseButtons';
 import ImageComponent from '../../components/ImageComponent';
 import './ImageComparison.css';
 
-const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, onComplete, comparisonContext, stepNumber}) => {
+const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, images, onSelectionComplete, comparisonContext, onComplete}) => {
     const [currentPair, setCurrentPair] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -13,6 +13,8 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     const [historyIndex, setHistoryIndex] = useState(-1); 
     const [maxComparisons, setMaxComparisons] = useState(0);
     const [hoverButton, setHoverButton] = useState(null);
+
+    const mobilityAid = answers.mobilityAid;
 
     useEffect(() => {
         // set the maximum number of comparisons dynamically
@@ -155,7 +157,7 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
     return (
         <div className="image-comparison-container">
             <div className="image-comparison-content"> 
-                <h2>{`${stepNumber}. When using your current mobility aid, which one is easier to pass?`}</h2>
+                <h2>{`${stepNumber}. When using your ${mobilityAid}, which one do you feel more confident passing?`}</h2>
                 <div className="comparison-twin">
                 {/* <div className="flex-row-justify-center"> */}
                 {currentPair.map((imageData, index) => (

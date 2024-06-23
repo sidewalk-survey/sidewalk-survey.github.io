@@ -2,17 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'; 
+import { getDatabase, ref, push, serverTimestamp as rtdbServerTimestamp } from 'firebase/database';
 import { Progress } from "@material-tailwind/react";
 import Question1 from '../Questions/Question1';
 import Question2 from '../Questions/Question2';
 import Question3 from '../Questions/Question3';
 import Question4 from '../Questions/Question4';
+import Question5 from '../Questions/Question5';
 import QuestionSurfaceProblem from '../Questions/QuestionSurfaceProblem';
 import QuestionObstacle from '../Questions/QuestionObstacle';
 import ImageSelection from '../ImageSelection/ImageSelection';
 import ImageComparison from '../ImageComaprison/ImageComparison';
 import WelcomePage from '../StartEndPages/WelcomePage'; 
 import EndingPage from '../StartEndPages/EndingPage';
+import { v4 as uuidv4 } from 'uuid';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -26,6 +29,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+const database = getDatabase(app);
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -34,6 +38,8 @@ const SurveyComponent = () => {
   const [noCurbSelection, setNoCurbSelection] = useState({noCurbA: [], noCurbB: []});
   const [imageComparisons, setImageComparisons] = useState([]);
   const [totalSteps, setTotalSteps] = useState(15);
+  const [sessionId] = useState(uuidv4()); 
+  const [userId] = useState(uuidv4()); 
 
 
   useEffect(() => {
@@ -187,16 +193,16 @@ const obstacleCropsData = [
 
   // for handling the case where the image group is empty
   useEffect(() => {
-    if (currentStep === 6 && surfaceSelection.surfaceA.length < 1 ) {
-      setCurrentStep(7); // Skip Surface ImageComparison A if no images
-    } else if (currentStep === 7 && surfaceSelection.surfaceB.length < 1 ) {
-      setCurrentStep(8); // Skip Surface ImageComparison B if no images
+    if (currentStep === 7 && surfaceSelection.surfaceA.length < 1 ) {
+      setCurrentStep(8); // Skip Surface ImageComparison A if no images
+    } else if (currentStep === 8 && surfaceSelection.surfaceB.length < 1 ) {
+      setCurrentStep(9); // Skip Surface ImageComparison B if no images
     }
     // Repeat the pattern for other selections
-    else if (currentStep === 9 && obstacleSelection.obstacleA.length < 1) {
-      setCurrentStep(10); // Skip Obstacle ImageComparison A if no images
-    } else if (currentStep === 10 && obstacleSelection.obstacleB.length < 1) {
-      setCurrentStep(11); // Skip Obstacle ImageComparison B if no images
+    else if (currentStep === 10 && obstacleSelection.obstacleA.length < 1) {
+      setCurrentStep(11); // Skip Obstacle ImageComparison A if no images
+    } else if (currentStep === 11 && obstacleSelection.obstacleB.length < 1) {
+      setCurrentStep(12); // Skip Obstacle ImageComparison B if no images
     }
   }, [currentStep, surfaceSelection, obstacleSelection, noCurbSelection]);
 
@@ -211,8 +217,9 @@ const handleObstacleSelectionComplete = (selection) => {
 };
 
 const nextStep = () => {
-  if (currentStep < 13) {
+  if (currentStep < 14) {
     setCurrentStep(currentStep + 1);
+    logData();
   }
 };
 
@@ -255,79 +262,93 @@ const renderCurrentStep = () => {
               previousStep={previousStep} 
               updateAnswers={updateAnswers} />;
     case 4:
-      return <Question4 
+      return <Question4
+              stepNumber={currentStep}
+              nextStep={nextStep}
+              previousStep={previousStep}
+              answers={answers}
+              handleChange={handleChange}
+            />
+    case 5:
+      return <Question5 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               answers={answers} 
               handleChange={handleChange} />;
-    case 5: // After original questions, start with surface ImageSelection
+    case 6: // After original questions, start with surface ImageSelection
       return <ImageSelection 
               stepNumber={currentStep}
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={surfaceCropsData}  
               onComplete={handleSurfaceSelectionComplete} />;
-    case 6: // Surface ImageComparison A
+    case 7: // Surface ImageComparison A
       return <ImageComparison 
               key="GroupA" 
               stepNumber={currentStep} 
+              answers={answers}
               images={surfaceSelection.surfaceA} 
               nextStep={nextStep} 
               previousStep={previousStep}
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="surfaceAcompare" 
-              onComplete={() => setCurrentStep(7)} />;
-    case 7: // Surface ImageComparison B
+              onComplete={() => setCurrentStep(8)} />;
+    case 8: // Surface ImageComparison B
       return <ImageComparison 
               key="GroupB" 
               stepNumber={currentStep}
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={surfaceSelection.surfaceB} 
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="surfaceBcompare" 
-              onComplete={() => setCurrentStep(8)} />;
-    case 8:
+              onComplete={() => setCurrentStep(9)} />;
+    case 9:
       return <ImageSelection 
               stepNumber={currentStep}
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={obstacleCropsData} 
               onComplete={handleObstacleSelectionComplete} />;
-    case 9:
+    case 10:
       return <ImageComparison 
               key="GroupC" 
               stepNumber={currentStep} 
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep}
               images={obstacleSelection.obstacleA} 
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="obstacleAcompare" 
-              onComplete={() => setCurrentStep(10)} />;
-    case 10:
+              onComplete={() => setCurrentStep(11)} />;
+    case 11:
       return <ImageComparison 
               key="GroupD" 
               stepNumber={currentStep} 
+              answers={answers}
               nextStep={nextStep} 
               previousStep={previousStep}
               images={obstacleSelection.obstacleB} 
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="obstacleBcompare" 
-              onComplete={() => setCurrentStep(11)} />;
-    case 11:
+              onComplete={() => setCurrentStep(12)} />;
+    case 12:
       return <QuestionSurfaceProblem 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               updateAnswers={updateAnswers}/>;
-    case 12:
+    case 13:
       return <QuestionObstacle 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               updateAnswers={updateAnswers}/>;
-    case 13:
+    case 14:
       return <EndingPage 
               previousStep={previousStep} 
               onSubmit={handleSubmit} />;
@@ -340,8 +361,13 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
+  let logType = 'final'; // form is submitted 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+      sessionId, 
+      userId, 
+      currentStep,
+      logType,
       ...answers, 
       surfaceSelection, 
       obstacleSelection, 
@@ -354,6 +380,28 @@ const handleSubmit = async () => {
     console.error("Error adding document: ", e);
   }
 };
+
+const logData = async () => {
+  let logType = 'temp'; // form not yet submitted
+  try {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        sessionId, 
+        userId, 
+        currentStep,
+        logType,
+        ...answers,
+        surfaceSelection, 
+        obstacleSelection, 
+        noCurbSelection, 
+        imageComparisons,
+        timestamp: serverTimestamp()
+      });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
+
 
 return (
   <div>
