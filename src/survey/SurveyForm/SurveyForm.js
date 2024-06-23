@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'; 
+import { getDatabase, ref, push, serverTimestamp as rtdbServerTimestamp } from 'firebase/database';
 import { Progress } from "@material-tailwind/react";
 import Question1 from '../Questions/Question1';
 import Question2 from '../Questions/Question2';
@@ -14,6 +15,7 @@ import ImageSelection from '../ImageSelection/ImageSelection';
 import ImageComparison from '../ImageComaprison/ImageComparison';
 import WelcomePage from '../StartEndPages/WelcomePage'; 
 import EndingPage from '../StartEndPages/EndingPage';
+import { v4 as uuidv4 } from 'uuid';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -27,6 +29,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+const database = getDatabase(app);
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -35,6 +38,8 @@ const SurveyComponent = () => {
   const [noCurbSelection, setNoCurbSelection] = useState({noCurbA: [], noCurbB: []});
   const [imageComparisons, setImageComparisons] = useState([]);
   const [totalSteps, setTotalSteps] = useState(15);
+  const [sessionId] = useState(uuidv4()); 
+  const [userId] = useState(uuidv4()); 
 
 
   useEffect(() => {
@@ -214,6 +219,7 @@ const handleObstacleSelectionComplete = (selection) => {
 const nextStep = () => {
   if (currentStep < 14) {
     setCurrentStep(currentStep + 1);
+    logData();
   }
 };
 
@@ -355,8 +361,13 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
+  let logType = 'final'; // form is submitted 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+      sessionId, 
+      userId, 
+      currentStep,
+      logType,
       ...answers, 
       surfaceSelection, 
       obstacleSelection, 
@@ -369,6 +380,28 @@ const handleSubmit = async () => {
     console.error("Error adding document: ", e);
   }
 };
+
+const logData = async () => {
+  let logType = 'temp'; // form not yet submitted
+  try {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        sessionId, 
+        userId, 
+        currentStep,
+        logType,
+        ...answers,
+        surfaceSelection, 
+        obstacleSelection, 
+        noCurbSelection, 
+        imageComparisons,
+        timestamp: serverTimestamp()
+      });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
+
 
 return (
   <div>
