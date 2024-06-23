@@ -157,7 +157,7 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
     return (
         <div className="image-comparison-container">
             <div className="image-comparison-content"> 
-                <h2>{`${stepNumber}. When using your ${mobilityAid}, which one is easier to pass?`}</h2>
+                <h2>{`${stepNumber}. When using your ${mobilityAid}, which one do you feel more confident passing?`}</h2>
                 <div className="comparison-twin">
                 {/* <div className="flex-row-justify-center"> */}
                 {currentPair.map((imageData, index) => (
