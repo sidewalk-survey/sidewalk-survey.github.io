@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'; 
-import { getDatabase, ref, push, serverTimestamp as rtdbServerTimestamp } from 'firebase/database';
+import { getDatabase, ref, push, serverTimestamp as rtdbServerTimestamp, set } from 'firebase/database';
 import { Progress } from "@material-tailwind/react";
 import Question1 from '../Questions/Question1';
 import Question2 from '../Questions/Question2';
@@ -15,6 +15,7 @@ import ImageSelection from '../ImageSelection/ImageSelection';
 import ImageComparison from '../ImageComaprison/ImageComparison';
 import WelcomePage from '../StartEndPages/WelcomePage'; 
 import EndingPage from '../StartEndPages/EndingPage';
+import ContinuePage from '../Questions/ContinuePage';
 import { v4 as uuidv4 } from 'uuid';
 
 // Firebase configuration
@@ -43,7 +44,7 @@ const SurveyComponent = () => {
 
 
   useEffect(() => {
-    let steps = 13; // base number of steps
+    let steps = 14; // base number of steps
     setTotalSteps(steps);
   }, [/* dependencies that might change the number of steps, e.g., answers */]);
 
@@ -61,6 +62,7 @@ const SurveyComponent = () => {
     sidewalkBarriers: '',
     surfaceProblemOccur: '',
     obstacleOccur: '',
+    answeredMobilityAids: []
   });
 
 const surfaceCropsData = [
@@ -206,6 +208,13 @@ const obstacleCropsData = [
     }
   }, [currentStep, surfaceSelection, obstacleSelection, noCurbSelection]);
 
+  useEffect(() => {
+    if(answers.mobilityAidOptions && answers.answeredMobilityAids &&
+      answers.mobilityAidOptions.length === answers.answeredMobilityAids.length) {
+      setCurrentStep(15); 
+    }
+  }, [answers]);
+
 const handleSurfaceSelectionComplete = (selection) => {
   setSurfaceSelection({surfaceA: selection.groupAImages, surfaceB: selection.groupBImages});
   setCurrentStep(currentStep + 1);
@@ -217,9 +226,9 @@ const handleObstacleSelectionComplete = (selection) => {
 };
 
 const nextStep = () => {
-  if (currentStep < 14) {
+  if (currentStep < 15) {
     setCurrentStep(currentStep + 1);
-    logData();
+    // logData();
   }
 };
 
@@ -236,6 +245,11 @@ const nextStep = () => {
   const handleChange = (input) => (e) => {
     setAnswers({ ...answers, [input]: e.target.value });
   }; 
+
+  const handleMobilityAidChange = (mobilityAid) => {
+    setAnswers(prevAnswers => ({ ...prevAnswers, mobilityAid }));
+  };
+    
 
   const onSelectionComplete = (data) => {
     setImageComparisons(prev => [...prev, { ...data }]);
@@ -347,11 +361,22 @@ const renderCurrentStep = () => {
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
-              updateAnswers={updateAnswers}/>;
-    case 14:
-      return <EndingPage 
+              updateAnswers={updateAnswers} 
+              onSubmit={handleSubmit}
+              />;
+    case 14: 
+      return <ContinuePage 
+              answers={answers}
+              handleMobilityAidChange={handleMobilityAidChange}
               previousStep={previousStep} 
-              onSubmit={handleSubmit} />;
+              nextStep={() => {handleSubmit(); setCurrentStep(5);}} 
+              />;
+
+      case 15:
+        return <EndingPage 
+                previousStep={previousStep} 
+                onSubmit={() => {}} />;
+
     default:
       return <WelcomePage onStart={startSurvey}/>;
   }
@@ -361,7 +386,12 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
+  if (currentStep < 15) {
+    setCurrentStep(currentStep + 1);
+  }
+
   let logType = 'final'; // form is submitted 
+  answers.answeredMobilityAids.push(answers.mobilityAid);
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
       sessionId, 

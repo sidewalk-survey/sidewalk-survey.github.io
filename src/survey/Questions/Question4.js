@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RadioQuestion from '../../components/RadioQuestion';
 
-const Question4 = ({ previousStep, nextStep, handleChange, stepNumber, answers }) => {
+const Question4 = ({ stepNumber, nextStep, previousStep, answers, handleChange }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [filteredOptions, setFilteredOptions] = useState([]);
 
@@ -22,6 +22,7 @@ const Question4 = ({ previousStep, nextStep, handleChange, stepNumber, answers }
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     handleChange('mobilityAid')(event);
+    answers.answeredMobilityAids.push(event.target.value);
   };
 
   return (
