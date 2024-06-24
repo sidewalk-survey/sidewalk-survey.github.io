@@ -50,7 +50,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
     }
   };
 
-  const remainingOptionsString = remainingOptions.join(', ');
+  const remainingOptionsString = remainingOptions.join(', ').toLowerCase();
 
   return (
     <div>

@@ -14,7 +14,7 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
     const [maxComparisons, setMaxComparisons] = useState(0);
     const [hoverButton, setHoverButton] = useState(null);
 
-    const mobilityAid = answers.mobilityAid;
+    const mobilityAid = answers.mobilityAid.toLowerCase();;
 
     useEffect(() => {
         // set the maximum number of comparisons dynamically

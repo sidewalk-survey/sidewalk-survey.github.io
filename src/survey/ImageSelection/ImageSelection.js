@@ -10,7 +10,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
     const [currentIndex, setCurrentIndex] = useState(0);
     const [groupAImages, setGroupAImages] = useState([]);
     const [groupBImages, setGroupBImages] = useState([]);
-    const mobilityAid = answers.mobilityAid;
+    const mobilityAid = answers.mobilityAid.toLowerCase();;
 
     useEffect(() => {
         // Check if the user has responded to the last image
