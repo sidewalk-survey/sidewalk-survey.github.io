@@ -13,6 +13,7 @@ function App() {
         <header className="App-header">
           <Routes>
             <Route path="/" element={<SurveyForm />} />
+            <Route path="/resume-survey/:id" element={<SurveyForm />} />
           </Routes>
         </header>
       </div>

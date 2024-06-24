@@ -1,9 +1,10 @@
 // SurveyForm.js
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'; 
+import { getFirestore, collection, doc, getDoc, addDoc, serverTimestamp } from 'firebase/firestore'; 
 import { getDatabase, ref, push, serverTimestamp as rtdbServerTimestamp, set } from 'firebase/database';
 import { Progress } from "@material-tailwind/react";
+import { useParams, useNavigate } from 'react-router-dom';
 import Question1 from '../Questions/Question1';
 import Question2 from '../Questions/Question2';
 import Question3 from '../Questions/Question3';
@@ -39,9 +40,13 @@ const SurveyComponent = () => {
   const [noCurbSelection, setNoCurbSelection] = useState({noCurbA: [], noCurbB: []});
   const [imageComparisons, setImageComparisons] = useState([]);
   const [totalSteps, setTotalSteps] = useState(15);
-  const [sessionId] = useState(uuidv4()); 
-  const [userId] = useState(uuidv4()); 
+  const [sessionId, setSessionId] = useState(uuidv4()); 
+  const [userId, setUserId] = useState(uuidv4()); 
+  const [isResuming, setIsResuming] = useState(false);
+  const [continueUrl, setContinueUrl] = useState('');
 
+  const { id } = useParams(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     let steps = 14; // base number of steps
@@ -62,8 +67,35 @@ const SurveyComponent = () => {
     sidewalkBarriers: '',
     surfaceProblemOccur: '',
     obstacleOccur: '',
-    answeredMobilityAids: []
+    answeredMobilityAids: [],
+    isResuming: false,
   });
+
+  // for resuming the survey
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        const docRef = doc(firestore, "surveyAnswers", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setUserId(data.userId);
+          setSessionId(data.sessionId);
+          setIsResuming(true);
+          setAnswers(data);
+          setCurrentStep(5);
+          setSurfaceSelection(data.surfaceSelection || { surfaceA: [], surfaceB: [] });
+          setObstacleSelection(data.obstacleSelection || { obstacleA: [], obstacleB: [] });
+          setNoCurbSelection(data.noCurbSelection || { noCurbA: [], noCurbB: [] });
+          setImageComparisons(data.imageComparisons || []);
+        } else {
+          console.log("No such document!");
+        }
+      }
+    };
+    fetchData();
+  }, [id]);
 
 const surfaceCropsData = [
   {
@@ -369,13 +401,15 @@ const renderCurrentStep = () => {
               answers={answers}
               handleMobilityAidChange={handleMobilityAidChange}
               previousStep={previousStep} 
-              nextStep={() => {handleSubmit(); setCurrentStep(5);}} 
+              nextStep={() => {handleSubmit();}}
+              yesStep={() => {setCurrentStep(5);}}
+              setContinueUrl={setContinueUrl}
               />;
-
-      case 15:
-        return <EndingPage 
-                previousStep={previousStep} 
-                onSubmit={() => {}} />;
+    case 15:
+      return <EndingPage 
+              previousStep={previousStep} 
+              continueUrl={continueUrl} // pass continueUrl
+              onSubmit={() => {}} />;
 
     default:
       return <WelcomePage onStart={startSurvey}/>;
