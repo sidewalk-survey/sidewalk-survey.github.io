@@ -39,7 +39,7 @@ const SurveyComponent = () => {
   const [obstacleSelection, setObstacleSelection] = useState({obstacleA: [], obstacleB: []});
   const [noCurbSelection, setNoCurbSelection] = useState({noCurbA: [], noCurbB: []});
   const [imageComparisons, setImageComparisons] = useState([]);
-  const [totalSteps, setTotalSteps] = useState(15);
+  const [totalSteps, setTotalSteps] = useState(13);
   const [sessionId, setSessionId] = useState(uuidv4()); 
   const [userId, setUserId] = useState(uuidv4()); 
   const [isResuming, setIsResuming] = useState(false);
@@ -243,7 +243,7 @@ const obstacleCropsData = [
   useEffect(() => {
     if(answers.mobilityAidOptions && answers.answeredMobilityAids &&
       answers.mobilityAidOptions.length === answers.answeredMobilityAids.length) {
-      setCurrentStep(15); 
+      setCurrentStep(13); 
     }
   }, [answers]);
 
@@ -258,7 +258,7 @@ const handleObstacleSelectionComplete = (selection) => {
 };
 
 const nextStep = () => {
-  if (currentStep < 15) {
+  if (currentStep < 13) {
     setCurrentStep(currentStep + 1);
     // logData();
   }
@@ -382,21 +382,7 @@ const renderCurrentStep = () => {
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="obstacleBcompare" 
               onComplete={() => setCurrentStep(12)} />;
-    case 12:
-      return <QuestionSurfaceProblem 
-              stepNumber={currentStep} 
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              updateAnswers={updateAnswers}/>;
-    case 13:
-      return <QuestionObstacle 
-              stepNumber={currentStep} 
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              updateAnswers={updateAnswers} 
-              onSubmit={handleSubmit}
-              />;
-    case 14: 
+    case 12: 
       return <ContinuePage 
               answers={answers}
               handleMobilityAidChange={handleMobilityAidChange}
@@ -405,7 +391,7 @@ const renderCurrentStep = () => {
               yesStep={() => {setCurrentStep(5);}}
               setContinueUrl={setContinueUrl}
               />;
-    case 15:
+    case 13:
       return <EndingPage 
               previousStep={previousStep} 
               continueUrl={continueUrl} // pass continueUrl
@@ -420,7 +406,7 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
-  if (currentStep < 15) {
+  if (currentStep < 13) {
     setCurrentStep(currentStep + 1);
   }
 
