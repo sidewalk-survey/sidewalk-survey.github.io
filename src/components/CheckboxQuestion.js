@@ -26,7 +26,6 @@ const CheckboxQuestion = ({ questionText, instructionText, options, selectedOpti
                         placeholder="Please specify"
                         value={customValue}
                         onChange={handleCustomChange}
-                        style={{ marginTop: '8px', display: 'block' }}
                     />
                 )}
             </div>
