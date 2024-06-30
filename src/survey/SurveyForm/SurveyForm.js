@@ -18,6 +18,7 @@ import WelcomePage from '../StartEndPages/WelcomePage';
 import EndingPage from '../StartEndPages/EndingPage';
 import ContinuePage from '../Questions/ContinuePage';
 import { v4 as uuidv4 } from 'uuid';
+import RankQuestion from '../Questions/RankQuestion';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -33,13 +34,15 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const database = getDatabase(app);
 
+const TOTAL_STEPS = 14;
+
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [surfaceSelection, setSurfaceSelection] = useState({surfaceA: [], surfaceB: []});
   const [obstacleSelection, setObstacleSelection] = useState({obstacleA: [], obstacleB: []});
   const [noCurbSelection, setNoCurbSelection] = useState({noCurbA: [], noCurbB: []});
   const [imageComparisons, setImageComparisons] = useState([]);
-  const [totalSteps, setTotalSteps] = useState(13);
+  const [totalSteps, setTotalSteps] = useState(TOTAL_STEPS);
   const [sessionId, setSessionId] = useState(uuidv4()); 
   const [userId, setUserId] = useState(uuidv4()); 
   const [isResuming, setIsResuming] = useState(false);
@@ -243,7 +246,7 @@ const obstacleCropsData = [
   useEffect(() => {
     if(answers.mobilityAidOptions && answers.answeredMobilityAids &&
       answers.mobilityAidOptions.length === answers.answeredMobilityAids.length) {
-      setCurrentStep(13); 
+      setCurrentStep(TOTAL_STEPS); 
     }
   }, [answers]);
 
@@ -258,7 +261,7 @@ const handleObstacleSelectionComplete = (selection) => {
 };
 
 const nextStep = () => {
-  if (currentStep < 13) {
+  if (currentStep < TOTAL_STEPS) {
     setCurrentStep(currentStep + 1);
     // logData();
   }
@@ -382,7 +385,16 @@ const renderCurrentStep = () => {
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="obstacleBcompare" 
               onComplete={() => setCurrentStep(12)} />;
-    case 12: 
+    case 12:
+      return <RankQuestion
+              stepNumber={currentStep}
+              nextStep={nextStep}
+              previousStep={previousStep}
+              answers={answers}
+              updateAnswers={updateAnswers}
+            />
+    
+    case 13: 
       return <ContinuePage 
               answers={answers}
               handleMobilityAidChange={handleMobilityAidChange}
@@ -391,7 +403,7 @@ const renderCurrentStep = () => {
               yesStep={() => {setCurrentStep(5);}}
               setContinueUrl={setContinueUrl}
               />;
-    case 13:
+    case 14:
       return <EndingPage 
               previousStep={previousStep} 
               continueUrl={continueUrl} // pass continueUrl
@@ -406,7 +418,7 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
-  if (currentStep < 13) {
+  if (currentStep < TOTAL_STEPS) {
     setCurrentStep(currentStep + 1);
   }
 
