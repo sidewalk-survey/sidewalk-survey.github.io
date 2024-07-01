@@ -14,6 +14,15 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     handleChange(newItems);
   };
 
+  const handleDropdownChange = (e, currentIndex) => {
+    const newOrder = parseInt(e.target.value, 10) - 1;
+    const newItems = Array.from(options);
+    const [movedItem] = newItems.splice(currentIndex, 1);
+    newItems.splice(newOrder, 0, movedItem);
+
+    handleChange(newItems);
+  };
+
   return (
     <div className="question-container">
       <div className="question-content">
@@ -42,6 +51,17 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                           ...provided.draggableProps.style,
                         }}
                       >
+                      <select 
+                          value={index + 1} 
+                          onChange={(e) => handleDropdownChange(e, index)}
+                          style={{ fontSize: '0.6em', marginRight: '8px' }}
+                        >
+                          {options.map((_, i) => (
+                            <option key={i} value={i + 1}>
+                              {i + 1}
+                            </option>
+                          ))}
+                        </select>
                         {item.value}
                       </div>
                     )}
