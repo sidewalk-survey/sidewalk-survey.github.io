@@ -2,7 +2,15 @@ import React from 'react';
 import TextQuestion from '../../components/TextQuestion'; 
 
 const Question5 = ({ stepNumber, nextStep, previousStep, answers, handleChange }) => {
-  const mobilityAid = answers.mobilityAid.toLowerCase();
+  const answeredMobilityAids = answers.answeredMobilityAids || [];
+  const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answeredMobilityAids.includes(option));
+  let mobilityAid = '';
+
+  if (answeredMobilityAids.length === 0) {
+    mobilityAid = answers.mobilityAid.toLowerCase();
+  } else {
+    mobilityAid = remainingOptions[0].toLowerCase();
+  }
 
   return (
     <TextQuestion
