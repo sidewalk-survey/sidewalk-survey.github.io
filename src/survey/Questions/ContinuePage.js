@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import RadioQuestion from '../../components/RadioQuestion';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'; 
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { firestore } from '../../config';
 
-const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep, nextStep, setContinueUrl }) => {
+const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep, nextStep, setContinueUrl, logData }) => {
   const [localContinueUrl, setLocalContinueUrl] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
 
   const answeredMobilityAids = answers.answeredMobilityAids || [];
-  const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answeredMobilityAids.includes(option));
+  const remainingOptions = (answers.mobilityAidOptions?.mobilityAidOptions || []).filter(option =>
+    option !== answers.mobilityAid && !answeredMobilityAids.includes(option)
+  );
+  console.log("remaining options", remainingOptions);
 
   const continueOptions = [
     {
@@ -25,28 +28,35 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
     }
   ];
 
-  const handleOptionChange = async (event) => {
+  const handleOptionChange = (event) => {
     const newValue = event.target.value;
     setSelectedOption(newValue);
-  
-    if (newValue === "later") {
+  };
+
+  const handleNextStep = async () => {
+    if (selectedOption === "yes") {
+      logData();
+      yesStep();
+      handleMobilityAidChange(remainingOptions[0]);
+    } else if (selectedOption === "later") {
+      answers.answeredMobilityAids.push(answers.mobilityAid);
       try {
         const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
           ...answers,
           timestamp: serverTimestamp()
         });
-  
+
         const resumeUrl = `${window.location.origin}/resume-survey/${docRef.id}`;
         setLocalContinueUrl(resumeUrl);
         setContinueUrl(resumeUrl);
       } catch (error) {
         console.error("Error saving document: ", error);
       }
-    } else if (newValue === "yes") {
-      handleMobilityAidChange(remainingOptions[0]);
+      nextStep();
     } else {
       setLocalContinueUrl('');
       setContinueUrl('');
+      nextStep();
     }
   };
 
@@ -61,13 +71,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
         options={continueOptions}
         handleChange={handleOptionChange}
         previousStep={previousStep}
-        nextStep={() => {
-          if (selectedOption === "yes") {
-            yesStep();
-          } else {
-            nextStep();
-          }
-        }}
+        nextStep={handleNextStep}
       />
     </div>
   );
