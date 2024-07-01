@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, doc, getDoc, addDoc, serverTimestamp } from 'firebase/firestore'; 
-import { getDatabase, ref, push, serverTimestamp as rtdbServerTimestamp, set } from 'firebase/database';
 import { Progress } from "@material-tailwind/react";
 import { useParams, useNavigate } from 'react-router-dom';
 import Question1 from '../Questions/Question1';
@@ -32,7 +31,6 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
-const database = getDatabase(app);
 
 const TOTAL_STEPS = 14;
 const MOBILITYAID_STEP = 5;
@@ -46,7 +44,6 @@ const SurveyComponent = () => {
   const [totalSteps, setTotalSteps] = useState(TOTAL_STEPS);
   const [sessionId, setSessionId] = useState(uuidv4()); 
   const [userId, setUserId] = useState(uuidv4()); 
-  const [isResuming, setIsResuming] = useState(false);
   const [continueUrl, setContinueUrl] = useState('');
 
   const { id } = useParams(); 
@@ -71,8 +68,7 @@ const SurveyComponent = () => {
     sidewalkBarriers: '',
     surfaceProblemOccur: '',
     obstacleOccur: '',
-    answeredMobilityAids: [],
-    isResuming: false,
+    answeredMobilityAids: []
   });
 
   // for resuming the survey
@@ -86,7 +82,6 @@ const SurveyComponent = () => {
           const data = docSnap.data();
           setUserId(data.userId);
           setSessionId(data.sessionId);
-          setIsResuming(true);
           setAnswers(data);
           // set the current mobility aid
           if (data.answeredMobilityAids && data.answeredMobilityAids.length > 0) {
