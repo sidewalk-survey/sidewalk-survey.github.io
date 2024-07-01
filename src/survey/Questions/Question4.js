@@ -22,7 +22,6 @@ const Question4 = ({ stepNumber, nextStep, previousStep, answers, handleChange }
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     handleChange('mobilityAid')(event);
-    answers.answeredMobilityAids.push(event.target.value);
   };
 
   return (
