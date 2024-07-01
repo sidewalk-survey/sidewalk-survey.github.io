@@ -35,6 +35,7 @@ const firestore = getFirestore(app);
 const database = getDatabase(app);
 
 const TOTAL_STEPS = 14;
+const MOBILITYAID_STEP = 5;
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -87,7 +88,13 @@ const SurveyComponent = () => {
           setSessionId(data.sessionId);
           setIsResuming(true);
           setAnswers(data);
-          setCurrentStep(5);
+          // set the current mobility aid
+          if (data.answeredMobilityAids && data.answeredMobilityAids.length > 0) {
+            const remainingOptions = data.mobilityAidOptions.mobilityAidOptions.filter(option => !data.answeredMobilityAids.includes(option));
+            handleMobilityAidChange(remainingOptions[0]);
+          }
+
+          setCurrentStep(MOBILITYAID_STEP);
           setSurfaceSelection(data.surfaceSelection || { surfaceA: [], surfaceB: [] });
           setObstacleSelection(data.obstacleSelection || { obstacleA: [], obstacleB: [] });
           setNoCurbSelection(data.noCurbSelection || { noCurbA: [], noCurbB: [] });
@@ -281,8 +288,11 @@ const nextStep = () => {
     setAnswers({ ...answers, [input]: e.target.value });
   }; 
 
-  const handleMobilityAidChange = (mobilityAid) => {
-    setAnswers(prevAnswers => ({ ...prevAnswers, mobilityAid }));
+  const handleMobilityAidChange = (newMobilityAid) => {
+    setAnswers(prevAnswers => ({
+      ...prevAnswers,
+      mobilityAid: newMobilityAid
+    }));
   };
     
 
@@ -402,6 +412,7 @@ const renderCurrentStep = () => {
               nextStep={() => {handleSubmit();}}
               yesStep={() => {setCurrentStep(5);}}
               setContinueUrl={setContinueUrl}
+              logData={logMobilityAidData}
               />;
     case 14:
       return <EndingPage 
@@ -444,7 +455,31 @@ const handleSubmit = async () => {
 };
 
 const logData = async () => {
-  let logType = 'temp'; // form not yet submitted
+  let logType = 'temp'; 
+
+  try {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        sessionId, 
+        userId, 
+        currentStep,
+        logType,
+        ...answers,
+        surfaceSelection, 
+        obstacleSelection, 
+        noCurbSelection, 
+        imageComparisons,
+        timestamp: serverTimestamp()
+      });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
+const logMobilityAidData = async () => {
+  let logType = 'CompletedOneMobilityAid'; 
+  answers.answeredMobilityAids.push(answers.mobilityAid);
+
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
         sessionId, 
