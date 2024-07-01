@@ -400,6 +400,17 @@ const renderCurrentStep = () => {
             />
     
     case 13: 
+    
+      if (answers.mobilityAidOptions.mobilityAidOptions.length == 1 ||  // if only one mobility aid option
+        (answers.answeredMobilityAids && answers.answeredMobilityAids.length > 0) // if answered mobility aids exist
+      ) {
+        const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
+        
+        if(remainingOptions.length === 1) {
+          setCurrentStep(14);
+          return null;
+        }
+      } 
       return <ContinuePage 
               answers={answers}
               handleMobilityAidChange={handleMobilityAidChange}
@@ -413,7 +424,7 @@ const renderCurrentStep = () => {
       return <EndingPage 
               previousStep={previousStep} 
               continueUrl={continueUrl} // pass continueUrl
-              onSubmit={() => {}} />;
+              onSubmit={handleSubmit} />;
 
     default:
       return <WelcomePage onStart={startSurvey}/>;
