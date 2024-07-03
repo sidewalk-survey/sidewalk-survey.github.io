@@ -11,8 +11,8 @@ module.exports = withMT({
     extend: {
       colors: {
         teal: {
-          500: '#4db6ac', // Example color
-          700: '#4db6ac', // Example color
+          500: '#4db6ac',
+          700: '#4db6ac', 
           // ... add other shades as needed
         },
       },
