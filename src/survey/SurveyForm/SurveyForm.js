@@ -9,8 +9,6 @@ import Question2 from '../Questions/Question2';
 import Question3 from '../Questions/Question3';
 import Question4 from '../Questions/Question4';
 import Question5 from '../Questions/Question5';
-import QuestionSurfaceProblem from '../Questions/QuestionSurfaceProblem';
-import QuestionObstacle from '../Questions/QuestionObstacle';
 import ImageSelection from '../ImageSelection/ImageSelection';
 import ImageComparison from '../ImageComaprison/ImageComparison';
 import WelcomePage from '../StartEndPages/WelcomePage'; 
@@ -66,8 +64,6 @@ const SurveyComponent = () => {
     email: '',
     mobilityAid: '',
     sidewalkBarriers: '',
-    surfaceProblemOccur: '',
-    obstacleOccur: '',
     answeredMobilityAids: []
   });
 
