@@ -77,11 +77,10 @@ return (
                 <div className="image-selection-options">
                 {currentIndex < images.length ? (
         <div className="image-wrapper">
-            {/* Assuming images[currentIndex] is valid and exists */}
             <ImageComponent cropMetadata={images[currentIndex]} />
         </div>
     ) : (
-        // Optionally render a loading indicator, blank state, or nothing at all
+        // loading state
         <div>Loading next part of the survey...</div>
     )}
                     {renderDotsAndNavigation()}

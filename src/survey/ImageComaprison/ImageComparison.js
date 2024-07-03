@@ -35,7 +35,7 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
 
     const getRandomImagePair = () => {
         if (!images || images.length < 2) {
-            console.error("Images array is empty or not enough images for comparison.");
+            // console.error("Images array is empty or not enough images for comparison.");
             return [];
         }
         let attempts = 0;
@@ -97,7 +97,7 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
                 setHistory(newHistory);
                 setHistoryIndex(newHistory.length - 1);
             } else {
-                console.log("Failed to generate a new valid pair");
+                // console.log("Failed to generate a new valid pair");
             }
         }
         setCurrentPair(nextPair);
