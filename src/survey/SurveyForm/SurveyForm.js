@@ -30,7 +30,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
-const TOTAL_STEPS = 15;
+const TOTAL_STEPS = 14;
 const MOBILITYAID_STEP = 5;
 
 const SurveyComponent = () => {
@@ -54,6 +54,7 @@ const SurveyComponent = () => {
   const [sessionId, setSessionId] = useState(uuidv4()); 
   const [userId, setUserId] = useState(uuidv4()); 
   const [continueUrl, setContinueUrl] = useState('');
+  const [singleMobilityAid, setSingleMobilityAid] = useState(false);
 
 
   const { id } = useParams(); 
@@ -440,22 +441,37 @@ const renderCurrentStep = () => {
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
-              updateAnswers={updateAnswers} />;
+              updateAnswers={updateAnswers}
+              setSingleMobilityAid={setSingleMobilityAid} />;
+    // case 4:
+    //   return <Question4
+    //           stepNumber={currentStep}
+    //           nextStep={nextStep}
+    //           previousStep={previousStep}
+    //           answers={answers}
+    //           handleChange={handleChange}
+    //         />
     case 4:
+      if (singleMobilityAid) {
+        nextStep(); // Skip Question 4
+        return null; // Return null or some placeholder
+      }
       return <Question4
               stepNumber={currentStep}
               nextStep={nextStep}
               previousStep={previousStep}
               answers={answers}
               handleChange={handleChange}
-            />
+            />;
     case 5:
       return <Question5 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               answers={answers} 
-              handleChange={handleChange} />;
+              handleChange={handleChange}
+              singleMobilityAid={singleMobilityAid} // Pass the skip state
+             />;
     case 6: // Group 0 ImageSelection
       return <ImageSelection 
               stepNumber={currentStep}
