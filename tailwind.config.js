@@ -11,6 +11,9 @@ module.exports = withMT({
       sans: ["Rubik", "sans-serif"],
     },
     extend: {
+      fontSize: {
+        'w': '1rem',
+      },
     },
   },
   plugins: [],

@@ -10,7 +10,7 @@ const questionOptions = [
   { value: "Something else", label: "Something else" },
 ];
 
-const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber,setSingleMobilityAid }) => {
+const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber,setSingleMobilityAid, errors }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [customValue, setCustomValue] = useState(''); // this is for something else option
 
@@ -59,6 +59,7 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber,setSingle
       handleCustomChange={handleCustomChange}
       previousStep={previousStep}
       nextStep={handleNextStep}
+      error={errors.mobilityAidOptions} 
     />
   );
 };

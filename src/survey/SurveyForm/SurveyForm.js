@@ -55,6 +55,7 @@ const SurveyComponent = () => {
   const [userId, setUserId] = useState(uuidv4()); 
   const [continueUrl, setContinueUrl] = useState('');
   const [singleMobilityAid, setSingleMobilityAid] = useState(false);
+  const [errors, setErrors] = useState({});
 
 
   const { id } = useParams(); 
@@ -237,84 +238,6 @@ const group0CropsData = [
 },
 ];
 
-// const obstacleCropsData = [
-//   {
-//       "City": "seattle",
-//       "LabelID": 169928,
-//       "LabelTypeID": 3,
-//       "PanoID": "o0Uq8GMm_BMCOxaKE1FYoQ",
-//       "Heading": 161.5892791748,
-//       "Pitch": -35,
-//       "Zoom": 1,
-//       "FOV": 90,
-//       "CanvasX": 216,
-//       "CanvasY": 146
-//   },
-//   {
-//       "City": "seattle",
-//       "LabelID": 139731,
-//       "LabelTypeID": 3,
-//       "PanoID": "tE85ocVCFwcoXIbDpQRVDQ",
-//       "Heading": 7.8656058311,
-//       "Pitch": -35,
-//       "Zoom": 1,
-//       "FOV": 90,
-//       "CanvasX": 318,
-//       "CanvasY": 203
-//   },
-//   {
-//       "City": "seattle",
-//       "LabelID": 100492,
-//       "LabelTypeID": 3,
-//       "PanoID": "Ml-OCQTY1s5k7b6DSxHZ-A",
-//       "Heading": 160.5535736084,
-//       "Pitch": -17.0982151031,
-//       "Zoom": 2,
-//       "FOV": 45,
-//       "CanvasX": 193,
-//       "CanvasY": 190
-//   },
-//   {
-//     "City": "seattle",
-//     "LabelID": 191782,
-//     "LabelTypeID": 3,
-//     "PanoID": "tSDTx7aNmeGUosgKkWJC8Q",
-//     "Heading": 65.796875,
-//     "Pitch": -3.609375,
-//     "Zoom": 3,
-//     "FOV": 23,
-//     "CanvasX": 361,
-//     "CanvasY": 328
-// },
-// {
-//   "City": "seattle",
-//   "LabelID": 214878,
-//   "LabelTypeID": 3,
-//   "PanoID": "6aS515xppGK6FIZ8i5FxnQ",
-//   "Heading": 133.0758972168,
-//   "Pitch": -14.5647325516,
-//   "Zoom": 1,
-//   "FOV": 90,
-//   "CanvasX": 300,
-//   "CanvasY": 291
-// }
-// ];
-
-  // // for handling the case where the image group is empty
-  // useEffect(() => {
-  //   if (currentStep === 7 && surfaceSelection.surfaceA.length < 1 ) {
-  //     setCurrentStep(8); // Skip Surface ImageComparison A if no images
-  //   } else if (currentStep === 8 && surfaceSelection.surfaceB.length < 1 ) {
-  //     setCurrentStep(9); // Skip Surface ImageComparison B if no images
-  //   }
-  //   // Repeat the pattern for other selections
-  //   else if (currentStep === 10 && obstacleSelection.obstacleA.length < 1) {
-  //     setCurrentStep(11); // Skip Obstacle ImageComparison A if no images
-  //   } else if (currentStep === 11 && obstacleSelection.obstacleB.length < 1) {
-  //     setCurrentStep(12); // Skip Obstacle ImageComparison B if no images
-  //   }
-  // }, [currentStep, surfaceSelection, obstacleSelection, noCurbSelection]);
-
   // for handling the case where the image group is empty
   useEffect(() => {
     if (currentStep === 7 && imageSelections.group0.group0A.length < 1) {
@@ -371,16 +294,6 @@ const group0CropsData = [
     }
   }, [answers]);
 
-// const handleSurfaceSelectionComplete = (selection) => {
-//   setSurfaceSelection({surfaceA: selection.groupAImages, surfaceB: selection.groupBImages});
-//   setCurrentStep(currentStep + 1);
-// };
-
-// const handleObstacleSelectionComplete = (selection) => {
-//   setObstacleSelection({obstacleA: selection.groupAImages, obstacleB: selection.groupBImages});
-//   setCurrentStep(currentStep + 1);
-// };
-
 const handleGroupSelectionComplete = (group, selection) => {
   setImageSelections(prevSelections => ({
     ...prevSelections,
@@ -390,8 +303,10 @@ const handleGroupSelectionComplete = (group, selection) => {
 };
 
 const nextStep = () => {
-  if (currentStep < TOTAL_STEPS) {
-    setCurrentStep(currentStep + 1);
+  if (validateCurrentStep()) {
+    if (currentStep < TOTAL_STEPS) {
+      setCurrentStep(currentStep + 1);
+    }
     // logData();
   }
 };
@@ -401,13 +316,54 @@ const nextStep = () => {
       setCurrentStep(currentStep - 1);
     }
   };
+  
+
+  const validateCurrentStep = () => {
+    let isValid = true;
+    let newErrors = {};
+
+    switch (currentStep) {
+      case 1:
+        if (!answers.name) {
+          isValid = false;
+          newErrors.name = 'Please fill this in';
+        }
+        break;
+      case 2:
+        if (!answers.email) {
+          isValid = false;
+          newErrors.email = 'Please fill this in';
+        }
+        break;
+      case 3:
+        if (!answers.mobilityAidOptions || answers.mobilityAidOptions.mobilityAidOptions.length === 0) {
+          isValid = false;
+          newErrors.mobilityAidOptions = 'Please select at least one option';
+        }
+        break;
+      case 4:
+        if (!answers.mobilityAid) {
+          isValid = false;
+          newErrors.mobilityAid = 'Please make a selection';
+        }
+        break;
+      // add more cases for other questions
+      default:
+        break;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const updateAnswers = (key, value) => {
     setAnswers(prevAnswers => ({ ...prevAnswers, [key]: value }));
+    setErrors(prevErrors => ({ ...prevErrors, [key]: '' }));
   };
 
   const handleChange = (input) => (e) => {
     setAnswers({ ...answers, [input]: e.target.value });
+    setErrors({ ...errors, [input]: '' });
   }; 
 
   const handleMobilityAidChange = (newMobilityAid) => {
@@ -429,20 +385,25 @@ const renderCurrentStep = () => {
       return <Question1 
               stepNumber={currentStep} 
               nextStep={nextStep} 
-              handleChange={handleChange} />;
+              handleChange={handleChange}
+              errors= {errors} 
+              />;
     case 2:
       return <Question2 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
-              handleChange={handleChange} />;
+              handleChange={handleChange}
+              errors= {errors} 
+              />;
     case 3:
       return <Question3 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               updateAnswers={updateAnswers}
-              setSingleMobilityAid={setSingleMobilityAid} />;
+              setSingleMobilityAid={setSingleMobilityAid} 
+              errors= {errors}/>;
     case 4:
       if (singleMobilityAid) {
         nextStep(); // Skip here if only one mobility aid option
@@ -454,6 +415,7 @@ const renderCurrentStep = () => {
               previousStep={previousStep}
               answers={answers}
               handleChange={handleChange}
+              errors= {errors}
             />;
     case 5:
       return <Question5 
@@ -462,7 +424,8 @@ const renderCurrentStep = () => {
               previousStep={previousStep} 
               answers={answers} 
               handleChange={handleChange}
-              singleMobilityAid={singleMobilityAid} // Pass the skip state
+              singleMobilityAid={singleMobilityAid} 
+              errors= {errors}// Pass the skip state
              />;
     case 6: // Group 0 ImageSelection
       return <ImageSelection 
@@ -471,7 +434,8 @@ const renderCurrentStep = () => {
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={group0CropsData} 
-              onComplete={(selection) => handleGroupSelectionComplete('group0', selection)} />;
+              onComplete={(selection) => handleGroupSelectionComplete('group0', selection)} 
+              errors= {errors}/>;
     case 7: // Group 0 ImageComparison A
       return <ImageComparison 
               key="Group0A" 
@@ -482,7 +446,8 @@ const renderCurrentStep = () => {
               previousStep={previousStep}
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="group0Acompare" 
-              onComplete={() => setCurrentStep(8)} />;
+              onComplete={() => setCurrentStep(8)} 
+              errors= {errors}/>;
     case 8: // Group 0 ImageComparison B
       return <ImageComparison 
               key="Group0B" 
@@ -493,7 +458,8 @@ const renderCurrentStep = () => {
               images={imageSelections.group0.group0B}
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="group0Bcompare"
-              onComplete={() => setCurrentStep(9)} />;
+              onComplete={() => setCurrentStep(9)} 
+              errors= {errors}/>;
     case 9: // Group 1 ImageSelection
       return <ImageSelection 
               stepNumber={currentStep}
@@ -501,7 +467,8 @@ const renderCurrentStep = () => {
               nextStep={nextStep} 
               previousStep={previousStep} 
               images={group0CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group1', selection)} />;
+              onComplete={(selection) => handleGroupSelectionComplete('group1', selection)} 
+              errors= {errors}/>;
     case 10: // Group 1 ImageComparison A
       return <ImageComparison 
               key="Group1A" 
@@ -512,7 +479,8 @@ const renderCurrentStep = () => {
               images={imageSelections.group1.group1A}
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="group1Acompare"
-              onComplete={() => setCurrentStep(11)} />;
+              onComplete={() => setCurrentStep(11)} 
+              errors= {errors}/>;
     case 11: // Group 1 ImageComparison B
       return <ImageComparison 
               key="Group1B" 
@@ -523,8 +491,9 @@ const renderCurrentStep = () => {
               images={imageSelections.group1.group1B}
               onSelectionComplete={onSelectionComplete} 
               comparisonContext="group1Bcompare"
-              onComplete={() => setCurrentStep(12)} />;
-    // add other cases here
+              onComplete={() => setCurrentStep(12)}
+              errors= {errors} />;
+
     case 12:
       return <RankQuestion
               stepNumber={currentStep}
@@ -532,6 +501,7 @@ const renderCurrentStep = () => {
               previousStep={previousStep}
               answers={answers}
               updateAnswers={updateAnswers}
+              errors= {errors}
             />
     
     case 13: 
@@ -554,6 +524,7 @@ const renderCurrentStep = () => {
               yesStep={() => {setCurrentStep(5);}}
               setContinueUrl={setContinueUrl}
               logData={logMobilityAidData}
+              erros= {errors}
               />;
     case 14:
       return <EndingPage 
@@ -570,9 +541,10 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
-  if (currentStep < TOTAL_STEPS) {
-    setCurrentStep(currentStep + 1);
-  }
+  if (validateCurrentStep()) {
+    if (currentStep < TOTAL_STEPS) {
+      setCurrentStep(currentStep + 1);
+    }
 
   let logType = 'final'; // form is submitted 
   answers.answeredMobilityAids.push(answers.mobilityAid);
@@ -590,6 +562,7 @@ const handleSubmit = async () => {
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
+    }
   }
 };
 
