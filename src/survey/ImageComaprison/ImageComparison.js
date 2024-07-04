@@ -85,7 +85,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                         width: '8px',
                         borderRadius: '50%',
                         margin: '4px',
-                        backgroundColor: i < historyIndex ? '#14b8a6' : '#D8DEE9',
+                        backgroundColor: i < historyIndex ? '#0d9488' : '#D8DEE9',
                     }}
                 ></span>
             );

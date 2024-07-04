@@ -77,7 +77,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                             height: '8px',
                             width: '8px',
                             borderRadius: '50%',
-                            backgroundColor: currentIndex >= index ? '#14b8a6' : '#D8DEE9',
+                            backgroundColor: currentIndex >= index ? '#0d9488' : '#D8DEE9',
                         }}
                     ></span>
                 ))}
@@ -90,7 +90,7 @@ return (
     <div className="image-selection-container">
         <div className="question-container">
             <div className="image-content">
-                <div className="text-center bg-gray-200 p-5 rounded mb-4">
+                <div className="text-center p-5 rounded mb-4">
                     <h2 className="question-header"> {`${stepNumber}. When using your ${mobilityAid}, do you feel confident passing this?`}</h2>
                 </div>
                 <div className="image-selection-options">

@@ -3,23 +3,20 @@ const withMT = require("@material-tailwind/react/utils/withMT");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = withMT({
-  content: [],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     fontFamily: {
-      sans: ["Outfit", "sans-serif"],
+      sans: ["Rubik", "sans-serif"],
     },
     extend: {
-      colors: {
-        teal: {
-          500: '#4db6ac',
-          700: '#4db6ac', 
-          // ... add other shades as needed
-        },
-      },
     },
   },
   plugins: [],
 });
+
+
 
 
 

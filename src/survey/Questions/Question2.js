@@ -5,7 +5,7 @@ import TextQuestion from '../../components/TextQuestion';
 const Question2 = ({ previousStep, nextStep, handleChange, stepNumber }) => {
   return (
     <TextQuestion
-      questionText={`${stepNumber}. What is your email address?"`}
+      questionText={`${stepNumber}. What is your email address?`}
       inputId="email"
       placeholderText="example@gmail.com"
       handleChange={handleChange}
