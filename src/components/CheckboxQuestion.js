@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, Checkbox, Input } from '@material-tailwind/react';
+import { Warning } from 'phosphor-react';
 import PageNavigations from './PageNavigations';
+import withEnterKeyHandler from './withEnterKeyHandler';
 
-const CheckboxQuestion = ({ questionText, instructionText, options, selectedOptions, handleChange, customValue, handleCustomChange, previousStep, nextStep }) => {
+const CheckboxQuestion = ({ questionText, instructionText, options, selectedOptions, handleChange, customValue, handleCustomChange, previousStep, nextStep, error }) => {
     return (
         <div className="question-container">
         <div className="question-content">
@@ -29,6 +31,12 @@ const CheckboxQuestion = ({ questionText, instructionText, options, selectedOpti
                     />
                 )}
             </div>
+            {error && (
+                <div className="flex items-center mt-2 text-red-700 bg-red-50 p-2 rounded max-w-max">
+                    <Warning size={24} weight="fill" className="mr-2" />
+                     <p className="text-w">{error}</p>
+                </div>
+            )}
             <div className="question-button-group">
                 <Button size='lg' className="lg-font-size-button" color="teal" onClick={nextStep}>OK</Button>
             </div>
@@ -38,4 +46,4 @@ const CheckboxQuestion = ({ questionText, instructionText, options, selectedOpti
     );
 };
 
-export default CheckboxQuestion;
+export default withEnterKeyHandler(CheckboxQuestion);

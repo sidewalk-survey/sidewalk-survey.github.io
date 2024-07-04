@@ -19,6 +19,25 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
             onComplete({ groupAImages, groupBImages });
         }
     }, [currentIndex, groupAImages, groupBImages, images.length, onComplete]);
+
+    // keydown event listener
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === 'n') {
+                handleResponse('no');
+            } else if (event.key === 'u') {
+                handleResponse('unsure');
+            } else if (event.key === 'y') {
+                handleResponse('yes');
+            }
+        };
+        
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [currentIndex]);
     
     const handleResponse = (response) => {
 
@@ -58,7 +77,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                             height: '8px',
                             width: '8px',
                             borderRadius: '50%',
-                            backgroundColor: currentIndex >= index ? '#14b8a6' : '#D8DEE9',
+                            backgroundColor: currentIndex >= index ? '#0d9488' : '#D8DEE9',
                         }}
                     ></span>
                 ))}
@@ -71,26 +90,25 @@ return (
     <div className="image-selection-container">
         <div className="question-container">
             <div className="image-content">
-                <div className="text-center bg-gray-200 p-5 rounded mb-4">
+                <div className="text-center p-5 rounded mb-4">
                     <h2 className="question-header"> {`${stepNumber}. When using your ${mobilityAid}, do you feel confident passing this?`}</h2>
                 </div>
                 <div className="image-selection-options">
                 {currentIndex < images.length ? (
         <div className="image-wrapper">
-            {/* Assuming images[currentIndex] is valid and exists */}
             <ImageComponent cropMetadata={images[currentIndex]} />
         </div>
     ) : (
-        // Optionally render a loading indicator, blank state, or nothing at all
+        // loading state
         <div>Loading next part of the survey...</div>
     )}
                     {renderDotsAndNavigation()}
                     <ResponseButtons
   gap="12px"
   buttons={[
-    { text: 'No', onClick: () => handleResponse('no') },
-    { text: 'Unsure', onClick: () => handleResponse('unsure'), variant: 'outlined' },
-    { text: 'Yes', onClick: () => handleResponse('yes') }
+    { text: 'No', shortcut:'N', onClick: () => handleResponse('no') },
+    { text: 'Unsure',shortcut:'U', onClick: () => handleResponse('unsure'), variant: 'outlined' },
+    { text: 'Yes', shortcut:'Y', onClick: () => handleResponse('yes') }
   ]}
 />
                 </div>

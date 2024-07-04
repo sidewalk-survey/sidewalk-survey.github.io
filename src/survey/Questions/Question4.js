@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RadioQuestion from '../../components/RadioQuestion';
 
-const Question4 = ({ stepNumber, nextStep, previousStep, answers, handleChange }) => {
+const Question4 = ({ stepNumber, nextStep, previousStep, answers, handleChange, errors }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [filteredOptions, setFilteredOptions] = useState([]);
 
@@ -33,6 +33,7 @@ const Question4 = ({ stepNumber, nextStep, previousStep, answers, handleChange }
       handleChange={handleOptionChange}
       previousStep={previousStep}
       nextStep={nextStep}
+      error={errors.mobilityAid}
     />
   );
 };
