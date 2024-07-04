@@ -1,11 +1,10 @@
-//ImageComparison.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
 import ImageComponent from '../../components/ImageComponent';
 import './ImageComparison.css';
 
-const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, images, onSelectionComplete, comparisonContext, onComplete}) => {
+const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, onSelectionComplete, comparisonContext, onComplete }) => {
     const [currentPair, setCurrentPair] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -14,16 +13,36 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
     const [maxComparisons, setMaxComparisons] = useState(0);
     const [hoverButton, setHoverButton] = useState(null);
 
-    const mobilityAid = answers.mobilityAid.toLowerCase();;
+    const mobilityAid = answers.mobilityAid.toLowerCase();
+    
+    const leftButtonRef = useRef(null);
+    const rightButtonRef = useRef(null);
+    const equalButtonRef = useRef(null);
 
     useEffect(() => {
-        // set the maximum number of comparisons dynamically
         const n = images.length;
         const calculatedComparisons = (n * (n - 1)) / 2;
         setMaxComparisons(calculatedComparisons);
-        // display the first pair of images
         displayImages();
     }, [images]);
+
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === 'ArrowLeft') {
+                selectLeftImage();
+            } else if (event.key === 'ArrowRight') {
+                selectRightImage();
+            } else if (event.key === 'ArrowDown') {
+                recordEqualSelection();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [currentPair]);
 
     const handleMouseEnter = (button) => {
         setHoverButton(button);
@@ -35,7 +54,6 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
 
     const getRandomImagePair = () => {
         if (!images || images.length < 2) {
-            // console.error("Images array is empty or not enough images for comparison.");
             return [];
         }
         let attempts = 0;
@@ -43,21 +61,18 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
         do {
             pair = [images[Math.floor(Math.random() * images.length)], images[Math.floor(Math.random() * images.length)]];
             attempts++;
-            if (attempts > 100) { // Prevent infinite loops by setting a max attempt count
-                console.log("Max attempts reached, breaking out of loop");
+            if (attempts > 100) {
                 break;
             }
         } while (
-            pair[0].LabelID === pair[1].LabelID || // Prevent same image comparison
+            pair[0].LabelID === pair[1].LabelID || 
             history.some(h => 
                 (h[0].LabelID === pair[0].LabelID && h[1].LabelID === pair[1].LabelID) || 
-                (h[0].LabelID === pair[1].LabelID && h[1].LabelID === pair[0].LabelID)) // Check if this pair has already been compared
+                (h[0].LabelID === pair[1].LabelID && h[1].LabelID === pair[0].LabelID))
         );
     
-        console.log("Pair generated:", pair.map(item => item.LabelID));
         return pair;
     };
-    
 
     const renderComparisonDots = () => {
         let dots = [];
@@ -86,24 +101,19 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
         setLoading(true);
         let nextPair;
         if (historyIndex + 1 < history.length) {
-            console.log("Using next pair from history");
             nextPair = history[historyIndex + 1];
             setHistoryIndex(historyIndex + 1);
         } else {
             nextPair = getRandomImagePair();
             if (nextPair.length > 0) {
-                console.log("New pair generated:", nextPair.map(item => item.LabelID));
                 const newHistory = [...history, nextPair];
                 setHistory(newHistory);
                 setHistoryIndex(newHistory.length - 1);
-            } else {
-                // console.log("Failed to generate a new valid pair");
             }
         }
         setCurrentPair(nextPair);
         setLoading(false);
     };
-    
 
     const updateSelectionAndDisplayNext = (selectedImage, comparisonResult = {}) => {
         setSelectedImage(selectedImage);
@@ -114,7 +124,6 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
             displayImages();
         }
     };
-    
 
     const selectImage = (index) => {
         const selected = currentPair[index - 1];
@@ -129,13 +138,13 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
     };
 
     const selectLeftImage = () => {
-        if(currentPair.length === 2) {
+        if (currentPair.length === 2) {
             selectImage(1);
         }
     };
 
     const selectRightImage = () => {
-        if(currentPair.length === 2) {
+        if (currentPair.length === 2) {
             selectImage(2);
         }
     };
@@ -149,8 +158,6 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
                 image2City: currentPair[1].City,
                 selection: 'equal',
             });
-        } else {
-            console.log("No image pair is currently displayed.");
         }
     };
 
@@ -159,15 +166,13 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
             <div className="image-comparison-content"> 
                 <h2>{`${stepNumber}. When using your ${mobilityAid}, which one do you feel more confident passing?`}</h2>
                 <div className="comparison-twin">
-                {/* <div className="flex-row-justify-center"> */}
                 {currentPair.map((imageData, index) => (
                         <div 
-                            className={`comparison-image-wrapper ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-500 glow-shadow' : ''}`} // Additional classes and conditions
-                            key={imageData.LabelID} // Use unique identifier from the metadata
+                            className={`comparison-image-wrapper ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-500 glow-shadow' : ''}`}
+                            key={imageData.LabelID}
                             style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '4px' : '4px' }}
                         >
                             <div className="card-style" onClick={() => selectImage(index + 1)}>
-                                {/* Using ImageComponent with cropMetadata */}
                                 <ImageComponent cropMetadata={imageData} />
                                 {selectedImage && selectedImage.LabelID === imageData.LabelID && (
                                     <div className="overlay-style"></div>
@@ -183,22 +188,28 @@ const ImageComparison = ({key, stepNumber, answers, nextStep, previousStep, imag
                 buttons={[
                     {
                     text: 'Left Image',
-                    onClick: () => selectLeftImage(),
+                    shortcut: '←',
+                    onClick: selectLeftImage,
                     onMouseEnter: () => handleMouseEnter('left'),
                     onMouseLeave: handleMouseLeave,
+                    buttonRef: leftButtonRef // Updated to pass buttonRef
                     },
                     {
                     text: 'The Same',
-                    onClick: () => recordEqualSelection(),
+                    shortcut: '↓',
+                    onClick: recordEqualSelection,
                     onMouseEnter: () => handleMouseEnter('equal'),
                     onMouseLeave: handleMouseLeave,
                     variant: 'outlined',
+                    buttonRef: equalButtonRef // Updated to pass buttonRef
                     },
                     {
                     text: 'Right Image',
-                    onClick: () => selectRightImage(),
+                    shortcut: '→',
+                    onClick: selectRightImage,
                     onMouseEnter: () => handleMouseEnter('right'),
                     onMouseLeave: handleMouseLeave,
+                    buttonRef: rightButtonRef // Updated to pass buttonRef
                     },
                 ]}
                 />

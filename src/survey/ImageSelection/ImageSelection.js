@@ -19,6 +19,25 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
             onComplete({ groupAImages, groupBImages });
         }
     }, [currentIndex, groupAImages, groupBImages, images.length, onComplete]);
+
+    // keydown event listener
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === 'n') {
+                handleResponse('no');
+            } else if (event.key === 'u') {
+                handleResponse('unsure');
+            } else if (event.key === 'y') {
+                handleResponse('yes');
+            }
+        };
+        
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [currentIndex]);
     
     const handleResponse = (response) => {
 
@@ -87,9 +106,9 @@ return (
                     <ResponseButtons
   gap="12px"
   buttons={[
-    { text: 'No', onClick: () => handleResponse('no') },
-    { text: 'Unsure', onClick: () => handleResponse('unsure'), variant: 'outlined' },
-    { text: 'Yes', onClick: () => handleResponse('yes') }
+    { text: 'No', shortcut:'N', onClick: () => handleResponse('no') },
+    { text: 'Unsure',shortcut:'U', onClick: () => handleResponse('unsure'), variant: 'outlined' },
+    { text: 'Yes', shortcut:'Y', onClick: () => handleResponse('yes') }
   ]}
 />
                 </div>
