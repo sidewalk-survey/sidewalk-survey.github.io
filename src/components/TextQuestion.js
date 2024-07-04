@@ -2,6 +2,7 @@ import React from 'react';
 import { Input, Button } from '@material-tailwind/react';
 import './TextQuestion.css';
 import PageNavigations from './PageNavigations';
+import withEnterKeyHandler from './withEnterKeyHandler';
 
 const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, previousStep, nextStep }) => {
   return (
@@ -28,5 +29,4 @@ const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, pr
     </div>
   );
 };
-
-export default TextQuestion;
+export default withEnterKeyHandler(TextQuestion);

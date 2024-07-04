@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Radio } from '@material-tailwind/react';
 import PageNavigations from './PageNavigations';
+import withEnterKeyHandler from './withEnterKeyHandler';
 
 const RadioQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep }) => {
   return (
@@ -29,4 +30,4 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
   );
 };
 
-export default RadioQuestion;
+export default withEnterKeyHandler(RadioQuestion);

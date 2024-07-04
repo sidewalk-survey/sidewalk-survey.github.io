@@ -443,18 +443,10 @@ const renderCurrentStep = () => {
               previousStep={previousStep} 
               updateAnswers={updateAnswers}
               setSingleMobilityAid={setSingleMobilityAid} />;
-    // case 4:
-    //   return <Question4
-    //           stepNumber={currentStep}
-    //           nextStep={nextStep}
-    //           previousStep={previousStep}
-    //           answers={answers}
-    //           handleChange={handleChange}
-    //         />
     case 4:
       if (singleMobilityAid) {
-        nextStep(); // Skip Question 4
-        return null; // Return null or some placeholder
+        nextStep(); // Skip here if only one mobility aid option
+        return null; 
       }
       return <Question4
               stepNumber={currentStep}

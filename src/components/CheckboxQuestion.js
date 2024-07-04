@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Checkbox, Input } from '@material-tailwind/react';
 import PageNavigations from './PageNavigations';
+import withEnterKeyHandler from './withEnterKeyHandler';
 
 const CheckboxQuestion = ({ questionText, instructionText, options, selectedOptions, handleChange, customValue, handleCustomChange, previousStep, nextStep }) => {
     return (
@@ -38,4 +39,4 @@ const CheckboxQuestion = ({ questionText, instructionText, options, selectedOpti
     );
 };
 
-export default CheckboxQuestion;
+export default withEnterKeyHandler(CheckboxQuestion);
