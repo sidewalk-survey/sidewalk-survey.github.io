@@ -24,6 +24,7 @@ const CheckboxQuestion = ({ questionText, instructionText, options, selectedOpti
                 ))}
                 {selectedOptions.includes("Something else") && (
                     <Input
+                        variant="static"
                         type="text"
                         placeholder="Please specify"
                         value={customValue}
