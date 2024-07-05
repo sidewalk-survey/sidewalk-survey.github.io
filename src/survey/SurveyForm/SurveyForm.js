@@ -123,52 +123,32 @@ const SurveyComponent = () => {
   }, [id]);
 
   // for handling the case where the image group is empty
-  
   useEffect(() => {
-    if (currentStep === 7 && imageSelections.group0.group0A.length < 1) {
-      setCurrentStep(8); // Skip Group 0 ImageComparison A if no images
-    } else if (currentStep === 8 && imageSelections.group0.group0B.length < 1) {
-      setCurrentStep(9); // Skip Group 0 ImageComparison B if no images
-    } else if (currentStep === 10 && imageSelections.group1.group1A.length < 1) {
-      setCurrentStep(11); // Skip Group 1 ImageComparison A if no images
-    } else if (currentStep === 11 && imageSelections.group1.group1B.length < 1) {
-      setCurrentStep(12); // Skip Group 1 ImageComparison B if no images
+    const stepMappings = [
+      { step: 7, group: 'group0', subGroup: 'group0A', nextStep: 8 },
+      { step: 8, group: 'group0', subGroup: 'group0B', nextStep: 9 },
+      { step: 10, group: 'group1', subGroup: 'group1A', nextStep: 11 },
+      { step: 11, group: 'group1', subGroup: 'group1B', nextStep: 12 },
+      { step: 13, group: 'group2', subGroup: 'group2A', nextStep: 14 },
+      { step: 14, group: 'group2', subGroup: 'group2B', nextStep: 15 },
+      { step: 16, group: 'group3', subGroup: 'group3A', nextStep: 17 },
+      { step: 17, group: 'group3', subGroup: 'group3B', nextStep: 18 },
+      { step: 19, group: 'group4', subGroup: 'group4A', nextStep: 20 },
+      { step: 20, group: 'group4', subGroup: 'group4B', nextStep: 21 },
+      { step: 22, group: 'group5', subGroup: 'group5A', nextStep: 23 },
+      { step: 23, group: 'group5', subGroup: 'group5B', nextStep: 24 },
+      { step: 25, group: 'group6', subGroup: 'group6A', nextStep: 26 },
+      { step: 26, group: 'group6', subGroup: 'group6B', nextStep: 27 },
+      { step: 28, group: 'group7', subGroup: 'group7A', nextStep: 29 },
+      { step: 29, group: 'group7', subGroup: 'group7B', nextStep: 30 },
+      { step: 31, group: 'group8', subGroup: 'group8A', nextStep: 32 },
+      { step: 32, group: 'group8', subGroup: 'group8B', nextStep: 33 },
+    ];
+  
+    const currentMapping = stepMappings.find(mapping => mapping.step === currentStep);
+    if (currentMapping && imageSelections[currentMapping.group][currentMapping.subGroup].length < 1) {
+      setCurrentStep(currentMapping.nextStep);
     }
-    // else if (currentStep === 13 && imageSelections.group2.group2A.length < 1) {
-    //   setCurrentStep(14); // Skip Group 2 ImageComparison A if no images
-    // } else if (currentStep === 14 && imageSelections.group2.group2B.length < 1) {
-    //   setCurrentStep(15); // Skip Group 2 ImageComparison B if no images
-    // }
-    // else if (currentStep === 16 && imageSelections.group3.group3A.length < 1) {
-    //   setCurrentStep(17); // Skip Group 3 ImageComparison A if no images
-    // } else if (currentStep === 17 && imageSelections.group3.group3B.length < 1) {
-    //   setCurrentStep(18); // Skip Group 3 ImageComparison B if no images
-    // }
-    // else if (currentStep === 19 && imageSelections.group4.group4A.length < 1) {
-    //   setCurrentStep(20); // Skip Group 4 ImageComparison A if no images
-    // } else if (currentStep === 20 && imageSelections.group4.group4B.length < 1) {
-    //   setCurrentStep(21); // Skip Group 4 ImageComparison B if no images
-    // }
-    // else if (currentStep === 22 && imageSelections.group5.group5A.length < 1) {
-    //   setCurrentStep(23); // Skip Group 5 ImageComparison A if no images
-    // } else if (currentStep === 23 && imageSelections.group5.group5B.length < 1) {
-    //   setCurrentStep(24); // Skip Group 5 ImageComparison B if no images
-    // }
-    // else if (currentStep === 25 && imageSelections.group6.group6A.length < 1) {
-    //   setCurrentStep(26); // Skip Group 6 ImageComparison A if no images
-    // } else if (currentStep === 26 && imageSelections.group6.group6B.length < 1) {
-    //   setCurrentStep(27); // Skip Group 6 ImageComparison B if no images
-    // }
-    // else if (currentStep === 28 && imageSelections.group7.group7A.length < 1) {
-    //   setCurrentStep(29); // Skip Group 7 ImageComparison A if no images
-    // } else if (currentStep === 29 && imageSelections.group7.group7B.length < 1) {
-    //   setCurrentStep(30); // Skip Group 7 ImageComparison B if no images
-    // }
-    // else if (currentStep === 31 && imageSelections.group8.group8A.length < 1) {
-    //   setCurrentStep(32); // Skip Group 8 ImageComparison A if no images
-    // } else if (currentStep === 32 && imageSelections.group8.group8B.length < 1) {
-    //   setCurrentStep(33); // Skip Group 8 ImageComparison B if no images
-    // }
   }, [currentStep, imageSelections]);
   
 
