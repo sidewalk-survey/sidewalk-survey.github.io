@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import DraggableQuestion from '../../components/DraggableQuestion';
 
 const rankOptions = [
-    { id: '1', value: "Fire hydrants or utility poles in the middle of the sidewalk" },
-    { id: '2', value: "Trees or vegetation in the middle of the sidewalk" },
-    { id: '3', value: "Parked scooter, bike or car in the middle of the sidewalk" },
-    { id: '4', value: "Height difference between sidewalk panels" },
-    { id: '5', value: "Broken Surface / Cracks on sidewalk surface" },
-    { id: '6', value: "Utility panel in the middle of the sidewalk" },
-    { id: '7', value: "Brick / Cobble stone surface" },
+    { id: '1', value: "Fire hydrant or utility pole on sidewalk" },
+    { id: '2', value: "Tree or vegetation on sidewalk" },
+    { id: '3', value: "Parked scooters, bikes, or cars on sidewalk" },
+    { id: '4', value: "Uneven sidewalk panel" },
+    { id: '5', value: "Uneven sidewalk panel" },
+    { id: '6', value: "Utility panel on sidewalk" },
+    { id: '7', value: "Brick or cobblestone surface" },
     { id: '8', value: "Grass surface" },
-    { id: '9', value: "Sand / Gravel surface" },
-    { id: '10', value: "Narrow sidewalk (width of sidewalk < 1.2m / 4ft)" },
+    { id: '9', value: "Sand or gravel surface" },
+    { id: '10', value: "Narrow sidewalk (width less than 1.2m / 4 ft)" },
     { id: '11', value: "Missing curb ramp at intersections" },
-    { id: '12', value: "Slope (slope of sidewalk > 5%)" },
-    { id: '13', value: "Steps" }
+    { id: '12', value: "Steep slope (sidewalk incline greater than 5%)" },
+    { id: '13', value: "Steps or stairs" },
+    { id: '14', value: "Trash or recycling bins on sidewalk" },
   ];
 
 const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswers }) => {
@@ -44,7 +44,7 @@ const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswe
 
     //   TODO: maybe change the questionText to be "top" being the most difficult and "bottom" being the easiest
       <DraggableQuestion
-        questionText={<span>{stepNumber}. When using your <strong>{mobilityAid}</strong>, how would you rank the following, with 1 being the most difficult and {rankedOptions.length} being the easiest?</span>}
+        questionText={<span>{stepNumber}. When using your <strong>{mobilityAid}</strong>,  please rank the following barriers based on your confidence in passing them, with 1 being the least confident and  {rankedOptions.length} being the most confident.</span>}
         inputId="rankedOptions" 
         instructionText="Drag and drop the options to rank them."
         options={rankedOptions}
