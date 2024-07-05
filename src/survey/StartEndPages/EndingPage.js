@@ -6,12 +6,12 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl }) => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: "24px", alignItems: 'center', position: 'relative', margin: 'auto', width: '90vw' }}>
       <h2 className="mb-4">Thank you so much for completing this survey!</h2>
       
-      {continueUrl && (
+      {/* {continueUrl && (
         <div>
           <p>You can resume your survey later using the following link:</p>
           <a href={continueUrl}>{continueUrl}</a>
         </div>
-      )}
+      )} */}
       
       <div className="flex justify-center gap-4 mt-5">
         <Button
