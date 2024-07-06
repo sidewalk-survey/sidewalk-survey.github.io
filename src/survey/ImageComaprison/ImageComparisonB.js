@@ -181,7 +181,7 @@ const ImageComparison = ({nextStep, previousStep, images, onSelectionComplete, o
                 />
 
             </div>
-            <PageNavigations onPrevious={previousStep} onNext={nextStep} />
+            {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
             </div>
     );
 };

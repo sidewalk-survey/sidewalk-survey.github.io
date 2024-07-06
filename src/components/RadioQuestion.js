@@ -32,7 +32,7 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
             <Button size='lg' className="lg-font-size-button" color="teal" onClick={nextStep}>OK</Button>
         </div>
       </div>
-      <PageNavigations onPrevious={previousStep} onNext={nextStep} />
+      {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
     </div>
   );
 };
