@@ -72,7 +72,7 @@ const SurveyComponent = () => {
   // const navigate = useNavigate();
 
   useEffect(() => {
-    let steps = 14; // base number of steps
+    let steps = 35; // base number of steps
     setTotalSteps(steps);
   }, [/* dependencies that might change the number of steps, e.g., answers */]);
 
