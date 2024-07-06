@@ -21,7 +21,7 @@ const WelcomePage = ({ onStart }) => {
     <Card className="max-w-lg mt-4 shadow-none">
       <CardBody className="flex flex-col items-center justify-center p-4 gap-4">
         <div className="w-full">
-          <img src="/img/ps_logo.jpg" alt="Welcome" className="w-full" />
+          <img src={`${process.env.PUBLIC_URL}/img/ps_logo.jpg`} alt="Welcome" className="w-full" />
         </div>
         <h2 className="mb-4">Perceptions on Sidewalk Barriers Survey</h2>
         <Button
