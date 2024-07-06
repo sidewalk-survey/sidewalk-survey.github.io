@@ -1,10 +1,9 @@
 // App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import SurveyForm from './survey/SurveyForm/SurveyForm.js';
 import 'tailwindcss/tailwind.css';
-
 
 function App() {
   return (
@@ -22,5 +21,3 @@ function App() {
 }
 
 export default App;
-
-
