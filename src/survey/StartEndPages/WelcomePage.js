@@ -24,14 +24,16 @@ const WelcomePage = ({ onStart }) => {
           <img src={`${process.env.PUBLIC_URL}/img/ps_logo.jpg`} alt="Welcome" className="w-full" />
         </div>
         <h2 className="mb-4">Perceptions on Sidewalk Barriers Survey</h2>
+        <div className="question-button-group flex flex-col">
         <Button
           className='lg-font-size-button'
           color="teal"
           size="lg"
           onClick={onStart}
-        >
-          Start
-        </Button>
+        >Start
+          </Button>
+        <span className="text-w text-teal-700">press Enter ↵</span>
+          </div>
       </CardBody>
     </Card>
   );

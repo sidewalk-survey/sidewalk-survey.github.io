@@ -28,8 +28,9 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
             <p className="text-w">{error}</p>
           </div>
         )}
-        <div className="question-button-group">
+        <div className="question-button-group items-center">
             <Button size='lg' className="lg-font-size-button" color="teal" onClick={nextStep}>OK</Button>
+            <span className="text-w text-teal-700" >press Enter ↵</span>
         </div>
       </div>
       {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
