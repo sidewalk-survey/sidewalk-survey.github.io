@@ -211,7 +211,14 @@ const nextStep = () => {
         if (!answers.email) {
           isValid = false;
           newErrors.email = 'Please fill this in';
+        } else {
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailPattern.test(answers.email)) {
+            isValid = false;
+            newErrors.email = 'Please enter a valid email address';
+          }
         }
+        
         break;
       case 3:
         if (!answers.mobilityAidOptions || answers.mobilityAidOptions.mobilityAidOptions.length === 0) {
