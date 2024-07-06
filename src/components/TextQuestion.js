@@ -30,7 +30,7 @@ const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, pr
             <Button size="lg" className="lg-font-size-button" color="teal" onClick={nextStep}>OK</Button>
           </div>
         </div>
-        <PageNavigations onPrevious={previousStep} onNext={nextStep} />
+        {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
       </div>
     </div>
   );

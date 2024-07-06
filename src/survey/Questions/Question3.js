@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CheckboxQuestion from '../../components/CheckboxQuestion';
 
 const questionOptions = [
@@ -10,7 +10,7 @@ const questionOptions = [
   { value: "Something else", label: "Something else" },
 ];
 
-const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber,setSingleMobilityAid, errors }) => {
+const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber, setSingleMobilityAid, errors }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [customValue, setCustomValue] = useState(''); // this is for something else option
 
@@ -45,13 +45,20 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber,setSingle
       updateAnswers('mobilityAid', ''); // Clear mobilityAid if there are multiple options
     }
 
-    nextStep();
-  };  
+    setNextStepReady(true); // Mark next step ready to proceed
+  };
+
+  const [nextStepReady, setNextStepReady] = useState(false);
+
+  useEffect(() => {
+    if (nextStepReady) {
+      nextStep();
+    }
+  }, [nextStepReady]);
 
   return (
     <CheckboxQuestion
       questionText={`${stepNumber}. When going outside your home, do you use any of the following?`}
-      // instructionText="If you use multiple, please select the one that you use most frequently."
       options={questionOptions}
       selectedOptions={selectedOptions}
       handleChange={handleChange}
