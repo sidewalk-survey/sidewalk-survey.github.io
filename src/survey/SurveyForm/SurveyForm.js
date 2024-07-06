@@ -182,7 +182,7 @@ const nextStep = () => {
       setCurrentStep(currentStep + 1);
     }
 
-    if (currentStep < 33) {
+    if (currentStep < 13) {
       // log all data before continuing to the next mobility aid
       logData();
     }
