@@ -14,7 +14,7 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl }) => {
       )} */}
       
       <div className="flex justify-center gap-4 mt-5">
-        <Button
+        {/* <Button
           className='lg-font-size-button'
           color="teal"
           variant="outlined"
@@ -22,7 +22,7 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl }) => {
           onClick={previousStep}
         >
           Go Back
-        </Button>
+        </Button> */}
         <Button
           className='lg-font-size-button'
           color="teal"
