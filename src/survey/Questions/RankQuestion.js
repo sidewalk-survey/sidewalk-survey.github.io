@@ -6,7 +6,7 @@ const rankOptions = [
     { id: '2', value: "Tree or vegetation on sidewalk" },
     { id: '3', value: "Parked scooters, bikes, or cars on sidewalk" },
     { id: '4', value: "Uneven sidewalk panel" },
-    { id: '5', value: "Uneven sidewalk panel" },
+    { id: '5', value: "Broken surface or cracks on sidewalk" },
     { id: '6', value: "Utility panel on sidewalk" },
     { id: '7', value: "Brick or cobblestone surface" },
     { id: '8', value: "Grass surface" },

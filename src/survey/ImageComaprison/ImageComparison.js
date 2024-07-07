@@ -164,7 +164,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     return (
         <div className="image-comparison-container">
             <div className="image-comparison-content"> 
-                <h2>{`${stepNumber}. When using your ${mobilityAid}, which one do you feel more confident passing?`}</h2>
+                <h2>{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, which one do you feel more confident passing?`}</h2>
                 <div className="comparison-twin">
                 {currentPair.map((imageData, index) => (
                         <div 
@@ -215,7 +215,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 />
 
             </div>
-            {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
+            <PageNavigations onPrevious={previousStep} onNext={nextStep} />
             </div>
     );
 };

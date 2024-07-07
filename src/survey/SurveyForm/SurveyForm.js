@@ -45,9 +45,6 @@ const MOBILITYAID_STEP = 5;
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  // const [surfaceSelection, setSurfaceSelection] = useState({surfaceA: [], surfaceB: []});
-  // const [obstacleSelection, setObstacleSelection] = useState({obstacleA: [], obstacleB: []});
-  // const [noCurbSelection, setNoCurbSelection] = useState({noCurbA: [], noCurbB: []});
   const [imageSelections, setImageSelections] = useState({
     group0: { group0A: [], group0B: [] },
     group1: { group1A: [], group1B: [] },
@@ -66,13 +63,13 @@ const SurveyComponent = () => {
   const [continueUrl, setContinueUrl] = useState('');
   const [singleMobilityAid, setSingleMobilityAid] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const [startTime, setStartTime] = useState(null);
 
   const { id } = useParams(); 
   // const navigate = useNavigate();
 
   useEffect(() => {
-    let steps = 14; // base number of steps
+    let steps = 35; // base number of steps
     setTotalSteps(steps);
   }, [/* dependencies that might change the number of steps, e.g., answers */]);
 
@@ -81,6 +78,7 @@ const SurveyComponent = () => {
 
   const startSurvey = () => {
     setCurrentStep(1); // Start the survey
+    setStartTime(new Date());
   };
   
   const [answers, setAnswers] = useState({
@@ -182,7 +180,7 @@ const nextStep = () => {
       setCurrentStep(currentStep + 1);
     }
 
-    if (currentStep < 13) {
+    if (currentStep < 34) {
       // log all data before continuing to the next mobility aid
       logData();
     }
@@ -658,13 +656,19 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
+   
   if (validateCurrentStep()) {
+    const endTime = Date.now(); 
+    const duration = (endTime - startTime)/1000; // in seconds
+
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
     }
 
   let logType = 'final'; // form is submitted 
   answers.answeredMobilityAids.push(answers.mobilityAid);
+ 
+
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
       sessionId, 
@@ -675,8 +679,10 @@ const handleSubmit = async () => {
       imageSelections,
       imageComparisons,
       timestamp: serverTimestamp(), 
+      duration,
     });
     console.log("Document written with ID: ", docRef.id);
+    console.log("Survey completed in ", duration, " seconds");
   } catch (e) {
     console.error("Error adding document: ", e);
     }
@@ -685,6 +691,8 @@ const handleSubmit = async () => {
 
 const logData = async () => {
   let logType = 'temp'; 
+  const endTime = Date.now(); // Capture the end time
+  const duration = endTime ? (endTime - startTime)/1000 : 0;
 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
@@ -695,7 +703,8 @@ const logData = async () => {
         ...answers,
         imageSelections,
         imageComparisons,
-        timestamp: serverTimestamp()
+        timestamp: serverTimestamp(),
+        duration
       });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -706,6 +715,8 @@ const logData = async () => {
 const logMobilityAidData = async () => {
   let logType = 'CompletedOneMobilityAid'; 
   answers.answeredMobilityAids.push(answers.mobilityAid);
+  const endTime = Date.now(); // Capture the end time
+  const duration = endTime ? (endTime - startTime)/1000 : 0;
 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
@@ -716,9 +727,11 @@ const logMobilityAidData = async () => {
         ...answers,
         imageSelections,
         imageComparisons,
-        timestamp: serverTimestamp()
+        timestamp: serverTimestamp(),
+        duration
       });
     console.log("Document written with ID: ", docRef.id);
+    console.log("Session completed in ", duration, " seconds");
   } catch (e) {
     console.error("Error adding document: ", e);
   }

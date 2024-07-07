@@ -91,7 +91,7 @@ return (
         <div className="question-container">
             <div className="image-content">
                 <div className="text-center p-5 rounded mb-4">
-                    <h2 className="question-header"> {`${stepNumber}. When using your ${mobilityAid}, do you feel confident passing this?`}</h2>
+                    <h2 className="question-header">{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, do you feel confident passing this?`}</h2>
                 </div>
                 <div className="image-selection-options">
                 {currentIndex < images.length ? (
@@ -113,7 +113,7 @@ return (
 />
                 </div>
             </div>
-            {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
+            <PageNavigations onPrevious={previousStep} onNext={nextStep} />
         </div>
     </div>
   );

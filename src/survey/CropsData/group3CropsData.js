@@ -65,7 +65,7 @@ const group3CropsData = [
     "Group": 3
   },
   {
-    "City": "Teaneck",
+    "City": "teaneck",
     "LabelID": 13649,
     "LabelTypeID": 4,
     "CanvasX": 374,

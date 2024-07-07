@@ -65,7 +65,7 @@ const group8CropsData = [
     "Group": 8
   },
   {
-    "City": "Seattle",
+    "City": "seattle",
     "LabelID": 155890,
     "LabelTypeID": 2,
     "CanvasX": 213,
