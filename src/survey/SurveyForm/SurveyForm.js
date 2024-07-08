@@ -40,7 +40,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
-const TOTAL_STEPS = 34;
+const TOTAL_STEPS = 35;
 const MOBILITYAID_STEP = 5;
 
 const SurveyComponent = () => {
@@ -178,9 +178,9 @@ const nextStep = () => {
   if (validateCurrentStep()) {
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
-    }
+    } 
 
-    if (currentStep < 34) {
+    if (currentStep < TOTAL_STEPS - 1) {
       // log all data before continuing to the next mobility aid
       logData();
     }
@@ -626,8 +626,9 @@ const renderCurrentStep = () => {
       ) {
         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
         
-        if(remainingOptions.length === 1) {
+        if(remainingOptions.length === 0) {
           setCurrentStep(35);
+          setContinueUrl('');
           return null;
         }
       } 
@@ -635,16 +636,15 @@ const renderCurrentStep = () => {
               answers={answers}
               handleMobilityAidChange={handleMobilityAidChange}
               previousStep={previousStep} 
-              nextStep={() => {handleSubmit();}}
               yesStep={() => {setCurrentStep(5);}}
+              nextStep={nextStep}
               setContinueUrl={setContinueUrl}
               logData={logMobilityAidData}
-              erros= {errors}
               />;
     case 35:
       return <EndingPage 
               previousStep={previousStep} 
-              continueUrl={continueUrl} // pass continueUrl
+              continueUrl={continueUrl} 
               onSubmit={handleSubmit} />;
 
     default:
