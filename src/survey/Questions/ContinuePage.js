@@ -11,7 +11,6 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
   const remainingOptions = (answers.mobilityAidOptions?.mobilityAidOptions || []).filter(option =>
     option !== answers.mobilityAid && !answeredMobilityAids.includes(option)
   );
-  console.log("remaining options", remainingOptions);
 
   const continueOptions = [
     {
@@ -72,6 +71,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
         handleChange={handleOptionChange}
         previousStep={previousStep}
         nextStep={handleNextStep}
+        error=""
       />
     </div>
   );
