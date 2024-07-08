@@ -45,7 +45,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
           timestamp: serverTimestamp()
         });
 
-        const resumeUrl = `${window.location.origin}/resume-survey/${docRef.id}`;
+        const resumeUrl = `${window.location.origin}/#/resume-survey/${docRef.id}`;
         setLocalContinueUrl(resumeUrl);
         setContinueUrl(resumeUrl);
       } catch (error) {

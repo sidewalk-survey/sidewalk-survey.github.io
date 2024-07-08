@@ -64,12 +64,12 @@ const SurveyComponent = () => {
   const [singleMobilityAid, setSingleMobilityAid] = useState(false);
   const [errors, setErrors] = useState({});
   const [startTime, setStartTime] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { id } = useParams(); 
-  // const navigate = useNavigate();
 
   useEffect(() => {
-    let steps = 35; // base number of steps
+    let steps = TOTAL_STEPS; // base number of steps
     setTotalSteps(steps);
   }, [/* dependencies that might change the number of steps, e.g., answers */]);
 
@@ -95,8 +95,10 @@ const SurveyComponent = () => {
       if (id) {
         const docRef = doc(firestore, "surveyAnswers", id);
         const docSnap = await getDoc(docRef);
+        console.log("Fetching data...");
 
         if (docSnap.exists()) {
+          console.log(".....");
           const data = docSnap.data();
           setUserId(data.userId);
           setSessionId(data.sessionId);
@@ -125,6 +127,7 @@ const SurveyComponent = () => {
           console.log("No such document!");
         }
       }
+      setLoading(false);
     };
     fetchData();
   }, [id]);
@@ -737,6 +740,14 @@ const logMobilityAidData = async () => {
   }
 };
 
+if (loading) {
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="mt-4 text-2xl font-bold text-blue-500">Loading...</div>
+    </div>
+  );
+}
 
 return (
   <div>
