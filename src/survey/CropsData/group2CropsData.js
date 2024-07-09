@@ -18,10 +18,10 @@ const group2CropsData = [
   },
   {
     "City": "seattle",
-    "LabelID": 169928,
+    "LabelID": 138404,
     "LabelTypeID": 3,
-    "CanvasX": 216,
-    "CanvasY": 146,
+    "CanvasX": 344,
+    "CanvasY": 143,
     "Group": 2
   },
   {

@@ -50,10 +50,10 @@ const group6CropsData = [
   },
   {
     "City": "oradell",
-    "LabelID": 2252,
+    "LabelID": 13534,
     "LabelTypeID": 4,
-    "CanvasX": 438,
-    "CanvasY": 295,
+    "CanvasX": 351,
+    "CanvasY": 142,
     "Group": 6
   },
   {

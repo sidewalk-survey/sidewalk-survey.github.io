@@ -17,11 +17,11 @@ const group3CropsData = [
     "Group": 3
   },
   {
-    "City": "teaneck",
+    "City": "st_louis",
     "LabelID": 2340,
     "LabelTypeID": 9,
     "CanvasX": 371,
-    "CanvasY": 243,
+    "CanvasY": 204,
     "Group": 3
   },
   {
@@ -68,8 +68,8 @@ const group3CropsData = [
     "City": "teaneck",
     "LabelID": 13649,
     "LabelTypeID": 4,
-    "CanvasX": 374,
-    "CanvasY": 282,
+    "CanvasX": 248,
+    "CanvasY": 296,
     "Group": 3
   }
 ];
