@@ -18,12 +18,12 @@ const WelcomePage = ({ onStart }) => {
   }, []);
 
   return (
-    <Card className="max-w-lg mt-4 shadow-none">
-      <CardBody className="flex flex-col items-center justify-center p-4 gap-4">
-        <div className="w-full">
+    <Card className="max-w-2xl mt-4 shadow-none">
+      <CardBody className="flex flex-col items-center justify-center p-4 gap-2">
+        <div className="max-w-md mb-8">
           <img src={`${process.env.PUBLIC_URL}/img/ps_logo.jpg`} alt="Welcome" className="w-full" />
         </div>
-        <h2 className="mb-4">Perceptions on Sidewalk Barriers Survey</h2>
+        <h2>Perceptions on Sidewalk Barriers Survey</h2>
         <div className="question-button-group flex flex-col">
         <Button
           className='lg-font-size-button'
