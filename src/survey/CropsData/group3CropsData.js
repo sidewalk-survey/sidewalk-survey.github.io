@@ -19,7 +19,7 @@ const group3CropsData = [
   {
     "City": "st_louis",
     "LabelID": 2340,
-    "LabelTypeID": 9,
+    "LabelTypeID": 4,
     "CanvasX": 371,
     "CanvasY": 204,
     "Group": 3
