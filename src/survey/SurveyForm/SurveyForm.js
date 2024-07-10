@@ -25,6 +25,7 @@ import group5CropsData from '../CropsData/group5CropsData';
 import group6CropsData from '../CropsData/group6CropsData';
 import group7CropsData from '../CropsData/group7CropsData';
 import group8CropsData from '../CropsData/group8CropsData';
+import emailjs from 'emailjs-com';
 
 
 // Firebase configuration
@@ -88,6 +89,34 @@ const SurveyComponent = () => {
     sidewalkBarriers: '',
     answeredMobilityAids: []
   });
+
+  const sendEmail = (recipientEmail, continuationLink) => {
+    const templateParams = {
+      to_email: recipientEmail,
+      continuation_link: continuationLink,
+      from_name: 'Your Survey App',  // Customize this as needed
+      to_name: answers.name || 'Valued Participant',  // This could be dynamic based on user data
+    };
+  
+    emailjs.send('service_9obqgij', 'template_1j17b1u', templateParams, 'ewWDTiLWBaKzzZWLr')
+      .then((response) => {
+        console.log('Email successfully sent!', response.status, response.text);
+        window.alert(`Email sent to ${recipientEmail}!`); 
+      })
+      .catch((err) => {
+        console.error('Failed to send email. Error: ', err);
+        window.alert('Failed to send email. Please try again later.');
+      });
+  };
+  
+
+  const onEmailLink = () => {
+    if (continueUrl && answers.email) {
+        sendEmail(answers.email, continueUrl);
+    } else {
+        console.error('Email or continueUrl is missing');
+    }
+  };
 
   // for resuming the survey
   useEffect(() => {
@@ -648,7 +677,8 @@ const renderCurrentStep = () => {
       return <EndingPage 
               previousStep={previousStep} 
               continueUrl={continueUrl} 
-              onSubmit={handleSubmit} />;
+              onSubmit={handleSubmit}
+              onEmailLink={onEmailLink} />;
 
     default:
       return <WelcomePage onStart={startSurvey}/>;
