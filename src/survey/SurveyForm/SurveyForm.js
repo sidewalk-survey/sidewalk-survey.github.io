@@ -676,9 +676,8 @@ const renderCurrentStep = () => {
       ) {
         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
         // this line does not run on the first mobility aid for some reason
-        console.log('Remaining Mobility Aid Options:', remainingOptions);
         
-        if(remainingOptions.length === 0) {
+        if(remainingOptions.length === 1) {
           setCurrentStep(35);
           setContinueUrl('');
           return null;
