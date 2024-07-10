@@ -668,11 +668,13 @@ const renderCurrentStep = () => {
             />
     
     case 34: 
-    
+      console.log('Mobility Aid Options:', answers.mobilityAidOptions);
+      console.log('Answered Mobility Aids:', answers.answeredMobilityAids);
       if (answers.mobilityAidOptions.mobilityAidOptions.length === 1 ||  // if only one mobility aid option
         (answers.answeredMobilityAids && answers.answeredMobilityAids.length > 0) // if answered mobility aids exist
       ) {
         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
+        console.log('Remaining Mobility Aid Options:', remainingOptions);
         
         if(remainingOptions.length === 0) {
           setCurrentStep(35);
@@ -764,6 +766,7 @@ const logData = async () => {
 const logMobilityAidData = async () => {
   let logType = 'CompletedOneMobilityAid'; 
   answers.answeredMobilityAids.push(answers.mobilityAid);
+  
   const endTime = Date.now(); // Capture the end time
   const duration = endTime ? (endTime - startTime)/1000 : 0;
 

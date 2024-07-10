@@ -60,6 +60,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
   };
 
   const remainingOptionsString = remainingOptions.join(', ').toLowerCase();
+  console.log(remainingOptionsString);
 
   return (
     <div>
