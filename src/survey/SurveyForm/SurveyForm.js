@@ -670,10 +670,12 @@ const renderCurrentStep = () => {
     case 34: 
       console.log('Mobility Aid Options:', answers.mobilityAidOptions);
       console.log('Answered Mobility Aids:', answers.answeredMobilityAids);
+      console.log ('length:', answers.answeredMobilityAids.length);
       if (answers.mobilityAidOptions.mobilityAidOptions.length === 1 ||  // if only one mobility aid option
         (answers.answeredMobilityAids && answers.answeredMobilityAids.length > 0) // if answered mobility aids exist
       ) {
         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
+        // this line does not run on the first mobility aid for some reason
         console.log('Remaining Mobility Aid Options:', remainingOptions);
         
         if(remainingOptions.length === 0) {

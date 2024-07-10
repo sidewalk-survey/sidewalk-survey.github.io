@@ -49,7 +49,6 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
               >
                 {options.map((item, index) => {
                   const { gridColumn, gridRow } = getGridPosition(index);
-                  console.log(gridColumn, gridRow);
                   return (
                     <Draggable key={item.id} draggableId={item.id} index={index}>
                       {(provided) => (
