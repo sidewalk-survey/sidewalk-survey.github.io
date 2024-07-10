@@ -41,8 +41,6 @@ const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswe
     };
   
     return (
-
-    //   TODO: maybe change the questionText to be "top" being the most difficult and "bottom" being the easiest
       <DraggableQuestion
         questionText={<span>{stepNumber}. When using your <strong>{mobilityAid}</strong>,  please rank the following barriers based on your confidence in passing them, with 1 being the least confident and  {rankedOptions.length} being the most confident.</span>}
         inputId="rankedOptions" 

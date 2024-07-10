@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button } from '@material-tailwind/react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import PageNavigations from './PageNavigations';
 import './DraggableQuestion.css';
 
 const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep }) => {
+  
   const onDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -20,14 +20,12 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     const newItems = Array.from(options);
     const [movedItem] = newItems.splice(currentIndex, 1);
     newItems.splice(newOrder, 0, movedItem);
-
     handleChange(newItems);
   };
 
   const getGridPosition = (index) => {
-    // index 1-7 in one column, 8-14 in the other
-    const column = index <7 ? '1' : '2'; 
-    const row = index <7 ? index+1 : index-6; 
+    const column = index % 2 === 0 ? '1' : '2'; 
+    const row = Math.floor(index / 2) + 1;
     return { gridColumn: column, gridRow: row };
   };
 
@@ -51,6 +49,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
               >
                 {options.map((item, index) => {
                   const { gridColumn, gridRow } = getGridPosition(index);
+                  console.log(gridColumn, gridRow);
                   return (
                     <Draggable key={item.id} draggableId={item.id} index={index}>
                       {(provided) => (
@@ -98,7 +97,6 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
           <span className="text-w text-teal-700" >press Enter ↵</span>
         </div>
       </div>
-      {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
     </div>
   );
 };
