@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@material-tailwind/react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { DotsSixVertical } from '@phosphor-icons/react';
 import './DraggableQuestion.css';
 
 const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep }) => {
@@ -23,11 +24,11 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     handleChange(newItems);
   };
 
-  const getGridPosition = (index) => {
-    const column = index % 2 === 0 ? '1' : '2'; 
-    const row = Math.floor(index / 2) + 1;
-    return { gridColumn: column, gridRow: row };
-  };
+  // const getGridPosition = (index) => {
+  //   const column = index % 2 === 0 ? '1' : '2'; 
+  //   const row = Math.floor(index / 2) + 1;
+  //   return { gridColumn: column, gridRow: row };
+  // };
 
   return (
     <div className="question-container">
@@ -41,14 +42,14 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                 {...provided.droppableProps} 
                 ref={provided.innerRef} 
                 style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: '1fr 1fr',
-                  gridColumnGap: '48px',
+                  display: 'flex', 
+                  flexDirection: 'column',
                   gap: '12px', 
+
                 }}
               >
                 {options.map((item, index) => {
-                  const { gridColumn, gridRow } = getGridPosition(index);
+                  // const { gridColumn, gridRow } = getGridPosition(index);
                   return (
                     <Draggable key={item.id} draggableId={item.id} index={index}>
                       {(provided) => (
@@ -59,16 +60,21 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                           style={{
                             userSelect: 'none',
                             fontSize: '0.8em',
-                            padding: '6px 12px',
+                            padding: '6px 0px',
                             margin: '0 0 4px 0',
                             backgroundColor: '#E0F2F1',
                             borderRadius: '8px',
                             textAlign: 'left',
-                            gridColumn,
-                            gridRow,
+                            maxWidth: '60vw', 
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            // gridColumn,
+                            // gridRow,
                             ...provided.draggableProps.style,
                           }}
                         >
+                          <DotsSixVertical weight='bold' style={{ marginRight: '2px', color:"#0d9488"}} />
                           <select 
                             value={index + 1} 
                             onChange={(e) => handleDropdownChange(e, index)}
