@@ -26,7 +26,7 @@
   }
   
   .glow-shadow {
-    box-shadow: -4px 4px 12px 2px #26a69962; /* Example glow effect */
+    box-shadow: -4px 4px 12px 2px #26a69962;
   }
   
   .card-style {
@@ -52,8 +52,8 @@
   .flex-justify-center-gap {
     display: flex;
     justify-content: center;
-    gap: 1rem; /* Adjusted from gap-4 for clarity */
-    margin-top: 1.25rem; /* Equivalent to mt-5 */
+    gap: 1rem; 
+    margin-top: 1.25rem; 
   }
   
 

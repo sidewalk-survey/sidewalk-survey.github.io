@@ -166,29 +166,43 @@ const SurveyComponent = () => {
     const stepMappings = [
       { step: 7, group: 'group0', subGroup: 'group0A', nextStep: 8 },
       { step: 8, group: 'group0', subGroup: 'group0B', nextStep: 9 },
+
       { step: 10, group: 'group1', subGroup: 'group1A', nextStep: 11 },
       { step: 11, group: 'group1', subGroup: 'group1B', nextStep: 12 },
+
       { step: 13, group: 'group2', subGroup: 'group2A', nextStep: 14 },
       { step: 14, group: 'group2', subGroup: 'group2B', nextStep: 15 },
+
       { step: 16, group: 'group3', subGroup: 'group3A', nextStep: 17 },
       { step: 17, group: 'group3', subGroup: 'group3B', nextStep: 18 },
+
       { step: 19, group: 'group4', subGroup: 'group4A', nextStep: 20 },
       { step: 20, group: 'group4', subGroup: 'group4B', nextStep: 21 },
+
       { step: 22, group: 'group5', subGroup: 'group5A', nextStep: 23 },
       { step: 23, group: 'group5', subGroup: 'group5B', nextStep: 24 },
+
       { step: 25, group: 'group6', subGroup: 'group6A', nextStep: 26 },
       { step: 26, group: 'group6', subGroup: 'group6B', nextStep: 27 },
+
       { step: 28, group: 'group7', subGroup: 'group7A', nextStep: 29 },
       { step: 29, group: 'group7', subGroup: 'group7B', nextStep: 30 },
+
       { step: 31, group: 'group8', subGroup: 'group8A', nextStep: 32 },
       { step: 32, group: 'group8', subGroup: 'group8B', nextStep: 33 },
     ];
   
     const currentMapping = stepMappings.find(mapping => mapping.step === currentStep);
-    if (currentMapping && imageSelections[currentMapping.group][currentMapping.subGroup].length < 1) {
-      setCurrentStep(currentMapping.nextStep);
+    if (currentMapping) {
+      console.log("Current Image Group:", currentMapping.group, currentMapping.subGroup);
+      console.log("Images in Group:", imageSelections[currentMapping.group][currentMapping.subGroup].length);
+      
+      if (imageSelections[currentMapping.group][currentMapping.subGroup].length < 1) {
+        console.log("Skipping Step:", currentStep);
+        setCurrentStep(currentMapping.nextStep);
+      }
     }
-  }, [currentStep, imageSelections]);
+  }, [currentStep, imageSelections]);  // Ensure imageSelections is in the dependency array
   
 
   useEffect(() => {
@@ -295,7 +309,6 @@ const nextStep = () => {
 
 const renderCurrentStep = () => {
   switch(currentStep) {
-    // Questions 1-4
     case 1:
       return <Question1 
               stepNumber={currentStep} 
@@ -542,6 +555,7 @@ const renderCurrentStep = () => {
               onComplete={() => setCurrentStep(24)}
               errors= {errors} />;
     case 24: // Group 6 ImageSelection
+    console.log('Group 6 ImageSelection');
       return <ImageSelection 
               stepNumber={currentStep}
               answers={answers}
@@ -551,6 +565,7 @@ const renderCurrentStep = () => {
               onComplete={(selection) => handleGroupSelectionComplete('group6', selection)} 
               errors= {errors}/>;
     case 25: // Group 6 ImageComparison A
+    console.log('Group 6 ImageComparison A');
       return <ImageComparison 
               key="Group6A" 
               stepNumber={currentStep} 
@@ -563,6 +578,7 @@ const renderCurrentStep = () => {
               onComplete={() => setCurrentStep(26)} 
               errors= {errors}/>;
     case 26: // Group 6 ImageComparison B
+    console.log('Group 6 ImageComparison B');
       return <ImageComparison 
               key="Group6B" 
               stepNumber={currentStep} 
