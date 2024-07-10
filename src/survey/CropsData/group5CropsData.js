@@ -1,14 +1,6 @@
 
 const group5CropsData = [
   {
-    "City": "oradell",
-    "LabelID": 10085,
-    "LabelTypeID": 4,
-    "CanvasX": 415,
-    "CanvasY": 180,
-    "Group": 5
-  },
-  {
     "City": "st_louis",
     "LabelID": 2697,
     "LabelTypeID": 4,
@@ -38,22 +30,6 @@ const group5CropsData = [
     "LabelTypeID": 4,
     "CanvasX": 393,
     "CanvasY": 195,
-    "Group": 5
-  },
-  {
-    "City": "chicago",
-    "LabelID": 11263,
-    "LabelTypeID": 4,
-    "CanvasX": 234,
-    "CanvasY": 303,
-    "Group": 5
-  },
-  {
-    "City": "chicago",
-    "LabelID": 17459,
-    "LabelTypeID": 4,
-    "CanvasX": 369,
-    "CanvasY": 228,
     "Group": 5
   },
   {

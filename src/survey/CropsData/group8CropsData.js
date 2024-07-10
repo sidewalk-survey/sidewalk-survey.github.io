@@ -18,34 +18,10 @@ const group8CropsData = [
   },
   {
     "City": "seattle",
-    "LabelID": 140440,
-    "LabelTypeID": 2,
-    "CanvasX": 348,
-    "CanvasY": 118,
-    "Group": 8
-  },
-  {
-    "City": "seattle",
     "LabelID": 186808,
     "LabelTypeID": 2,
     "CanvasX": 466,
     "CanvasY": 190,
-    "Group": 8
-  },
-  {
-    "City": "seattle",
-    "LabelID": 226044,
-    "LabelTypeID": 2,
-    "CanvasX": 427,
-    "CanvasY": 182,
-    "Group": 8
-  },
-  {
-    "City": "seattle",
-    "LabelID": 240679,
-    "LabelTypeID": 2,
-    "CanvasX": 385,
-    "CanvasY": 160,
     "Group": 8
   },
   {

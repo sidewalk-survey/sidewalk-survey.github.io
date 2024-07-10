@@ -11,6 +11,10 @@ const ImageComponent = ({ cropMetadata }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const imageRef = useRef(null);
 
+  // useEffect(() => {
+  //   setIsImageLoaded(false); // Reset image load state whenever cropMetadata changes
+  // }, [cropMetadata]);
+
   useEffect(() => {
     const updateSize = () => {
       if (imageRef.current) {

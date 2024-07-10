@@ -1,14 +1,6 @@
 
 const group0CropsData = [
   {
-    "City": "burnaby",
-    "LabelID": 4258,
-    "LabelTypeID": 3,
-    "CanvasX": 292,
-    "CanvasY": 359,
-    "Group": 0
-  },
-  {
     "City": "seattle",
     "LabelID": 231433,
     "LabelTypeID": 3,
@@ -18,26 +10,10 @@ const group0CropsData = [
   },
   {
     "City": "seattle",
-    "LabelID": 234256,
-    "LabelTypeID": 3,
-    "CanvasX": 412,
-    "CanvasY": 234,
-    "Group": 0
-  },
-  {
-    "City": "seattle",
     "LabelID": 264820,
     "LabelTypeID": 3,
     "CanvasX": 369,
     "CanvasY": 183,
-    "Group": 0
-  },
-  {
-    "City": "seattle",
-    "LabelID": 94304,
-    "LabelTypeID": 3,
-    "CanvasX": 335,
-    "CanvasY": 331,
     "Group": 0
   },
   {

@@ -17,22 +17,6 @@ const group3CropsData = [
     "Group": 3
   },
   {
-    "City": "st_louis",
-    "LabelID": 2340,
-    "LabelTypeID": 4,
-    "CanvasX": 371,
-    "CanvasY": 204,
-    "Group": 3
-  },
-  {
-    "City": "teaneck",
-    "LabelID": 6502,
-    "LabelTypeID": 4,
-    "CanvasX": 155,
-    "CanvasY": 64,
-    "Group": 3
-  },
-  {
     "City": "seattle",
     "LabelID": 209069,
     "LabelTypeID": 4,
@@ -62,14 +46,6 @@ const group3CropsData = [
     "LabelTypeID": 4,
     "CanvasX": 434,
     "CanvasY": 238,
-    "Group": 3
-  },
-  {
-    "City": "teaneck",
-    "LabelID": 13649,
-    "LabelTypeID": 4,
-    "CanvasX": 248,
-    "CanvasY": 296,
     "Group": 3
   }
 ];

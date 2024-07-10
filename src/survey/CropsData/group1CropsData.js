@@ -2,14 +2,6 @@
 const group1CropsData = [
   {
     "City": "st_louis",
-    "LabelID": 5017,
-    "LabelTypeID": 3,
-    "CanvasX": 375,
-    "CanvasY": 208,
-    "Group": 1
-  },
-  {
-    "City": "st_louis",
     "LabelID": 7558,
     "LabelTypeID": 3,
     "CanvasX": 344,
@@ -42,14 +34,6 @@ const group1CropsData = [
   },
   {
     "City": "oradell",
-    "LabelID": 10262,
-    "LabelTypeID": 3,
-    "CanvasX": 395,
-    "CanvasY": 257,
-    "Group": 1
-  },
-  {
-    "City": "oradell",
     "LabelID": 4765,
     "LabelTypeID": 3,
     "CanvasX": 377,
@@ -62,14 +46,6 @@ const group1CropsData = [
     "LabelTypeID": 3,
     "CanvasX": 390,
     "CanvasY": 163,
-    "Group": 1
-  },
-  {
-    "City": "columbus",
-    "LabelID": 16968,
-    "LabelTypeID": 3,
-    "CanvasX": 325,
-    "CanvasY": 213,
     "Group": 1
   }
 ];

@@ -9,22 +9,6 @@ const group4CropsData = [
     "Group": 4
   },
   {
-    "City": "seattle",
-    "LabelID": 243891,
-    "LabelTypeID": 4,
-    "CanvasX": 315,
-    "CanvasY": 215,
-    "Group": 4
-  },
-  {
-    "City": "seattle",
-    "LabelID": 162618,
-    "LabelTypeID": 4,
-    "CanvasX": 411,
-    "CanvasY": 197,
-    "Group": 4
-  },
-  {
     "City": "st_louis",
     "LabelID": 2815,
     "LabelTypeID": 4,
@@ -46,14 +30,6 @@ const group4CropsData = [
     "LabelTypeID": 4,
     "CanvasX": 258,
     "CanvasY": 181,
-    "Group": 4
-  },
-  {
-    "City": "st_louis",
-    "LabelID": 3052,
-    "LabelTypeID": 4,
-    "CanvasX": 417,
-    "CanvasY": 191,
     "Group": 4
   },
   {

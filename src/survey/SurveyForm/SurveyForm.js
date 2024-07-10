@@ -194,11 +194,8 @@ const SurveyComponent = () => {
   
     const currentMapping = stepMappings.find(mapping => mapping.step === currentStep);
     if (currentMapping) {
-      console.log("Current Image Group:", currentMapping.group, currentMapping.subGroup);
-      console.log("Images in Group:", imageSelections[currentMapping.group][currentMapping.subGroup].length);
       
-      if (imageSelections[currentMapping.group][currentMapping.subGroup].length < 1) {
-        console.log("Skipping Step:", currentStep);
+      if (imageSelections[currentMapping.group][currentMapping.subGroup].length < 2) {
         setCurrentStep(currentMapping.nextStep);
       }
     }
