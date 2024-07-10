@@ -26,7 +26,7 @@ const Question4 = ({ stepNumber, nextStep, previousStep, answers, handleChange, 
 
   return (
     <RadioQuestion
-      questionText={`${stepNumber}. Which mobility aid do you use the most frequently?`}
+      questionText={`${stepNumber}. Which mobility aid do you use more frequently?*`}
       inputId="mobilityAid"
       instructionText="Select one option"
       options={filteredOptions}

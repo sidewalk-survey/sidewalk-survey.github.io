@@ -58,7 +58,7 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber, setSingl
 
   return (
     <CheckboxQuestion
-      questionText={`${stepNumber}. When going outside your home, do you use any of the following?`}
+      questionText={`${stepNumber}. When going outside your home, do you use any of the following?*`}
       options={questionOptions}
       selectedOptions={selectedOptions}
       handleChange={handleChange}

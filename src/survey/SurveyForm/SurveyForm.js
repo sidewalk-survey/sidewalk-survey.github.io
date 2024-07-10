@@ -675,7 +675,6 @@ const renderCurrentStep = () => {
         (answers.answeredMobilityAids && answers.answeredMobilityAids.length > 0) // if answered mobility aids exist
       ) {
         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
-        // this line does not run on the first mobility aid for some reason
         
         if(remainingOptions.length === 1) {
           setCurrentStep(35);
@@ -735,8 +734,10 @@ const handleSubmit = async () => {
     });
     console.log("Document written with ID: ", docRef.id);
     console.log("Survey completed in ", duration, " seconds");
+    window.alert('Your response has been recored successfully!');
   } catch (e) {
     console.error("Error adding document: ", e);
+    window.alert('Failed to record your response. Please try again later.');
     }
   }
 };
