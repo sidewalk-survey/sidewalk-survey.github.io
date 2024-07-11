@@ -304,8 +304,74 @@ const nextStep = () => {
     setImageComparisons(prev => [...prev, { ...data }]);
 };
 
+const groups = [
+  { data: group0CropsData, selectionKey: 'group0', comparisons: ['group0A', 'group0B'] },
+  { data: group1CropsData, selectionKey: 'group1', comparisons: ['group1A', 'group1B'] },
+  { data: group2CropsData, selectionKey: 'group2', comparisons: ['group2A', 'group2B'] },
+  { data: group3CropsData, selectionKey: 'group3', comparisons: ['group3A', 'group3B'] },
+  { data: group4CropsData, selectionKey: 'group4', comparisons: ['group4A', 'group4B'] },
+  { data: group5CropsData, selectionKey: 'group5', comparisons: ['group5A', 'group5B'] },
+  { data: group6CropsData, selectionKey: 'group6', comparisons: ['group6A', 'group6B'] },
+  { data: group7CropsData, selectionKey: 'group7', comparisons: ['group7A', 'group7B'] },
+  { data: group8CropsData, selectionKey: 'group8', comparisons: ['group8A', 'group8B'] },
+];
+
+// Function to handle image selection completion
+const handleSelectionComplete = (group, selection) => {
+  setImageSelections(prevSelections => ({
+    ...prevSelections,
+    [group.selectionKey]: {
+      [`${group.selectionKey}A`]: selection.groupAImages,
+      [`${group.selectionKey}B`]: selection.groupBImages
+    }
+  }));
+  setCurrentStep(currentStep + 1);  // Move to the first comparison step
+};
+
+// Function to render Image Selection or Comparison based on the current step
+const renderImageStep = (group, step) => {
+  const index = step - group.startStep;
+  if (index === 0) {
+    // Image selection step
+    return <ImageSelection
+      stepNumber={step}
+      answers={answers}
+      nextStep={() => setCurrentStep(step + 1)}
+      previousStep={previousStep}
+      images={group.data}
+      onComplete={(selection) => handleSelectionComplete(group, selection)}
+      errors={errors}
+    />;
+  } else {
+    // Image comparison steps
+    const comparisonKey = group.comparisons[index - 1];
+    return <ImageComparison
+      key={comparisonKey}
+      stepNumber={step}
+      answers={answers}
+      nextStep={() => setCurrentStep(step + 1)}
+      previousStep={() => setCurrentStep(step - 1)}
+      images={imageSelections[group.selectionKey][comparisonKey]}
+      onSelectionComplete={onSelectionComplete}
+      comparisonContext={`${comparisonKey}compare`}
+      onComplete={() => index === group.comparisons.length ? setCurrentStep(step + 1) : setCurrentStep(step + 1)}
+      errors={errors}
+    />;
+  }
+};
+
+
 const renderCurrentStep = () => {
-  switch(currentStep) {
+  let dynamicStep = currentStep;
+  for (let i = 0; i < groups.length; i++) {
+    const group = groups[i];
+    group.startStep = 6 + i * 3;  // Assuming each group uses 3 steps (1 selection + 2 comparisons)
+    if (currentStep >= group.startStep && currentStep < group.startStep + 3) {
+      return renderImageStep(group, currentStep);
+    }
+  }
+
+  switch (currentStep) {
     case 1:
       return <Question1 
               stepNumber={currentStep} 
@@ -352,308 +418,6 @@ const renderCurrentStep = () => {
               singleMobilityAid={singleMobilityAid} 
               errors= {errors}// Pass the skip state
              />;
-    case 6: // Group 0 ImageSelection
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group0CropsData} 
-              onComplete={(selection) => handleGroupSelectionComplete('group0', selection)} 
-              errors= {errors}/>;
-    case 7: // Group 0 ImageComparison A
-      return <ImageComparison 
-              key="Group0A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              images={imageSelections.group0.group0A} 
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group0Acompare" 
-              onComplete={() => setCurrentStep(8)} 
-              errors= {errors}/>;
-    case 8: // Group 0 ImageComparison B
-      return <ImageComparison 
-              key="Group0B" 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={imageSelections.group0.group0B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group0Bcompare"
-              onComplete={() => setCurrentStep(9)} 
-              errors= {errors}/>;
-    case 9: // Group 1 ImageSelection
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group1CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group1', selection)} 
-              errors= {errors}/>;
-    case 10: // Group 1 ImageComparison A
-      return <ImageComparison 
-              key="Group1A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group1.group1A}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group1Acompare"
-              onComplete={() => setCurrentStep(11)} 
-              errors= {errors}/>;
-    case 11: // Group 1 ImageComparison B
-      return <ImageComparison 
-              key="Group1B" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group1.group1B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group1Bcompare"
-              onComplete={() => setCurrentStep(12)}
-              errors= {errors} />;
-
-    case 12: // Group 2 ImageSelection
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group2CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group2', selection)} 
-              errors= {errors}/>;
-    case 13: // Group 2 ImageComparison A
-      return <ImageComparison 
-              key="Group2A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group2.group2A}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group2Acompare"
-              onComplete={() => setCurrentStep(14)} 
-              errors= {errors}/>;
-    case 14: // Group 2 ImageComparison B
-      return <ImageComparison 
-              key="Group2B" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group2.group2B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group2Bcompare"
-              onComplete={() => setCurrentStep(15)}
-              errors= {errors} />;
-    case 15: // Group 3 ImageSelection
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group3CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group3', selection)} 
-              errors= {errors}/>;
-    case 16: // Group 3 ImageComparison A
-      return <ImageComparison 
-              key="Group3A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group3.group3A}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group3Acompare"
-              onComplete={() => setCurrentStep(17)} 
-              errors= {errors}/>;
-    case 17: // Group 3 ImageComparison B
-      return <ImageComparison 
-              key="Group3B" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group3.group3B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group3Bcompare"
-              onComplete={() => setCurrentStep(18)}
-              errors= {errors} />;
-    case 18: // Group 4 ImageSelection
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group4CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group4', selection)} 
-              errors= {errors}/>;
-    case 19: // Group 4 ImageComparison A
-      return <ImageComparison 
-              key="Group4A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group4.group4A}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group4Acompare"
-              onComplete={() => setCurrentStep(20)} 
-              errors= {errors}/>;
-    case 20: // Group 4 ImageComparison B
-      return <ImageComparison 
-              key="Group4B" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group4.group4B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group4Bcompare"
-              onComplete={() => setCurrentStep(21)}
-              errors= {errors} />;
-    case 21: // Group 5 ImageSelection
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group5CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group5', selection)} 
-              errors= {errors}/>;
-    case 22: // Group 5 ImageComparison A
-      return <ImageComparison 
-              key="Group5A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group5.group5A}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group5Acompare"
-              onComplete={() => setCurrentStep(23)} 
-              errors= {errors}/>;
-    case 23: // Group 5 ImageComparison B
-      return <ImageComparison 
-              key="Group5B" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group5.group5B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group5Bcompare"
-              onComplete={() => setCurrentStep(24)}
-              errors= {errors} />;
-    case 24: // Group 6 ImageSelection
-    console.log('Group 6 ImageSelection');
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group6CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group6', selection)} 
-              errors= {errors}/>;
-    case 25: // Group 6 ImageComparison A
-    console.log('Group 6 ImageComparison A');
-      return <ImageComparison 
-              key="Group6A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group6.group6A}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group6Acompare"
-              onComplete={() => setCurrentStep(26)} 
-              errors= {errors}/>;
-    case 26: // Group 6 ImageComparison B
-    console.log('Group 6 ImageComparison B');
-      return <ImageComparison 
-              key="Group6B" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group6.group6B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group6Bcompare"
-              onComplete={() => setCurrentStep(27)}
-              errors= {errors} />;
-    case 27: // Group 7 ImageSelection
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group7CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group7', selection)} 
-              errors= {errors}/>;
-    case 28: // Group 7 ImageComparison A
-      return <ImageComparison 
-              key="Group7A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group7.group7A}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group7Acompare"
-              onComplete={() => setCurrentStep(29)} 
-              errors= {errors}/>;
-    case 29: // Group 7 ImageComparison B
-      return <ImageComparison 
-              key="Group7B" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group7.group7B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group7Bcompare"
-              onComplete={() => setCurrentStep(30)}
-              errors= {errors} />;
-    case 30: // Group 8 ImageSelection
-      return <ImageSelection 
-              stepNumber={currentStep}
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep} 
-              images={group8CropsData}
-              onComplete={(selection) => handleGroupSelectionComplete('group8', selection)} 
-              errors= {errors}/>;
-    case 31: // Group 8 ImageComparison A
-      return <ImageComparison 
-              key="Group8A" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group8.group8A}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group8Acompare"
-              onComplete={() => setCurrentStep(32)} 
-              errors= {errors}/>;
-    case 32: // Group 8 ImageComparison B
-      return <ImageComparison 
-              key="Group8B" 
-              stepNumber={currentStep} 
-              answers={answers}
-              nextStep={nextStep} 
-              previousStep={previousStep}
-              images={imageSelections.group8.group8B}
-              onSelectionComplete={onSelectionComplete} 
-              comparisonContext="group8Bcompare"
-              onComplete={() => setCurrentStep(33)}
-              errors= {errors} />;
-
     case 33:
       return <RankQuestion
               stepNumber={currentStep}
@@ -694,11 +458,405 @@ const renderCurrentStep = () => {
               continueUrl={continueUrl} 
               onSubmit={handleSubmit}
               onEmailLink={onEmailLink} />;
-
-    default:
-      return <WelcomePage onStart={startSurvey}/>;
+    default: return <WelcomePage onStart={startSurvey} />;
   }
 };
+
+// const renderCurrentStep = () => {
+//   switch(currentStep) {
+//     case 1:
+//       return <Question1 
+//               stepNumber={currentStep} 
+//               nextStep={nextStep} 
+//               handleChange={handleChange}
+//               errors= {errors} 
+//               />;
+//     case 2:
+//       return <Question2 
+//               stepNumber={currentStep} 
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               handleChange={handleChange}
+//               errors= {errors} 
+//               />;
+//     case 3:
+//       return <Question3 
+//               stepNumber={currentStep} 
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               updateAnswers={updateAnswers}
+//               setSingleMobilityAid={setSingleMobilityAid} 
+//               errors= {errors}/>;
+//     case 4:
+//       if (singleMobilityAid) {
+//         nextStep(); // Skip here if only one mobility aid option
+//         return null; 
+//       }
+//       return <Question4
+//               stepNumber={currentStep}
+//               nextStep={nextStep}
+//               previousStep={previousStep}
+//               answers={answers}
+//               handleChange={handleChange}
+//               errors= {errors}
+//             />;
+//     case 5:
+//       return <Question5 
+//               stepNumber={currentStep} 
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               answers={answers} 
+//               handleChange={handleChange}
+//               singleMobilityAid={singleMobilityAid} 
+//               errors= {errors}// Pass the skip state
+//              />;
+//     case 6: // Group 0 ImageSelection
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group0CropsData} 
+//               onComplete={(selection) => handleGroupSelectionComplete('group0', selection)} 
+//               errors= {errors}/>;
+//     case 7: // Group 0 ImageComparison A
+//       return <ImageComparison 
+//               key="Group0A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               images={imageSelections.group0.group0A} 
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group0Acompare" 
+//               onComplete={() => setCurrentStep(8)} 
+//               errors= {errors}/>;
+//     case 8: // Group 0 ImageComparison B
+//       return <ImageComparison 
+//               key="Group0B" 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={imageSelections.group0.group0B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group0Bcompare"
+//               onComplete={() => setCurrentStep(9)} 
+//               errors= {errors}/>;
+//     case 9: // Group 1 ImageSelection
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group1CropsData}
+//               onComplete={(selection) => handleGroupSelectionComplete('group1', selection)} 
+//               errors= {errors}/>;
+//     case 10: // Group 1 ImageComparison A
+//       return <ImageComparison 
+//               key="Group1A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group1.group1A}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group1Acompare"
+//               onComplete={() => setCurrentStep(11)} 
+//               errors= {errors}/>;
+//     case 11: // Group 1 ImageComparison B
+//       return <ImageComparison 
+//               key="Group1B" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group1.group1B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group1Bcompare"
+//               onComplete={() => setCurrentStep(12)}
+//               errors= {errors} />;
+
+//     case 12: // Group 2 ImageSelection
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group2CropsData}
+//               onComplete={(selection) => handleGroupSelectionComplete('group2', selection)} 
+//               errors= {errors}/>;
+//     case 13: // Group 2 ImageComparison A
+//       return <ImageComparison 
+//               key="Group2A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group2.group2A}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group2Acompare"
+//               onComplete={() => setCurrentStep(14)} 
+//               errors= {errors}/>;
+//     case 14: // Group 2 ImageComparison B
+//       return <ImageComparison 
+//               key="Group2B" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group2.group2B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group2Bcompare"
+//               onComplete={() => setCurrentStep(15)}
+//               errors= {errors} />;
+//     case 15: // Group 3 ImageSelection
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group3CropsData}
+//               onComplete={(selection) => handleGroupSelectionComplete('group3', selection)} 
+//               errors= {errors}/>;
+//     case 16: // Group 3 ImageComparison A
+//       return <ImageComparison 
+//               key="Group3A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group3.group3A}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group3Acompare"
+//               onComplete={() => setCurrentStep(17)} 
+//               errors= {errors}/>;
+//     case 17: // Group 3 ImageComparison B
+//       return <ImageComparison 
+//               key="Group3B" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group3.group3B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group3Bcompare"
+//               onComplete={() => setCurrentStep(18)}
+//               errors= {errors} />;
+//     case 18: // Group 4 ImageSelection
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group4CropsData}
+//               onComplete={(selection) => handleGroupSelectionComplete('group4', selection)} 
+//               errors= {errors}/>;
+//     case 19: // Group 4 ImageComparison A
+//       return <ImageComparison 
+//               key="Group4A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group4.group4A}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group4Acompare"
+//               onComplete={() => setCurrentStep(20)} 
+//               errors= {errors}/>;
+//     case 20: // Group 4 ImageComparison B
+//       return <ImageComparison 
+//               key="Group4B" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group4.group4B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group4Bcompare"
+//               onComplete={() => setCurrentStep(21)}
+//               errors= {errors} />;
+//     case 21: // Group 5 ImageSelection
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group5CropsData}
+//               onComplete={(selection) => handleGroupSelectionComplete('group5', selection)} 
+//               errors= {errors}/>;
+//     case 22: // Group 5 ImageComparison A
+//       return <ImageComparison 
+//               key="Group5A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group5.group5A}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group5Acompare"
+//               onComplete={() => setCurrentStep(23)} 
+//               errors= {errors}/>;
+//     case 23: // Group 5 ImageComparison B
+//       return <ImageComparison 
+//               key="Group5B" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group5.group5B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group5Bcompare"
+//               onComplete={() => setCurrentStep(24)}
+//               errors= {errors} />;
+//     case 24: // Group 6 ImageSelection
+//     console.log('Group 6 ImageSelection');
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group6CropsData}
+//               onComplete={(selection) => handleGroupSelectionComplete('group6', selection)} 
+//               errors= {errors}/>;
+//     case 25: // Group 6 ImageComparison A
+//     console.log('Group 6 ImageComparison A');
+//       return <ImageComparison 
+//               key="Group6A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group6.group6A}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group6Acompare"
+//               onComplete={() => setCurrentStep(26)} 
+//               errors= {errors}/>;
+//     case 26: // Group 6 ImageComparison B
+//     console.log('Group 6 ImageComparison B');
+//       return <ImageComparison 
+//               key="Group6B" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group6.group6B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group6Bcompare"
+//               onComplete={() => setCurrentStep(27)}
+//               errors= {errors} />;
+//     case 27: // Group 7 ImageSelection
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group7CropsData}
+//               onComplete={(selection) => handleGroupSelectionComplete('group7', selection)} 
+//               errors= {errors}/>;
+//     case 28: // Group 7 ImageComparison A
+//       return <ImageComparison 
+//               key="Group7A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group7.group7A}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group7Acompare"
+//               onComplete={() => setCurrentStep(29)} 
+//               errors= {errors}/>;
+//     case 29: // Group 7 ImageComparison B
+//       return <ImageComparison 
+//               key="Group7B" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group7.group7B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group7Bcompare"
+//               onComplete={() => setCurrentStep(30)}
+//               errors= {errors} />;
+//     case 30: // Group 8 ImageSelection
+//       return <ImageSelection 
+//               stepNumber={currentStep}
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep} 
+//               images={group8CropsData}
+//               onComplete={(selection) => handleGroupSelectionComplete('group8', selection)} 
+//               errors= {errors}/>;
+//     case 31: // Group 8 ImageComparison A
+//       return <ImageComparison 
+//               key="Group8A" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group8.group8A}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group8Acompare"
+//               onComplete={() => setCurrentStep(32)} 
+//               errors= {errors}/>;
+//     case 32: // Group 8 ImageComparison B
+//       return <ImageComparison 
+//               key="Group8B" 
+//               stepNumber={currentStep} 
+//               answers={answers}
+//               nextStep={nextStep} 
+//               previousStep={previousStep}
+//               images={imageSelections.group8.group8B}
+//               onSelectionComplete={onSelectionComplete} 
+//               comparisonContext="group8Bcompare"
+//               onComplete={() => setCurrentStep(33)}
+//               errors= {errors} />;
+
+//     case 33:
+//       return <RankQuestion
+//               stepNumber={currentStep}
+//               nextStep={nextStep}
+//               previousStep={previousStep}
+//               answers={answers}
+//               updateAnswers={updateAnswers}
+//               errors= {errors}
+//             />
+    
+//     case 34: 
+//       console.log('Mobility Aid Options:', answers.mobilityAidOptions);
+//       console.log('Answered Mobility Aids:', answers.answeredMobilityAids);
+//       console.log ('length:', answers.answeredMobilityAids.length);
+//       if (answers.mobilityAidOptions.mobilityAidOptions.length === 1 ||  // if only one mobility aid option
+//         (answers.answeredMobilityAids && answers.answeredMobilityAids.length > 0) // if answered mobility aids exist
+//       ) {
+//         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
+        
+//         if(remainingOptions.length === 1) {
+//           setCurrentStep(35);
+//           setContinueUrl('');
+//           return null;
+//         }
+//       } 
+//       return <ContinuePage 
+//               answers={answers}
+//               handleMobilityAidChange={handleMobilityAidChange}
+//               previousStep={previousStep} 
+//               yesStep={() => {setCurrentStep(5);}}
+//               nextStep={nextStep}
+//               setContinueUrl={setContinueUrl}
+//               logData={logMobilityAidData}
+//               />;
+//     case 35:
+//       return <EndingPage 
+//               previousStep={previousStep} 
+//               continueUrl={continueUrl} 
+//               onSubmit={handleSubmit}
+//               onEmailLink={onEmailLink} />;
+
+//     default:
+//       return <WelcomePage onStart={startSurvey}/>;
+//   }
+// };
 
 useEffect(() => {
 }, [currentStep]);
