@@ -7,7 +7,7 @@ const PS_CROP_SIZE = {
   height: 480,
 };
 
-const ImageComponent = ({ cropMetadata, isFirstImage }) => {
+const ImageComponent = ({ cropMetadata, isFirstImage, isFirstGroup }) => {
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const imageRef = useRef(null);
@@ -49,7 +49,7 @@ const ImageComponent = ({ cropMetadata, isFirstImage }) => {
           setIsImageLoaded(true);
         }}
       />
-      {isFirstImage && isImageLoaded && (
+      {isFirstImage && isFirstGroup && (
         <div className="tooltip text-w" style={{ left, top }}>
           Please focus on this dot when evaluating images
         </div>
