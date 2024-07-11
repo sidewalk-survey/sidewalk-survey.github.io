@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CheckboxQuestion from '../../components/CheckboxQuestion';
 
 const questionOptions = [
-  { value: "Walking cane or stick", label: "Walking cane or stick" },
+  { value: "Walking cane", label: "Walking cane" },
   { value: "Walker", label: "Walker" },
   { value: "Mobility scooter", label: "Mobility scooter" },
   { value: "Manual wheelchair", label: "Manual wheelchair" },
