@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 import RankQuestion from '../Questions/RankQuestion';
 import cropsData from '../CropsData/cropsData';
 import emailjs from 'emailjs-com';
+import { shuffleArray } from '../../utils';
 
 
 // Firebase configuration
@@ -37,6 +38,8 @@ const TOTAL_STEPS = 35;
 const MOBILITYAID_STEP = 5;
 const IMAGE_STEP = 6;
 const STEPS_PER_GROUP = 3;
+const GROUP_ORDER = ['group3', 'group1', 'group2', 'group0', 'group5', 'group4', 'group6', 'group7', 'group8'];
+const shuffledGroupOrder = shuffleArray([...GROUP_ORDER]);
 
 const groupedCropsData = cropsData.reduce((acc, item) => {
   const groupKey = `group${item.Group}`;
@@ -282,7 +285,7 @@ const nextStep = () => {
     setImageComparisons(prev => [...prev, { ...data }]);
 };
 
-const groups = Object.keys(groupedCropsData).map((key, index) => {
+const groups = shuffledGroupOrder.map((key, index) => {
   const baseIndex = IMAGE_STEP + (STEPS_PER_GROUP * index);
   return {
     data: groupedCropsData[key],
