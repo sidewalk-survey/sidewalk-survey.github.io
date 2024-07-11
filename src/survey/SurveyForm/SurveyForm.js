@@ -324,6 +324,8 @@ const renderImageStep = (group, step) => {
       images={group.data}
       onComplete={(selection) => handleSelectionComplete(group, selection)}
       errors={errors}
+      currentStep={currentStep}
+      IMAGE_STEP={IMAGE_STEP}
     />;
   } else {
     // Image comparison steps

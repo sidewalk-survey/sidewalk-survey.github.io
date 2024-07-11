@@ -1,10 +1,11 @@
+//ImageSelection.js
 import React, { useState, useEffect } from 'react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
 import ImageComponent from '../../components/ImageComponent';
 import './ImageSelection.css';
 
-const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, onComplete }) => {
+const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, onComplete, currentStep, IMAGE_STEP }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [groupAImages, setGroupAImages] = useState([]);
     const [groupBImages, setGroupBImages] = useState([]);
@@ -92,7 +93,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                     <div className="image-selection-options">
                         {currentIndex < images.length ? (
                             <div className="image-wrapper">
-                                <ImageComponent cropMetadata={images[currentIndex]} isFirstImage={currentIndex === 0} />
+                                <ImageComponent cropMetadata={images[currentIndex]} isFirstImage={currentStep === IMAGE_STEP} />
                             </div>
                         ) : (
                             // loading state

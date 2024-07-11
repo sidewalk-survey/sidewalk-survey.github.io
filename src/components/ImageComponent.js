@@ -1,3 +1,4 @@
+//ImageComponent.js
 import React, { useState, useEffect, useRef } from 'react';
 import './ImageComponent.css';
 
