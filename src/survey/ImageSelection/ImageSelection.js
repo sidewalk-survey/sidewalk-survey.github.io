@@ -1,16 +1,14 @@
-//ImageSelection.js
 import React, { useState, useEffect } from 'react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
 import ImageComponent from '../../components/ImageComponent';
 import './ImageSelection.css';
 
-
 const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, onComplete }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [groupAImages, setGroupAImages] = useState([]);
     const [groupBImages, setGroupBImages] = useState([]);
-    const mobilityAid = answers.mobilityAid.toLowerCase();;
+    const mobilityAid = answers.mobilityAid.toLowerCase();
 
     useEffect(() => {
         // Check if the user has responded to the last image
@@ -38,14 +36,13 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
             document.removeEventListener('keydown', handleKeyPress);
         };
     }, [currentIndex]);
-    
-    const handleResponse = (response) => {
 
+    const handleResponse = (response) => {
         if (currentIndex >= images.length) {
             // Prevent further action if we've already gone through all images
             console.log("All images have been processed.");
             return;
-          }
+        }
         const updatedGroupA = [...groupAImages];
         const updatedGroupB = [...groupBImages];
         
@@ -85,38 +82,37 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
         );
     };
 
-
-return (
-    <div className="image-selection-container">
-        <div className="question-container">
-            <div className="image-content">
-                <div className="text-center p-5 rounded mb-4">
-                    <h2 className="question-header">{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, do you feel confident passing this?`}</h2>
+    return (
+        <div className="image-selection-container">
+            <div className="question-container">
+                <div className="image-content">
+                    <div className="text-center p-5 rounded mb-4">
+                        <h2 className="question-header">{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, do you feel confident passing this?`}</h2>
+                    </div>
+                    <div className="image-selection-options">
+                        {currentIndex < images.length ? (
+                            <div className="image-wrapper">
+                                <ImageComponent cropMetadata={images[currentIndex]} isFirstImage={currentIndex === 0} />
+                            </div>
+                        ) : (
+                            // loading state
+                            <div>Loading next part of the survey...</div>
+                        )}
+                        {renderDotsAndNavigation()}
+                        <ResponseButtons
+                            gap="12px"
+                            buttons={[
+                                { text: 'No', shortcut:'N', onClick: () => handleResponse('no') },
+                                { text: 'Unsure', shortcut:'U', onClick: () => handleResponse('unsure'), variant: 'outlined' },
+                                { text: 'Yes', shortcut:'Y', onClick: () => handleResponse('yes') }
+                            ]}
+                        />
+                    </div>
                 </div>
-                <div className="image-selection-options">
-                {currentIndex < images.length ? (
-        <div className="image-wrapper">
-            <ImageComponent cropMetadata={images[currentIndex]} />
-        </div>
-    ) : (
-        // loading state
-        <div>Loading next part of the survey...</div>
-    )}
-                    {renderDotsAndNavigation()}
-                    <ResponseButtons
-  gap="12px"
-  buttons={[
-    { text: 'No', shortcut:'N', onClick: () => handleResponse('no') },
-    { text: 'Unsure',shortcut:'U', onClick: () => handleResponse('unsure'), variant: 'outlined' },
-    { text: 'Yes', shortcut:'Y', onClick: () => handleResponse('yes') }
-  ]}
-/>
-                </div>
+                <PageNavigations onPrevious={previousStep} onNext={nextStep} />
             </div>
-            <PageNavigations onPrevious={previousStep} onNext={nextStep} />
         </div>
-    </div>
-  );
+    );
 };
 
 export default ImageSelection;

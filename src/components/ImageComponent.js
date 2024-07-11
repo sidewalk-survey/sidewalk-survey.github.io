@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Tooltip } from "@material-tailwind/react";
 import './ImageComponent.css';
 
 const PS_CROP_SIZE = {
@@ -6,10 +7,11 @@ const PS_CROP_SIZE = {
   height: 480,
 };
 
-const ImageComponent = ({ cropMetadata }) => {
+const ImageComponent = ({ cropMetadata, isFirstImage}) => {
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const imageRef = useRef(null);
+  const [tooltipVisible, setTooltipVisible] = useState(isFirstImage);
 
   // useEffect(() => {
   //   setIsImageLoaded(false); // Reset image load state whenever cropMetadata changes
@@ -37,6 +39,13 @@ const ImageComponent = ({ cropMetadata }) => {
 
   const { left, top } = getLabelPosition();
 
+  useEffect(() => {
+    if (isFirstImage && isImageLoaded) {
+      const timer = setTimeout(() => setTooltipVisible(false), 3000); // Hide after 3 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [isFirstImage, isImageLoaded]);
+
   return (
     <div className="image-component-container" style={{ position: 'relative' }}>
       <img 
@@ -52,6 +61,11 @@ const ImageComponent = ({ cropMetadata }) => {
           setIsImageLoaded(true);
         }}
       />
+      {tooltipVisible && isImageLoaded && (
+        <div className="tooltip text-w" style={{ left, top }}>
+          Please focus on this dot when evaluating images
+        </div>
+      )}
       <div className={`label-marker ${isImageLoaded ? 'visible' : ''}`} style={{ left, top }}></div>
     </div>
   );
