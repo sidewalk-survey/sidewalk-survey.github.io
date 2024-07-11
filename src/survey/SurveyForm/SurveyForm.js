@@ -16,16 +16,9 @@ import EndingPage from '../StartEndPages/EndingPage';
 import ContinuePage from '../Questions/ContinuePage';
 import { v4 as uuidv4 } from 'uuid';
 import RankQuestion from '../Questions/RankQuestion';
-import group0CropsData from '../CropsData/group0CropsData';
-import group1CropsData from '../CropsData/group1CropsData';
-import group2CropsData from '../CropsData/group2CropsData';
-import group3CropsData from '../CropsData/group3CropsData';
-import group4CropsData from '../CropsData/group4CropsData';
-import group5CropsData from '../CropsData/group5CropsData';
-import group6CropsData from '../CropsData/group6CropsData';
-import group7CropsData from '../CropsData/group7CropsData';
-import group8CropsData from '../CropsData/group8CropsData';
+import cropsData from '../CropsData/cropsData';
 import emailjs from 'emailjs-com';
+import { shuffleArray } from '../../utils';
 
 
 // Firebase configuration
@@ -43,6 +36,19 @@ const firestore = getFirestore(app);
 
 const TOTAL_STEPS = 35;
 const MOBILITYAID_STEP = 5;
+const IMAGE_STEP = 6;
+const STEPS_PER_GROUP = 3;
+const GROUP_ORDER = ['group3', 'group1', 'group2', 'group0', 'group5', 'group4', 'group6', 'group7', 'group8'];
+const shuffledGroupOrder = shuffleArray([...GROUP_ORDER]);
+
+const groupedCropsData = cropsData.reduce((acc, item) => {
+  const groupKey = `group${item.Group}`;
+  if (!acc[groupKey]) {
+    acc[groupKey] = [];
+  }
+  acc[groupKey].push(item);
+  return acc;
+}, {});
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -161,45 +167,20 @@ const SurveyComponent = () => {
     fetchData();
   }, [id]);
 
-  // for handling the case where the image group is empty
   useEffect(() => {
-    const stepMappings = [
-      { step: 7, group: 'group0', subGroup: 'group0A', nextStep: 8 },
-      { step: 8, group: 'group0', subGroup: 'group0B', nextStep: 9 },
-
-      { step: 10, group: 'group1', subGroup: 'group1A', nextStep: 11 },
-      { step: 11, group: 'group1', subGroup: 'group1B', nextStep: 12 },
-
-      { step: 13, group: 'group2', subGroup: 'group2A', nextStep: 14 },
-      { step: 14, group: 'group2', subGroup: 'group2B', nextStep: 15 },
-
-      { step: 16, group: 'group3', subGroup: 'group3A', nextStep: 17 },
-      { step: 17, group: 'group3', subGroup: 'group3B', nextStep: 18 },
-
-      { step: 19, group: 'group4', subGroup: 'group4A', nextStep: 20 },
-      { step: 20, group: 'group4', subGroup: 'group4B', nextStep: 21 },
-
-      { step: 22, group: 'group5', subGroup: 'group5A', nextStep: 23 },
-      { step: 23, group: 'group5', subGroup: 'group5B', nextStep: 24 },
-
-      { step: 25, group: 'group6', subGroup: 'group6A', nextStep: 26 },
-      { step: 26, group: 'group6', subGroup: 'group6B', nextStep: 27 },
-
-      { step: 28, group: 'group7', subGroup: 'group7A', nextStep: 29 },
-      { step: 29, group: 'group7', subGroup: 'group7B', nextStep: 30 },
-
-      { step: 31, group: 'group8', subGroup: 'group8A', nextStep: 32 },
-      { step: 32, group: 'group8', subGroup: 'group8B', nextStep: 33 },
-    ];
+    const currentGroup = groups.find(group => 
+      currentStep === group.steps.comparisonA || currentStep === group.steps.comparisonB);
   
-    const currentMapping = stepMappings.find(mapping => mapping.step === currentStep);
-    if (currentMapping) {
+    if (currentGroup) {
+      const subGroupKey = currentStep === currentGroup.steps.comparisonA ? 'A' : 'B';
+      const subGroupImages = imageSelections[currentGroup.selectionKey][`${currentGroup.selectionKey}${subGroupKey}`];
       
-      if (imageSelections[currentMapping.group][currentMapping.subGroup].length < 2) {
-        setCurrentStep(currentMapping.nextStep);
+      if (subGroupImages.length < 2) {
+        const nextStep = currentStep === currentGroup.steps.comparisonA ? currentGroup.steps.comparisonB : currentGroup.steps.selection + 3; // Assumes the next selection step or the next group's first step
+        setCurrentStep(nextStep);
       }
     }
-  }, [currentStep, imageSelections]);  // Ensure imageSelections is in the dependency array
+  }, [currentStep, imageSelections]); // This dependency array ensures the effect runs only when necessary
   
 
   useEffect(() => {
@@ -304,17 +285,19 @@ const nextStep = () => {
     setImageComparisons(prev => [...prev, { ...data }]);
 };
 
-const groups = [
-  { data: group0CropsData, selectionKey: 'group0', comparisons: ['group0A', 'group0B'] },
-  { data: group1CropsData, selectionKey: 'group1', comparisons: ['group1A', 'group1B'] },
-  { data: group2CropsData, selectionKey: 'group2', comparisons: ['group2A', 'group2B'] },
-  { data: group3CropsData, selectionKey: 'group3', comparisons: ['group3A', 'group3B'] },
-  { data: group4CropsData, selectionKey: 'group4', comparisons: ['group4A', 'group4B'] },
-  { data: group5CropsData, selectionKey: 'group5', comparisons: ['group5A', 'group5B'] },
-  { data: group6CropsData, selectionKey: 'group6', comparisons: ['group6A', 'group6B'] },
-  { data: group7CropsData, selectionKey: 'group7', comparisons: ['group7A', 'group7B'] },
-  { data: group8CropsData, selectionKey: 'group8', comparisons: ['group8A', 'group8B'] },
-];
+const groups = shuffledGroupOrder.map((key, index) => {
+  const baseIndex = IMAGE_STEP + (STEPS_PER_GROUP * index);
+  return {
+    data: groupedCropsData[key],
+    selectionKey: key,
+    comparisons: [`${key}A`, `${key}B`],
+    steps: {
+      selection: baseIndex,
+      comparisonA: baseIndex + 1,
+      comparisonB: baseIndex + 2
+    }
+  };
+});
 
 // Function to handle image selection completion
 const handleSelectionComplete = (group, selection) => {
