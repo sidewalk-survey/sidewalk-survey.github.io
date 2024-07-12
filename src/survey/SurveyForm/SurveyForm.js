@@ -14,6 +14,7 @@ import ImageComparison from '../ImageComaprison/ImageComparison';
 import WelcomePage from '../StartEndPages/WelcomePage'; 
 import EndingPage from '../StartEndPages/EndingPage';
 import ContinuePage from '../Questions/ContinuePage';
+import BreakPage from '../StartEndPages/BreakPage';
 import { v4 as uuidv4 } from 'uuid';
 import RankQuestion from '../Questions/RankQuestion';
 import cropsData from '../CropsData/cropsData';
@@ -72,6 +73,8 @@ const SurveyComponent = () => {
   const [errors, setErrors] = useState({});
   const [startTime, setStartTime] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showBreakOverlay, setShowBreakOverlay] = useState(false);
+
 
   const { id } = useParams(); 
 
@@ -189,6 +192,23 @@ const SurveyComponent = () => {
       setCurrentStep(TOTAL_STEPS); 
     }
   }, [answers]);
+
+
+  // for showing the overlay to stop
+  useEffect(() => {
+    const groupIndex = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
+    if (groupIndex > 0 && groupIndex % 3 === 0 && (currentStep - IMAGE_STEP) % STEPS_PER_GROUP === 0) {
+      setShowBreakOverlay(true);
+    }
+  }, [currentStep]);
+
+  const closeBreakOverlay = () => {
+    setShowBreakOverlay(false);
+  };
+
+  const calculateCompletedGroups = () => {
+    return Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
+  };
 
 const handleGroupSelectionComplete = (group, selection) => {
   setImageSelections(prevSelections => ({
@@ -549,6 +569,12 @@ return (
       </div>
     )}
     {renderCurrentStep()}
+    {showBreakOverlay && (
+        <BreakPage 
+          onContinue={closeBreakOverlay} 
+          completedGroups={calculateCompletedGroups}
+        />
+      )}
   </div>
 );
 
