@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Button } from '@material-tailwind/react';
+import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from '@material-tailwind/react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { firestore } from '../../config';
+import { HandsClapping } from 'phosphor-react';
 
-const BreakPage = ({ onContinue, answers, completedGroups }) => {
+const BreakPage = ({ onContinue, answers, completedGroups, onEmailLink }) => {
   const [continueUrl, setContinueUrl] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
+  console.log('completedGroups', completedGroups);
   const onSave = async () => {
     setIsSaving(true);
     try {
@@ -24,43 +27,66 @@ const BreakPage = ({ onContinue, answers, completedGroups }) => {
     setIsSaving(false);
   }
 
+  const handleClose = () => {
+    setIsOpen(false);
+  }
+
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '10px',
-        textAlign: 'center'
-      }}>
-        <h2>Time for a quick break!</h2>
-        <p>You've completed {completedGroups} of 9 groups of images.</p>
-        
-        {continueUrl ? (
+    <Dialog open={isOpen} handler={handleClose} size="xs">
+      <DialogHeader> <HandsClapping size={32} /> Great job!</DialogHeader>
+      <DialogBody>
+        {!continueUrl && 
+        <p>You have completed rating {completedGroups} out of 9 groups of images.</p>
+  }
+        {continueUrl && (
           <div>
             <p>You can resume later using this link:</p>
-            <a href={continueUrl} target="_blank" rel="noopener noreferrer">{continueUrl}</a>
+            <a href={continueUrl} className="text-cyan-800 underline" target="_blank" rel="noopener noreferrer">{continueUrl}</a>
           </div>
-        ) : (
-          <div>
+        )}
+      </DialogBody>
+      {/* <DialogFooter>
+        <div className="flex flex-row items-center space-y-4">
             <Button size='lg' className="lg-font-size-button" color="white" onClick={onSave} disabled={isSaving}>
               {isSaving ? 'Saving...' : 'Save & Continue Later'}
             </Button>
             <Button size='lg' className="lg-font-size-button" color="teal" onClick={onContinue}>Next Group</Button>
           </div>
+      </DialogFooter> */}
+      <DialogFooter>
+      <div className="flex justify-center gap-4 mt-5">
+      {continueUrl && (
+          <Button
+            className='lg-font-size-button'
+            color="teal"
+            variant= "outlined"
+            size="lg"
+            onClick={onEmailLink}
+          >
+            Email Me the Link
+          </Button>
         )}
-      </div>
-    </div>
+      {!continueUrl && (<Button
+        className='lg-font-size-button'
+        color="teal"
+        size="lg"
+        variant='outlined'
+        onClick={onSave} 
+        disabled={isSaving}
+      >
+        {isSaving ? 'Saving...' : 'Save & Continue Later'}
+        </Button>
+      )}
+        <Button 
+        className='lg-font-size-button'
+        color="teal" 
+        size='lg' 
+        onClick={onContinue}>
+          Next Group
+          </Button>
+        </div>
+      </DialogFooter> 
+    </Dialog>
   );
 };
 

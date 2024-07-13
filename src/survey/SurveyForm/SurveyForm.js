@@ -233,9 +233,8 @@ const SurveyComponent = () => {
     setShowBreakOverlay(false);
   };
 
-  const calculateCompletedGroups = () => {
-    return Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
-  };
+  const calculateCompletedGroups = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
+
 
 const handleGroupSelectionComplete = (group, selection) => {
   setImageSelections(prevSelections => ({
@@ -601,6 +600,7 @@ return (
           onContinue={closeBreakOverlay} 
           answers={answers}
           completedGroups={calculateCompletedGroups}
+          onEmailLink={onEmailLink}
         />
       )}
   </div>
