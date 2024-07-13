@@ -45,14 +45,6 @@ const BreakPage = ({ onContinue, answers, completedGroups, onEmailLink }) => {
           </div>
         )}
       </DialogBody>
-      {/* <DialogFooter>
-        <div className="flex flex-row items-center space-y-4">
-            <Button size='lg' className="lg-font-size-button" color="white" onClick={onSave} disabled={isSaving}>
-              {isSaving ? 'Saving...' : 'Save & Continue Later'}
-            </Button>
-            <Button size='lg' className="lg-font-size-button" color="teal" onClick={onContinue}>Next Group</Button>
-          </div>
-      </DialogFooter> */}
       <DialogFooter>
       <div className="flex justify-center gap-4 mt-5">
       {continueUrl && (
