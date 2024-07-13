@@ -21,7 +21,7 @@ const Question5 = ({ stepNumber, nextStep, previousStep, answers, handleChange, 
     <TextQuestion
       questionText={<span>{stepNumber}. When using your <strong>{mobilityAid}</strong>, what are the most difficult sidewalk barriers that you encounter?</span>}
       inputId="sidewalkBarriers"
-      placeholderText="for example, missing curb ramps, poles..."
+      placeholderText="For example, missing curb ramps, poles..."
       handleChange={handleChange}
       previousStep={previousStep}
       nextStep={nextStep}
