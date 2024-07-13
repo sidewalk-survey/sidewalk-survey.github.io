@@ -14,6 +14,7 @@ import ImageComparison from '../ImageComaprison/ImageComparison';
 import WelcomePage from '../StartEndPages/WelcomePage'; 
 import EndingPage from '../StartEndPages/EndingPage';
 import ContinuePage from '../Questions/ContinuePage';
+import BreakPage from '../StartEndPages/BreakPage';
 import { v4 as uuidv4 } from 'uuid';
 import RankQuestion from '../Questions/RankQuestion';
 import cropsData from '../CropsData/cropsData';
@@ -72,6 +73,9 @@ const SurveyComponent = () => {
   const [errors, setErrors] = useState({});
   const [startTime, setStartTime] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showBreakOverlay, setShowBreakOverlay] = useState(false);
+  const [isGroupContinue, setIsGroupContinue] = useState(false);
+
 
   const { id } = useParams(); 
 
@@ -124,6 +128,22 @@ const SurveyComponent = () => {
     }
   };
 
+  const findFirstIncompleteStep = (imageSelections) => {
+    for (let groupIndex = 0; groupIndex < GROUP_ORDER.length; groupIndex++) {
+      const groupKey = GROUP_ORDER[groupIndex];
+      const selections = imageSelections[groupKey];
+      
+      if (!selections) return IMAGE_STEP + groupIndex * STEPS_PER_GROUP;
+  
+      const { [`${groupKey}A`]: groupA, [`${groupKey}B`]: groupB } = selections;
+      
+      if (!groupA || groupA.length < 2) return IMAGE_STEP + groupIndex * STEPS_PER_GROUP + 1;
+      if (!groupB || groupB.length < 2) return IMAGE_STEP + groupIndex * STEPS_PER_GROUP + 2;
+    }
+    
+    return TOTAL_STEPS; // All selections are complete
+  };
+
   // for resuming the survey
   useEffect(() => {
     const fetchData = async () => {
@@ -137,15 +157,24 @@ const SurveyComponent = () => {
           const data = docSnap.data();
           setUserId(data.userId);
           setSessionId(data.sessionId);
-          setAnswers(data);
+          // setAnswers(data);
           // set the current mobility aid
           if (data.answeredMobilityAids && data.answeredMobilityAids.length > 0) {
             const remainingOptions = data.mobilityAidOptions.mobilityAidOptions.filter(option => !data.answeredMobilityAids.includes(option));
             handleMobilityAidChange(remainingOptions[0]);
           }
 
-          setCurrentStep(MOBILITYAID_STEP);
-
+          if(data.isGroupContinue) {
+            const continueGroupStep = findFirstIncompleteStep(data.imageSelections || {});
+            if(continueGroupStep === TOTAL_STEPS) {
+              setCurrentStep(MOBILITYAID_STEP);
+            } else {
+              setCurrentStep(continueGroupStep);
+            }
+          } else {
+            setCurrentStep(MOBILITYAID_STEP);
+          }
+          
           setImageSelections(data.imageSelections || {
             group0: { group0A: [], group0B: [] },
             group1: { group1A: [], group1B: [] },
@@ -158,6 +187,7 @@ const SurveyComponent = () => {
             group8: { group8A: [], group8B: [] },
           });
           setImageComparisons(data.imageComparisons || []);
+          setAnswers({ ...data, isGroupContinue: false });
         } else {
           console.log("No such document!");
         }
@@ -189,6 +219,22 @@ const SurveyComponent = () => {
       setCurrentStep(TOTAL_STEPS); 
     }
   }, [answers]);
+
+
+  // for showing the overlay to stop
+  useEffect(() => {
+    const groupIndex = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
+    if (groupIndex > 0 && groupIndex % 3 === 0 && (currentStep - IMAGE_STEP) % STEPS_PER_GROUP === 0) {
+      setShowBreakOverlay(true);
+    }
+  }, [currentStep]);
+
+  const closeBreakOverlay = () => {
+    setShowBreakOverlay(false);
+  };
+
+  const calculateCompletedGroups = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
+
 
 const handleGroupSelectionComplete = (group, selection) => {
   setImageSelections(prevSelections => ({
@@ -549,6 +595,14 @@ return (
       </div>
     )}
     {renderCurrentStep()}
+    {showBreakOverlay && (
+        <BreakPage 
+          onContinue={closeBreakOverlay} 
+          answers={answers}
+          completedGroups={calculateCompletedGroups}
+          onEmailLink={onEmailLink}
+        />
+      )}
   </div>
 );
 
