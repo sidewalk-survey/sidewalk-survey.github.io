@@ -236,13 +236,6 @@ const SurveyComponent = () => {
   const calculateCompletedGroups = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
 
 
-const handleGroupSelectionComplete = (group, selection) => {
-  setImageSelections(prevSelections => ({
-    ...prevSelections,
-    [group]: { [`${group}A`]: selection.groupAImages, [`${group}B`]: selection.groupBImages }
-  }));
-  setCurrentStep(currentStep + 1);
-};
 
 const nextStep = () => {
   if (validateCurrentStep()) {
