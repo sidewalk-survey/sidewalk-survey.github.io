@@ -365,7 +365,7 @@ const renderImageStep = (group, step) => {
     return <ImageSelection
       stepNumber={step}
       answers={answers}
-      nextStep={() => setCurrentStep(step + 1)}
+      nextStep={nextStep}
       previousStep={previousStep}
       images={group.data}
       onComplete={(selection) => handleSelectionComplete(group, selection)}
@@ -380,7 +380,7 @@ const renderImageStep = (group, step) => {
       key={comparisonKey}
       stepNumber={step}
       answers={answers}
-      nextStep={() => setCurrentStep(step + 1)}
+      nextStep={nextStep}
       previousStep={() => setCurrentStep(step - 1)}
       images={imageSelections[group.selectionKey][comparisonKey]}
       onSelectionComplete={onSelectionComplete}
