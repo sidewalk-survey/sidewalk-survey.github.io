@@ -39,7 +39,7 @@ const TOTAL_STEPS = 35;
 const MOBILITYAID_STEP = 5;
 const IMAGE_STEP = 6;
 const STEPS_PER_GROUP = 3;
-const GROUP_ORDER = ['group3', 'group1', 'group2', 'group0', 'group5', 'group4', 'group6', 'group7', 'group8'];
+const GROUP_ORDER = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5', 'group6', 'group7', 'group8'];
 const shuffledGroupOrder = shuffleArray([...GROUP_ORDER]);
 
 const groupedCropsData = cropsData.reduce((acc, item) => {
@@ -365,7 +365,7 @@ const renderImageStep = (group, step) => {
     return <ImageSelection
       stepNumber={step}
       answers={answers}
-      nextStep={() => setCurrentStep(step + 1)}
+      nextStep={nextStep}
       previousStep={previousStep}
       images={group.data}
       onComplete={(selection) => handleSelectionComplete(group, selection)}
@@ -380,7 +380,7 @@ const renderImageStep = (group, step) => {
       key={comparisonKey}
       stepNumber={step}
       answers={answers}
-      nextStep={() => setCurrentStep(step + 1)}
+      nextStep={nextStep}
       previousStep={() => setCurrentStep(step - 1)}
       images={imageSelections[group.selectionKey][comparisonKey]}
       onSelectionComplete={onSelectionComplete}
