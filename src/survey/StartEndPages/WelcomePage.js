@@ -15,7 +15,12 @@ const WelcomePage = ({ onStart }) => {
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
+      event.preventDefault();
+      if (isWelcomeDialogOpen) {
+        handleCloseWelcomeDialog();
+      } else {
       handleStart();
+      }
     }
   };
 
@@ -24,7 +29,7 @@ const WelcomePage = ({ onStart }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, []);
+  }, [isWelcomeDialogOpen]);
 
   return (
     <>
@@ -49,7 +54,7 @@ const WelcomePage = ({ onStart }) => {
       </Card>
       <Dialog open={isWelcomeDialogOpen} handler={setIsWelcomeDialogOpen} size="lg">
         <DialogHeader>Welcome to our research study on mobility devices and  sidewalk accessibility.</DialogHeader>
-        <DialogBody>
+        <DialogBody className="max-h-[calc(100vh-200px)] overflow-auto">
         <p>In this survey, you will be asked to evaluate sidewalk conditions using <a href="https://www.google.com/streetview/" target="_blank" rel="noopener noreferrer" className="text-teal-700 underline">Google Street View</a> images and data collected from <a href="https://sidewalk-sea.cs.washington.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-700 underline">Project Sidewalk</a> (a crowdsourcing platform for sidewalk accessibility). These images showcase different sidewalk features, obstacles, and conditions.</p>
         {/* <p>In this survey, you will be asked to evaluate sidewalk conditions using Google Street View images and data collected from Project Sidewalk (a crowdsourcing platform for sidewalk accessibility). These images showcase different sidewalk features, obstacles, and conditions.</p> */}
           <br />
@@ -71,7 +76,8 @@ const WelcomePage = ({ onStart }) => {
 
         </DialogBody>
         <DialogFooter>
-          <Button color="teal" onClick={handleCloseWelcomeDialog}>Start</Button>
+          <Button size= "lg" color="teal" onClick={handleCloseWelcomeDialog}>Begin Survey</Button>
+          <span className="ml-4 text-w text-teal-700">press Enter ↵</span>
         </DialogFooter>
       </Dialog>
     </>
