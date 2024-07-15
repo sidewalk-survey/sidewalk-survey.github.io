@@ -329,6 +329,8 @@ const nextStep = () => {
 
   const onSelectionComplete = (data) => {
     setImageComparisons(prev => [...prev, { ...data }]);
+    // log the data
+    logData();
 };
 
 const groups = shuffledGroupOrder.map((key, index) => {
@@ -355,6 +357,8 @@ const handleSelectionComplete = (group, selection) => {
     }
   }));
   setCurrentStep(currentStep + 1);  // Move to the first comparison step
+  //log the data
+  logData();
 };
 
 // Function to render Image Selection or Comparison based on the current step
