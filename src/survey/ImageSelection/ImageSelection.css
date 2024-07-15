@@ -1,54 +1,29 @@
 /* ImageSelection.css */
-.image-selection-container {
-  margin: auto;
-  flex-direction: column;
-  justify-content: center; /* Align vertically center */
-  height: 95vh; /* Use the full viewport height */
-  overflow: auto; /* Hide overflow to prevent scrolling */
-  
-}
-
-.image-content {
-  margin: auto;
-  width: 80vw;
-  height: 100%;
+.selection-image-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 1rem; /* Adjusted from m-4 for clarity */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  overflow: hidden;
+  border-radius: 0.75em;
+  height: 50vh;
 }
 
-.question-header {
-  text-align: left;
-}
-
-.image-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: auto;
-}
-
-.image {
-  aspect-ratio: 5 / 3;
-  width: 100%;
-  height: auto; /* Maintain aspect ratio */
-  object-fit: cover;
-}
-
-.image-selection-options {
+.image-and-selection-buttons {
   width: 60vw;
   margin: auto;
   display: flex;
-  height: 70vh;
+  height: auto;
   flex-direction: column;
   gap: 1em;
   align-items: center;
   margin-bottom: 4rem; /* Adjusted to use rem for consistency */
 }
 
-.options-wrapper {
+.image-selection-content {
+  margin: auto;
+  width: 80vw;
+  height: auto;
   display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 1em;
+  flex-direction: column;
+  align-items: center;
 }

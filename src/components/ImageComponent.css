@@ -1,18 +1,9 @@
 /* ImageComponent.css */
 
-.image-component-container {
-  width: 100%;
-  /* max-width: 50vw; */
-  border-radius: 0.5em;
-  height: auto;
-  overflow: hidden;
-  position: relative; /* Ensure relative positioning for tooltip */
-}
-
 .crop-image {
   aspect-ratio: 5 / 3; 
   width: 100%;
-  height: auto; /* Maintain aspect ratio */
+  height: 100%;
   object-fit: cover;
 }
 
@@ -46,4 +37,11 @@
   white-space: nowrap;
   z-index: 10;
   margin-bottom: 24px;
+}
+
+.image-component-container {
+  width: 100%;
+  border-radius: 0.5em;
+  overflow: hidden;
+  position: relative; /* Ensure relative positioning for tooltip */
 }
