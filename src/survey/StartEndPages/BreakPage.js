@@ -4,7 +4,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { firestore } from '../../config';
 import { HandsClapping } from 'phosphor-react';
 
-const BreakPage = ({ onContinue, answers, completedGroups, onEmailLink }) => {
+const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailLink }) => {
   const [continueUrl, setContinueUrl] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
@@ -16,6 +16,7 @@ const BreakPage = ({ onContinue, answers, completedGroups, onEmailLink }) => {
       const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
         ...answers,
         isGroupContinue: true,
+        currentStep: currentStep,
         timestamp: serverTimestamp()
       });
 
