@@ -163,22 +163,19 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     };
 
     return (
-        <div className="image-comparison-container">
+        <div className="question-container">
             <div className="image-comparison-content"> 
                 <h2>{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, which one do you feel more confident passing?`}</h2>
+                <p className="text-instruction text-center mb-4 text-gray-600">If not confident in passing either, please select 'the same'.</p>
                 <div className="comparison-twin">
                 {currentPair.map((imageData, index) => (
                         <div 
-                            className={`comparison-image-wrapper ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-500 glow-shadow' : ''}`}
+                            className={`comparison-image-wrapper ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-400 glow-shadow' : ''}`}
                             key={imageData.LabelID}
                             style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '4px' : '4px' }}
+                            onClick={() => selectImage(index + 1)}
                         >
-                            <div className="card-style" onClick={() => selectImage(index + 1)}>
                                 <ImageComponent cropMetadata={imageData} />
-                                {selectedImage && selectedImage.LabelID === imageData.LabelID && (
-                                    <div className="overlay-style"></div>
-                                )}
-                            </div>
                         </div>
                     ))}
                 </div>
@@ -214,7 +211,6 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                     },
                 ]}
                 />
-
             </div>
             <PageNavigations onPrevious={previousStep} onNext={nextStep} />
             </div>

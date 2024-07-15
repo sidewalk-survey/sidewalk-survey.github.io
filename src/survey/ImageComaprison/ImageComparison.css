@@ -1,78 +1,25 @@
-.image-comparison-container {
-  display: flex;
-  flex-direction: column; /* Change to column to stack content vertically */
-  align-items: center;
-  position: relative;
-  margin: auto;
-  width: 90vw;
-  max-height: 100vh; /* Set maximum height to the viewport height */
-  overflow-y: auto; /* Enable vertical scrolling if content overflows */
-}
-
-.question-content {
-  width: 90vw;
-  margin: auto;
-}
-
-.flex-row-justify-center {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
 .comparison-image-wrapper {
   display: flex;
   margin: 1rem; /* Adjusted from m-4 for clarity */
-  border-radius: 0.75rem; /* Equivalent to rounded-xl */
   width: 45%; /* Adjusted width to fit within viewport */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  overflow: hidden;
+  border-radius: 0.75em;
+  height: 50vh;
 }
 
-.glow-shadow {
-  box-shadow: -4px 4px 12px 2px #26a69962;
+.comparison-image-wrapper:hover{
+  /* add border */
+  border: 4px solid #14b8a6;
 }
 
-.card-style {
-  flex: 1;
-  position: relative;
-  cursor: pointer;
-  width: 100%;
-  /* height: 50vh; */
-}
-
-.card-media-style {
-  width: 100%;
-  object-fit: cover; /* Ensures the image covers the area, respecting aspect ratio */
-  border-radius: 0.5rem; /* Equivalent to rounded-lg */
-}
-
-.overlay-style {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.flex-justify-center-gap {
-  display: flex;
-  justify-content: center;
-  gap: 1rem; 
-  margin-top: 1.25rem; 
-}
 
 .comparison-twin {
   display: flex;
   flex-direction: row;
-  width: 80vw;
   height: auto;
   justify-content: center; /* Center images */
   align-items: center;
-  margin: 1rem;
-}
-
-.comparison-image-wrapper {
-  overflow: hidden;
-  border-radius: 0.8em;
 }
 
 .image-comparison-content {
