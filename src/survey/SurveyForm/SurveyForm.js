@@ -97,7 +97,8 @@ const SurveyComponent = () => {
     email: '',
     mobilityAid: '',
     sidewalkBarriers: '',
-    answeredMobilityAids: []
+    answeredMobilityAids: [],
+    currentStep: 0
   });
 
   const sendEmail = (recipientEmail, continuationLink) => {
@@ -128,8 +129,9 @@ const SurveyComponent = () => {
     }
   };
 
-  const findFirstIncompleteStep = (imageSelections) => {
-    for (let groupIndex = 0; groupIndex < GROUP_ORDER.length; groupIndex++) {
+  const findFirstIncompleteStep = (imageSelections, currentStep) => {
+    const startIndex = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
+    for (let groupIndex = startIndex; groupIndex < GROUP_ORDER.length; groupIndex++) {
       const groupKey = GROUP_ORDER[groupIndex];
       const selections = imageSelections[groupKey];
       
@@ -141,7 +143,7 @@ const SurveyComponent = () => {
       if (!groupB || groupB.length < 2) return IMAGE_STEP + groupIndex * STEPS_PER_GROUP + 2;
     }
     
-    return TOTAL_STEPS; // All selections are complete
+    return TOTAL_STEPS; 
   };
 
   // for resuming the survey
@@ -157,6 +159,7 @@ const SurveyComponent = () => {
           const data = docSnap.data();
           setUserId(data.userId);
           setSessionId(data.sessionId);
+          setCurrentStep(data.currentStep);
           // setAnswers(data);
           // set the current mobility aid
           if (data.answeredMobilityAids && data.answeredMobilityAids.length > 0) {
@@ -164,12 +167,12 @@ const SurveyComponent = () => {
             handleMobilityAidChange(remainingOptions[0]);
           }
 
-          if(data.isGroupContinue) {
-            const continueGroupStep = findFirstIncompleteStep(data.imageSelections || {});
+          if(data.isGroupContinue) { 
+            const continueGroupStep = findFirstIncompleteStep(data.imageSelections || {}, data.currentStep);
             if(continueGroupStep === TOTAL_STEPS) {
               setCurrentStep(MOBILITYAID_STEP);
             } else {
-              setCurrentStep(continueGroupStep);
+              setCurrentStep(data.currentStep);
             }
           } else {
             setCurrentStep(MOBILITYAID_STEP);
@@ -611,6 +614,7 @@ return (
     {renderCurrentStep()}
     {showBreakOverlay && (
         <BreakPage 
+          currentStep={currentStep}
           onContinue={closeBreakOverlay} 
           answers={answers}
           completedGroups={calculateCompletedGroups}
