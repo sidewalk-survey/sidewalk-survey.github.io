@@ -11,6 +11,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
   const remainingOptions = (answers.mobilityAidOptions?.mobilityAidOptions || []).filter(option =>
     option !== answers.mobilityAid && !answeredMobilityAids.includes(option)
   );
+  const mobilityAid = answers.mobilityAid.toLowerCase();
 
   const continueOptions = [
     {
@@ -64,7 +65,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
   return (
     <div>
       <RadioQuestion
-        questionText={`Would you like to rate images when using ${remainingOptionsString}?`}
+        questionText={<span>Thank you for completing questions regarding <strong>{mobilityAid}</strong>. Would you also like to answer questions for when you use your <strong>{remainingOptionsString}</strong>?</span>}
         inputId="continueOptions"
         instructionText="Select one option"
         options={continueOptions}
