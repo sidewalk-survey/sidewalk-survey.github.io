@@ -1,3 +1,4 @@
+//ImageComparison.js
 import React, { useState, useEffect, useRef } from 'react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';

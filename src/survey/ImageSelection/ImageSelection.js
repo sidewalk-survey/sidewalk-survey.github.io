@@ -92,9 +92,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                     </div>
                     <div className="image-selection-options">
                         {currentIndex < images.length ? (
-                            <div className="image-wrapper">
-                                <ImageComponent cropMetadata={images[currentIndex]} isFirstImage ={currentIndex === 0 } isFirstGroup={currentStep === IMAGE_STEP} />
-                            </div>
+                            <ImageComponent cropMetadata={images[currentIndex]} isFirstImage ={currentIndex === 0 } isFirstGroup={currentStep === IMAGE_STEP} />
                         ) : (
                             // loading state
                             <div>Loading next part of the survey...</div>
