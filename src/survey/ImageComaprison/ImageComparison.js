@@ -166,6 +166,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
         <div className="question-container">
             <div className="image-comparison-content"> 
                 <h2>{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, which one do you feel more confident passing?`}</h2>
+                <p className="text-instruction text-center mb-4 text-gray-600">If not confident in passing either, please select 'the same'.</p>
                 <div className="comparison-twin">
                 {currentPair.map((imageData, index) => (
                         <div 
