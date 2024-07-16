@@ -39,7 +39,7 @@ const ImageComponent = ({ cropMetadata, isFirstImage, isFirstGroup }) => {
       <img
         ref={imageRef}
         className="crop-image"
-        src={`${process.env.PUBLIC_URL}/crops/gsv-${cropMetadata.City}-${cropMetadata.LabelID}-${cropMetadata.LabelTypeID}.png`}
+        src={`${process.env.PUBLIC_URL}/crops/gsv-${cropMetadata.City}-${cropMetadata.LabelID}-${cropMetadata.LabelTypeID}-${cropMetadata.Order}.png`}
         alt="Crop"
         onLoad={() => {
           setImageSize({

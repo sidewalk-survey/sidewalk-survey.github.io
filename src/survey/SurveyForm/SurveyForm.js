@@ -50,6 +50,10 @@ const groupedCropsData = cropsData.reduce((acc, item) => {
   acc[groupKey].push(item);
   return acc;
 }, {});
+// shuffle images within each group
+Object.keys(groupedCropsData).forEach(groupKey => {
+  groupedCropsData[groupKey] = shuffleArray(groupedCropsData[groupKey]);
+});
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -88,7 +92,7 @@ const SurveyComponent = () => {
 
 
   const startSurvey = () => {
-    setCurrentStep(1); // Start the survey
+    setCurrentStep(6); // Start the survey
     setStartTime(new Date());
   };
   
