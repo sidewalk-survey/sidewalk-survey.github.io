@@ -5,7 +5,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":391,
     "CanvasY":223,
-    "Group":0
+    "Group":0,
+    "Order":0
   },
   {
     "City":"seattle",
@@ -13,7 +14,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":369,
     "CanvasY":183,
-    "Group":0
+    "Group":0,
+    "Order":1
   },
   {
     "City":"seattle",
@@ -21,7 +23,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":361,
     "CanvasY":328,
-    "Group":0
+    "Group":0,
+    "Order":2
   },
   {
     "City":"oradell",
@@ -29,7 +32,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":312,
     "CanvasY":279,
-    "Group":0
+    "Group":0,
+    "Order":3
   },
   {
     "City":"lapiedad",
@@ -37,7 +41,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":301,
     "CanvasY":229,
-    "Group":0
+    "Group":0,
+    "Order":4
   },
   {
     "City":"lapiedad",
@@ -45,7 +50,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":242,
     "CanvasY":275,
-    "Group":0
+    "Group":0,
+    "Order":5
   },
   {
     "City":"st_louis",
@@ -53,7 +59,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":344,
     "CanvasY":188,
-    "Group":1
+    "Group":1,
+    "Order":0
   },
   {
     "City":"teaneck",
@@ -61,7 +68,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":228,
     "CanvasY":101,
-    "Group":1
+    "Group":1,
+    "Order":1
   },
   {
     "City":"seattle",
@@ -69,7 +77,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":213,
     "CanvasY":230,
-    "Group":1
+    "Group":1,
+    "Order":2
   },
   {
     "City":"seattle",
@@ -77,7 +86,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":245,
     "CanvasY":296,
-    "Group":1
+    "Group":1,
+    "Order":3
   },
   {
     "City":"oradell",
@@ -85,7 +95,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":377,
     "CanvasY":178,
-    "Group":1
+    "Group":1,
+    "Order":4
   },
   {
     "City":"columbus",
@@ -93,7 +104,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":390,
     "CanvasY":163,
-    "Group":1
+    "Group":1,
+    "Order":5
   },
   {
     "City":"teaneck",
@@ -101,7 +113,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":373,
     "CanvasY":217,
-    "Group":2
+    "Group":2,
+    "Order":0
   },
   {
     "City":"teaneck",
@@ -109,7 +122,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":341,
     "CanvasY":234,
-    "Group":2
+    "Group":2,
+    "Order":1
   },
   {
     "City":"seattle",
@@ -117,7 +131,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":318,
     "CanvasY":203,
-    "Group":2
+    "Group":2,
+    "Order":2
   },
   {
     "City":"seattle",
@@ -125,7 +140,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":193,
     "CanvasY":190,
-    "Group":2
+    "Group":2,
+    "Order":3
   },
   {
     "City":"seattle",
@@ -133,7 +149,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":370,
     "CanvasY":135,
-    "Group":2
+    "Group":2,
+    "Order":4
   },
   {
     "City":"columbus",
@@ -141,7 +158,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":485,
     "CanvasY":235,
-    "Group":2
+    "Group":2,
+    "Order":5
   },
   {
     "City":"st_louis",
@@ -149,7 +167,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":317,
     "CanvasY":107,
-    "Group":3
+    "Group":3,
+    "Order":0
   },
   {
     "City":"st_louis",
@@ -157,7 +176,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":378,
     "CanvasY":183,
-    "Group":3
+    "Group":3,
+    "Order":1
   },
   {
     "City":"seattle",
@@ -165,7 +185,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":390,
     "CanvasY":225,
-    "Group":3
+    "Group":3,
+    "Order":2
   },
   {
     "City":"oradell",
@@ -173,7 +194,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":175,
     "CanvasY":365,
-    "Group":3
+    "Group":3,
+    "Order":3
   },
   {
     "City":"oradell",
@@ -181,7 +203,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":368,
     "CanvasY":269,
-    "Group":3
+    "Group":3,
+    "Order":4
   },
   {
     "City":"oradell",
@@ -189,7 +212,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":434,
     "CanvasY":238,
-    "Group":3
+    "Group":3,
+    "Order":5
   },
   {
     "City":"amsterdam",
@@ -197,7 +221,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":312,
     "CanvasY":229,
-    "Group":4
+    "Group":4,
+    "Order":0
   },
   {
     "City":"st_louis",
@@ -205,7 +230,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":530,
     "CanvasY":278,
-    "Group":4
+    "Group":4,
+    "Order":1
   },
   {
     "City":"st_louis",
@@ -213,7 +239,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":346,
     "CanvasY":273,
-    "Group":4
+    "Group":4,
+    "Order":2
   },
   {
     "City":"st_louis",
@@ -221,7 +248,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":258,
     "CanvasY":181,
-    "Group":4
+    "Group":4,
+    "Order":3
   },
   {
     "City":"chicago",
@@ -229,7 +257,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":406,
     "CanvasY":116,
-    "Group":4
+    "Group":4,
+    "Order":4
   },
   {
     "City":"chicago",
@@ -237,7 +266,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":220,
     "CanvasY":363,
-    "Group":4
+    "Group":4,
+    "Order":5
   },
   {
     "City":"st_louis",
@@ -245,7 +275,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":377,
     "CanvasY":168,
-    "Group":5
+    "Group":5,
+    "Order":0
   },
   {
     "City":"st_louis",
@@ -253,7 +284,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":548,
     "CanvasY":275,
-    "Group":5
+    "Group":5,
+    "Order":1
   },
   {
     "City":"walla_walla",
@@ -261,7 +293,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":301,
     "CanvasY":172,
-    "Group":5
+    "Group":5,
+    "Order":2
   },
   {
     "City":"oradell",
@@ -269,7 +302,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":393,
     "CanvasY":195,
-    "Group":5
+    "Group":5,
+    "Order":3
   },
   {
     "City":"chicago",
@@ -277,7 +311,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":176,
     "CanvasY":275,
-    "Group":5
+    "Group":5,
+    "Order":4
   },
   {
     "City":"chicago",
@@ -285,7 +320,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":322,
     "CanvasY":293,
-    "Group":5
+    "Group":5,
+    "Order":5
   },
   {
     "City":"oradell",
@@ -293,7 +329,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":320,
     "CanvasY":190,
-    "Group":6
+    "Group":6,
+    "Order":0
   },
   {
     "City":"st_louis",
@@ -301,7 +338,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":305,
     "CanvasY":139,
-    "Group":6
+    "Group":6,
+    "Order":1
   },
   {
     "City":"oradell",
@@ -309,7 +347,8 @@ const cropsData = [
     "LabelTypeID":4,
     "CanvasX":325,
     "CanvasY":177,
-    "Group":6
+    "Group":6,
+    "Order":2
   },
   {
     "City":"st_louis",
@@ -317,7 +356,8 @@ const cropsData = [
     "LabelTypeID":3,
     "CanvasX":327,
     "CanvasY":166,
-    "Group":6
+    "Group":6,
+    "Order":3
   },
   {
     "City":"la_piedad",
@@ -325,7 +365,8 @@ const cropsData = [
     "LabelTypeID":1,
     "CanvasX":443,
     "CanvasY":304,
-    "Group":7
+    "Group":7,
+    "Order":0
   },
   {
     "City":"cdmx",
@@ -333,7 +374,8 @@ const cropsData = [
     "LabelTypeID":1,
     "CanvasX":358,
     "CanvasY":253,
-    "Group":7
+    "Group":7,
+    "Order":1
   },
   {
     "City":"cdmx",
@@ -341,7 +383,8 @@ const cropsData = [
     "LabelTypeID":1,
     "CanvasX":325,
     "CanvasY":214,
-    "Group":7
+    "Group":7,
+    "Order":2
   },
   {
     "City":"oradell",
@@ -349,7 +392,8 @@ const cropsData = [
     "LabelTypeID":1,
     "CanvasX":287,
     "CanvasY":191,
-    "Group":7
+    "Group":7,
+    "Order":3
   },
   {
     "City":"seattle",
@@ -357,7 +401,8 @@ const cropsData = [
     "LabelTypeID":1,
     "CanvasX":182,
     "CanvasY":166,
-    "Group":7
+    "Group":7,
+    "Order":4
   },
   {
     "City":"seattle",
@@ -365,7 +410,8 @@ const cropsData = [
     "LabelTypeID":1,
     "CanvasX":330,
     "CanvasY":219,
-    "Group":7
+    "Group":7,
+    "Order":5
   },
   {
     "City":"seattle",
@@ -373,7 +419,8 @@ const cropsData = [
     "LabelTypeID":2,
     "CanvasX":362,
     "CanvasY":240,
-    "Group":8
+    "Group":8,
+    "Order":0
   },
   {
     "City":"seattle",
@@ -381,7 +428,8 @@ const cropsData = [
     "LabelTypeID":2,
     "CanvasX":184,
     "CanvasY":332,
-    "Group":8
+    "Group":8,
+    "Order":1
   },
   {
     "City":"seattle",
@@ -389,7 +437,8 @@ const cropsData = [
     "LabelTypeID":2,
     "CanvasX":466,
     "CanvasY":160,
-    "Group":8
+    "Group":8,
+    "Order":2
   },
   {
     "City":"seattle",
@@ -397,7 +446,8 @@ const cropsData = [
     "LabelTypeID":2,
     "CanvasX":298,
     "CanvasY":170,
-    "Group":8
+    "Group":8,
+    "Order":3
   },
   {
     "City":"seattle",
@@ -405,7 +455,8 @@ const cropsData = [
     "LabelTypeID":2,
     "CanvasX":320,
     "CanvasY":274,
-    "Group":8
+    "Group":8,
+    "Order":4
   },
   {
     "City":"seattle",
@@ -413,7 +464,8 @@ const cropsData = [
     "LabelTypeID":2,
     "CanvasX":214,
     "CanvasY":310,
-    "Group":8
+    "Group":8,
+    "Order":5
   }
 ];
 
