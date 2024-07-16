@@ -92,7 +92,7 @@ const SurveyComponent = () => {
 
 
   const startSurvey = () => {
-    setCurrentStep(6); // Start the survey
+    setCurrentStep(1); // Start the survey
     setStartTime(new Date());
   };
   
@@ -231,7 +231,7 @@ const SurveyComponent = () => {
   // for showing the overlay to stop
   useEffect(() => {
     const groupIndex = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
-    if (groupIndex > 0 && groupIndex % 3 === 0 && (currentStep - IMAGE_STEP) % STEPS_PER_GROUP === 0) {
+    if (groupIndex > 0 && groupIndex % 3 === 0 && (currentStep - IMAGE_STEP) % STEPS_PER_GROUP === 0 && groupIndex < 9) {
       setShowBreakOverlay(true);
     }
   }, [currentStep]);
@@ -241,15 +241,6 @@ const SurveyComponent = () => {
   };
 
   const calculateCompletedGroups = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
-
-
-const handleGroupSelectionComplete = (group, selection) => {
-  setImageSelections(prevSelections => ({
-    ...prevSelections,
-    [group]: { [`${group}A`]: selection.groupAImages, [`${group}B`]: selection.groupBImages }
-  }));
-  setCurrentStep(currentStep + 1);
-};
 
 const nextStep = () => {
   if (validateCurrentStep()) {
@@ -414,7 +405,6 @@ const renderImageStep = (group, step) => {
 
 
 const renderCurrentStep = () => {
-  let dynamicStep = currentStep;
   for (let i = 0; i < groups.length; i++) {
     const group = groups[i];
     group.startStep = 6 + i * 3;  // Assuming each group uses 3 steps (1 selection + 2 comparisons)
