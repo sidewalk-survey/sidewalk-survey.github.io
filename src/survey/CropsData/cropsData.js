@@ -291,8 +291,8 @@ const cropsData = [
     "City":"oradell",
     "LabelID":669,
     "LabelTypeID":3,
-    "CanvasX":238,
-    "CanvasY":154,
+    "CanvasX":320,
+    "CanvasY":190,
     "Group":6
   },
   {
@@ -372,7 +372,7 @@ const cropsData = [
     "LabelID":101117,
     "LabelTypeID":2,
     "CanvasX":362,
-    "CanvasY":126,
+    "CanvasY":240,
     "Group":8
   },
   {
@@ -380,7 +380,7 @@ const cropsData = [
     "LabelID":105218,
     "LabelTypeID":2,
     "CanvasX":184,
-    "CanvasY":312,
+    "CanvasY":332,
     "Group":8
   },
   {
@@ -388,31 +388,31 @@ const cropsData = [
     "LabelID":186808,
     "LabelTypeID":2,
     "CanvasX":466,
-    "CanvasY":190,
+    "CanvasY":160,
     "Group":8
   },
   {
     "City":"seattle",
     "LabelID":278024,
     "LabelTypeID":2,
-    "CanvasX":290,
-    "CanvasY":166,
+    "CanvasX":298,
+    "CanvasY":170,
     "Group":8
   },
   {
     "City":"seattle",
     "LabelID":74650,
     "LabelTypeID":2,
-    "CanvasX":351,
-    "CanvasY":192,
+    "CanvasX":320,
+    "CanvasY":274,
     "Group":8
   },
   {
     "City":"seattle",
     "LabelID":155890,
     "LabelTypeID":2,
-    "CanvasX":213,
-    "CanvasY":238,
+    "CanvasX":214,
+    "CanvasY":310,
     "Group":8
   }
 ];

@@ -88,7 +88,7 @@ const SurveyComponent = () => {
 
 
   const startSurvey = () => {
-    setCurrentStep(1); // Start the survey
+    setCurrentStep(6); // Start the survey
     setStartTime(new Date());
   };
   
