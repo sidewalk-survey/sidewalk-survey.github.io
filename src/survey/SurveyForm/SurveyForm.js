@@ -271,13 +271,13 @@ const SurveyComponent = () => {
     let newErrors = {};
 
     switch (currentStep) {
-      case 1:
+      case 2:
         if (!answers.name) {
           isValid = false;
           newErrors.name = 'Please fill this in';
         }
         break;
-      case 2:
+      case 3:
         if (!answers.email) {
           isValid = false;
           newErrors.email = 'Please fill this in';
@@ -290,13 +290,13 @@ const SurveyComponent = () => {
         }
         
         break;
-      case 3:
+      case 4:
         if (!answers.mobilityAidOptions || answers.mobilityAidOptions.mobilityAidOptions.length === 0) {
           isValid = false;
           newErrors.mobilityAidOptions = 'Please select at least one option';
         }
         break;
-      case 4:
+      case 5:
         if (!answers.mobilityAid) {
           isValid = false;
           newErrors.mobilityAid = 'Please make a selection';
