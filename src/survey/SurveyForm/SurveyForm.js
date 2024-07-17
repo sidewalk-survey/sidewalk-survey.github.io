@@ -20,7 +20,7 @@ import RankQuestion from '../Questions/RankQuestion';
 import cropsData from '../CropsData/cropsData';
 import emailjs from 'emailjs-com';
 import { shuffleArray } from '../../utils';
-
+import getIpAddress from '../../getIpAddress';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -78,18 +78,14 @@ const SurveyComponent = () => {
   const [startTime, setStartTime] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showBreakOverlay, setShowBreakOverlay] = useState(false);
-  const [isGroupContinue, setIsGroupContinue] = useState(false);
-
-
   const { id } = useParams(); 
 
   useEffect(() => {
     let steps = TOTAL_STEPS; // base number of steps
     setTotalSteps(steps);
-  }, [/* dependencies that might change the number of steps, e.g., answers */]);
+  }, []);
 
   const progressValue = (currentStep / totalSteps) * 100;
-
 
   const startSurvey = () => {
     setCurrentStep(1); // Start the survey
@@ -217,7 +213,7 @@ const SurveyComponent = () => {
         setCurrentStep(nextStep);
       }
     }
-  }, [currentStep, imageSelections]); // This dependency array ensures the effect runs only when necessary
+  }, [currentStep, imageSelections]);
   
 
   useEffect(() => {
@@ -505,6 +501,12 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
+  const ipAddress = await getIpAddress();
+
+  if (!ipAddress) {
+    console.error('Failed to fetch IP address');
+    return;
+  }
    
   if (validateCurrentStep()) {
     const endTime = Date.now(); 
@@ -523,6 +525,7 @@ const handleSubmit = async () => {
       sessionId, 
       userId, 
       currentStep,
+      ipAddress,
       logType,
       ...answers, 
       imageSelections,
@@ -544,12 +547,19 @@ const logData = async () => {
   let logType = 'temp'; 
   const endTime = Date.now(); // Capture the end time
   const duration = endTime ? (endTime - startTime)/1000 : 0;
+  const ipAddress = await getIpAddress();
+
+  if (!ipAddress) {
+    console.error('Failed to fetch IP address');
+    return;
+  }
 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
         sessionId, 
         userId, 
         currentStep,
+        ipAddress,
         logType,
         ...answers,
         imageSelections,
@@ -570,11 +580,19 @@ const logMobilityAidData = async () => {
   const endTime = Date.now(); // Capture the end time
   const duration = endTime ? (endTime - startTime)/1000 : 0;
 
+  const ipAddress = await getIpAddress();
+
+  if (!ipAddress) {
+    console.error('Failed to fetch IP address');
+    return;
+  }
+
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
         sessionId, 
         userId, 
         currentStep,
+        ipAddress,
         logType,
         ...answers,
         imageSelections,
