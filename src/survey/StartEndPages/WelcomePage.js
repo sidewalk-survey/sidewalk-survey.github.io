@@ -3,12 +3,19 @@ import { Button, Card, CardBody, Dialog, DialogHeader, DialogBody, DialogFooter 
 
 const WelcomePage = ({ onStart }) => {
   const [isWelcomeDialogOpen, setIsWelcomeDialogOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleStart = () => {
     setIsWelcomeDialogOpen(true);
   };
 
   const handleCloseWelcomeDialog = () => {
+    const confirmationCheckbox = document.getElementById('confirmationCheckbox');
+    if (confirmationCheckbox && !confirmationCheckbox.checked) {
+      setError('Please confirm that you have read and understood the instructions.');
+      return;
+    }
+    setError(null);
     setIsWelcomeDialogOpen(false);
     onStart();
   };
@@ -19,7 +26,7 @@ const WelcomePage = ({ onStart }) => {
       if (isWelcomeDialogOpen) {
         handleCloseWelcomeDialog();
       } else {
-      handleStart();
+        handleStart();
       }
     }
   };
@@ -53,32 +60,33 @@ const WelcomePage = ({ onStart }) => {
         </CardBody>
       </Card>
       <Dialog open={isWelcomeDialogOpen} handler={setIsWelcomeDialogOpen} size="lg">
-        <DialogHeader>Welcome to our research study on mobility devices and  sidewalk accessibility.</DialogHeader>
-        <DialogBody className="max-h-[calc(100vh-200px)] overflow-auto">
-        <p>In this survey, you will be asked to evaluate sidewalk conditions using <a href="https://www.google.com/streetview/" target="_blank" rel="noopener noreferrer" className="text-teal-700 underline">Google Street View</a> images and data collected from <a href="https://sidewalk-sea.cs.washington.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-700 underline">Project Sidewalk</a> (a crowdsourcing platform for sidewalk accessibility). These images showcase different sidewalk features, obstacles, and conditions.</p>
-        {/* <p>In this survey, you will be asked to evaluate sidewalk conditions using Google Street View images and data collected from Project Sidewalk (a crowdsourcing platform for sidewalk accessibility). These images showcase different sidewalk features, obstacles, and conditions.</p> */}
-          <br />
-          <p><strong>Your task:</strong></p>
-          <ul className="list-disc list-inside">
-            <li>View 9 sets of images and immerse yourself in each scenario.</li>
-            <li>Rate your confidence in navigating or passing through these situations.</li>
-            <li>Compare two scenarios and select the one you are more confident in passing through.</li>
-          </ul>
-          <br />
-          <p><strong>You may save your responses when prompted and come back at a later time.</strong></p>
-          <br />
-          <p>Please use your best judgment when evaluating each scenario. There are no right or wrong answers – we are interested in your personal perceptions and experiences. Your responses will be kept confidential and will be used for research purposes only.</p>
-          <br />
-          <p>We're interested in understanding how people using different mobility devices perceive barriers in urban environments. Your responses will help us gain valuable insights into sidewalk accessibility challenges.</p>
-          <br />
-          <p>This work is led by researchers from the University of Washington. If you have any questions, please contact: <a href="mailto:chuchuli@cs.washington.edu" className="text-teal-700 underline">chuchuli@cs.washington.edu</a>.</p>
-       
-
+        <DialogBody className="max-w-4xl mx-auto p-8 text-left text-base">
+          <h2 className="text-2xl font-semibold mb-4">Welcome to our study on mobility devices and sidewalk accessibility!</h2>
+          <div className="mb-4">
+            <img src={`${process.env.PUBLIC_URL}/img/label-examples.png`} alt="Welcome" />
+          </div>
+          <p className="mb-4">
+            In this survey, we will ask you about <b>your perceptions of various sidewalk barriers</b> such as obstacles and surface problems as shown in images similar to the above. Our goal is to understand how people using different mobility devices perceive barriers in urban environments.
+          </p>
+          <p className="mb-4">
+            You may <b>save your responses</b> when prompted and come back at a later time. Your responses will be kept confidential and will be used for research purposes only.
+          </p>
+          <p className="mb-4">
+            One out of every 30 respondents will earn a <b>$50 gift certificate to Amazon</b>.
+          </p>
+          <p className="mb-8">
+            This work is led by researchers from the University of Washington. If you have any questions, please contact: <a href="mailto:chuchuli@cs.washington.edu" className="text-teal-700 underline">chuchuli@cs.washington.edu</a>.
+          </p>
+          <div className="mb-4">
+            <input type="checkbox" id="confirmationCheckbox" />
+            <label htmlFor="confirmationCheckbox" className="ml-2">I have read and understood the instructions.</label>
+          </div>
+          {error && <p className="text-red-600">{error}</p>}
+          <div className="flex justify-end items-center">
+            <Button size="lg" color="teal" onClick={handleCloseWelcomeDialog}>Let’s get started</Button>
+            <span className="ml-4 text-teal-700">press Enter ↵</span>
+          </div>
         </DialogBody>
-        <DialogFooter>
-          <Button size= "lg" color="teal" onClick={handleCloseWelcomeDialog}>Begin Survey</Button>
-          <span className="ml-4 text-w text-teal-700">press Enter ↵</span>
-        </DialogFooter>
       </Dialog>
     </>
   );
