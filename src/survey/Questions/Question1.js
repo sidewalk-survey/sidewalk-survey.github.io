@@ -4,7 +4,7 @@ import TextQuestion from '../../components/TextQuestion';
 const Question1 = ({ previousStep, nextStep, handleChange, stepNumber, errors }) => {
   return (
     <TextQuestion
-      questionText={`${stepNumber}. What is your name?*`}
+      questionText={`${stepNumber-1}. What is your name?*`}
       inputId="name"
       placeholderText="Type your full name..."
       handleChange={handleChange}
