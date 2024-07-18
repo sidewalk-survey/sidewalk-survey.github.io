@@ -1,5 +1,6 @@
 //ImageComparison.js
 import React, { useState, useEffect, useRef } from 'react';
+import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
 import ImageComponent from '../../components/ImageComponent';
@@ -13,6 +14,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     const [historyIndex, setHistoryIndex] = useState(-1); 
     const [maxComparisons, setMaxComparisons] = useState(0);
     const [hoverButton, setHoverButton] = useState(null);
+    const [comparisonSelectionMade, setComparisonSelectionMade] = useState(false);
 
     const mobilityAid = answers.mobilityAid.toLowerCase();
 
@@ -96,6 +98,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     
     const displayImages = () => {
         setLoading(true);
+        setComparisonSelectionMade(false);
         let nextPair;
         if (historyIndex + 1 < history.length) {
             nextPair = history[historyIndex + 1];
@@ -108,6 +111,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 setHistoryIndex(newHistory.length - 1);
             }
         }
+        setComparisonSelectionMade(false);
         setCurrentPair(nextPair);
         setLoading(false);
     };
@@ -119,6 +123,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
             onComplete();
         } else {
             displayImages();
+            
         }
     };
 
@@ -132,6 +137,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
             selectedImageLabelID: selected.LabelID, 
             selectedImageCity: selected.City,
         });
+        setComparisonSelectionMade(true);
     };
 
     const selectLeftImage = () => {
@@ -156,6 +162,59 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 selection: 'equal',
             });
         }
+        setComparisonSelectionMade(true);
+    };
+
+    const handlePreviousClick = () => {
+        if (historyIndex > 0) {
+            setHistoryIndex(historyIndex - 1);
+            setCurrentPair(history[historyIndex - 1]);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (comparisonSelectionMade && (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1)) {
+            if (historyIndex < history.length - 1) {
+                setHistoryIndex(historyIndex + 1);
+                setCurrentPair(history[historyIndex + 1]);
+            } else {
+                displayImages();
+            }
+        }
+    };
+
+    const renderDotsAndNavigation = () => {
+        const activeColor = '#0d9488'; // Teal color
+        const disabledColor = '#D8DEE9'; // Grey color
+
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
+                <CaretLeft
+                    size={24}
+                    onClick={handlePreviousClick}
+                    style={{
+                        cursor: historyIndex > 0 ? 'pointer' : 'not-allowed',
+                        color: historyIndex > 0 ? activeColor : disabledColor
+                    }}
+                />
+                {renderComparisonDots()}
+                <CaretRight
+                    size={24}
+                    onClick={handleNextClick}
+                    style={{
+                        cursor: (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && comparisonSelectionMade ? 'pointer' : 'not-allowed',
+                        color: (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && comparisonSelectionMade ? activeColor : disabledColor
+                    }}
+                />
+                {console.log("Right arrow enabled:", (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && comparisonSelectionMade)}
+                {/* log more */}
+                {console.log("combo of 2 below", (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) )}
+                {console.log("historyIndex:", historyIndex < history.length - 1)}
+                {console.log("maxComparisons:", historyIndex < maxComparisons - 1)}
+                {console.log("comparisonSelectionMade:", comparisonSelectionMade)}
+
+            </div>
+        );
     };
 
     return (
@@ -175,7 +234,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                         </div>
                     ))}
                 </div>
-                {renderComparisonDots()}
+                {renderDotsAndNavigation()}
                 <ResponseButtons
                 gap="24px"
                 disabled={loading} 
