@@ -11,6 +11,7 @@ import Question4 from '../Questions/Question4';
 import Question5 from '../Questions/Question5';
 import ImageSelection from '../ImageSelection/ImageSelection';
 import ImageComparison from '../ImageComaprison/ImageComparison';
+import IntroPage from '../StartEndPages/IntroPage';
 import WelcomePage from '../StartEndPages/WelcomePage'; 
 import EndingPage from '../StartEndPages/EndingPage';
 import ContinuePage from '../Questions/ContinuePage';
@@ -20,7 +21,7 @@ import RankQuestion from '../Questions/RankQuestion';
 import cropsData from '../CropsData/cropsData';
 import emailjs from 'emailjs-com';
 import { shuffleArray } from '../../utils';
-
+import getIpAddress from '../../getIpAddress';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -35,9 +36,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
-const TOTAL_STEPS = 35;
-const MOBILITYAID_STEP = 5;
-const IMAGE_STEP = 6;
+const TOTAL_STEPS = 36;
+const MOBILITYAID_STEP = 6;
+const IMAGE_STEP = 7;
 const STEPS_PER_GROUP = 3;
 const GROUP_ORDER = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5', 'group6', 'group7', 'group8'];
 const shuffledGroupOrder = shuffleArray([...GROUP_ORDER]);
@@ -50,6 +51,10 @@ const groupedCropsData = cropsData.reduce((acc, item) => {
   acc[groupKey].push(item);
   return acc;
 }, {});
+// shuffle images within each group
+Object.keys(groupedCropsData).forEach(groupKey => {
+  groupedCropsData[groupKey] = shuffleArray(groupedCropsData[groupKey]);
+});
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -74,18 +79,14 @@ const SurveyComponent = () => {
   const [startTime, setStartTime] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showBreakOverlay, setShowBreakOverlay] = useState(false);
-  const [isGroupContinue, setIsGroupContinue] = useState(false);
-
-
   const { id } = useParams(); 
 
   useEffect(() => {
     let steps = TOTAL_STEPS; // base number of steps
     setTotalSteps(steps);
-  }, [/* dependencies that might change the number of steps, e.g., answers */]);
+  }, []);
 
   const progressValue = (currentStep / totalSteps) * 100;
-
 
   const startSurvey = () => {
     setCurrentStep(1); // Start the survey
@@ -213,7 +214,7 @@ const SurveyComponent = () => {
         setCurrentStep(nextStep);
       }
     }
-  }, [currentStep, imageSelections]); // This dependency array ensures the effect runs only when necessary
+  }, [currentStep, imageSelections]);
   
 
   useEffect(() => {
@@ -227,7 +228,7 @@ const SurveyComponent = () => {
   // for showing the overlay to stop
   useEffect(() => {
     const groupIndex = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
-    if (groupIndex > 0 && groupIndex % 3 === 0 && (currentStep - IMAGE_STEP) % STEPS_PER_GROUP === 0) {
+    if (groupIndex > 0 && groupIndex % 3 === 0 && (currentStep - IMAGE_STEP) % STEPS_PER_GROUP === 0 && groupIndex < 9) {
       setShowBreakOverlay(true);
     }
   }, [currentStep]);
@@ -238,14 +239,6 @@ const SurveyComponent = () => {
 
   const calculateCompletedGroups = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
 
-
-const handleGroupSelectionComplete = (group, selection) => {
-  setImageSelections(prevSelections => ({
-    ...prevSelections,
-    [group]: { [`${group}A`]: selection.groupAImages, [`${group}B`]: selection.groupBImages }
-  }));
-  setCurrentStep(currentStep + 1);
-};
 
 const nextStep = () => {
   if (validateCurrentStep()) {
@@ -264,17 +257,21 @@ const nextStep = () => {
   
 
   const validateCurrentStep = () => {
+    if (currentStep === 1) {
+      return true; // No validation needed for the intro step
+    }
+
     let isValid = true;
     let newErrors = {};
 
     switch (currentStep) {
-      case 1:
+      case 2:
         if (!answers.name) {
           isValid = false;
           newErrors.name = 'Please fill this in';
         }
         break;
-      case 2:
+      case 3:
         if (!answers.email) {
           isValid = false;
           newErrors.email = 'Please fill this in';
@@ -287,13 +284,13 @@ const nextStep = () => {
         }
         
         break;
-      case 3:
+      case 4:
         if (!answers.mobilityAidOptions || answers.mobilityAidOptions.mobilityAidOptions.length === 0) {
           isValid = false;
           newErrors.mobilityAidOptions = 'Please select at least one option';
         }
         break;
-      case 4:
+      case 5:
         if (!answers.mobilityAid) {
           isValid = false;
           newErrors.mobilityAid = 'Please make a selection';
@@ -406,10 +403,9 @@ const renderImageStep = (group, step) => {
 
 
 const renderCurrentStep = () => {
-  let dynamicStep = currentStep;
   for (let i = 0; i < groups.length; i++) {
     const group = groups[i];
-    group.startStep = 6 + i * 3;  // Assuming each group uses 3 steps (1 selection + 2 comparisons)
+    group.startStep = 7 + i * 3;  //each group uses 3 steps (1 selection + 2 comparisons)
     if (currentStep >= group.startStep && currentStep < group.startStep + 3) {
       return renderImageStep(group, currentStep);
     }
@@ -417,13 +413,17 @@ const renderCurrentStep = () => {
 
   switch (currentStep) {
     case 1:
+      return <IntroPage 
+              nextStep={nextStep}
+              />;
+    case 2:
       return <Question1 
               stepNumber={currentStep} 
               nextStep={nextStep} 
               handleChange={handleChange}
               errors= {errors} 
               />;
-    case 2:
+    case 3:
       return <Question2 
               stepNumber={currentStep} 
               nextStep={nextStep} 
@@ -431,7 +431,7 @@ const renderCurrentStep = () => {
               handleChange={handleChange}
               errors= {errors} 
               />;
-    case 3:
+    case 4:
       return <Question3 
               stepNumber={currentStep} 
               nextStep={nextStep} 
@@ -439,7 +439,7 @@ const renderCurrentStep = () => {
               updateAnswers={updateAnswers}
               setSingleMobilityAid={setSingleMobilityAid} 
               errors= {errors}/>;
-    case 4:
+    case 5:
       if (singleMobilityAid) {
         nextStep(); // Skip here if only one mobility aid option
         return null; 
@@ -452,7 +452,7 @@ const renderCurrentStep = () => {
               handleChange={handleChange}
               errors= {errors}
             />;
-    case 5:
+    case 6:
       return <Question5 
               stepNumber={currentStep} 
               nextStep={nextStep} 
@@ -462,7 +462,7 @@ const renderCurrentStep = () => {
               singleMobilityAid={singleMobilityAid} 
               errors= {errors}// Pass the skip state
              />;
-    case 33:
+    case 34:
       return <RankQuestion
               stepNumber={currentStep}
               nextStep={nextStep}
@@ -472,14 +472,14 @@ const renderCurrentStep = () => {
               errors= {errors}
             />
     
-    case 34: 
+    case 35: 
       if (answers.mobilityAidOptions.mobilityAidOptions.length === 1 ||  // if only one mobility aid option
         (answers.answeredMobilityAids && answers.answeredMobilityAids.length > 0) // if answered mobility aids exist
       ) {
         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
         
         if(remainingOptions.length === 1) {
-          setCurrentStep(35);
+          setCurrentStep(36);
           setContinueUrl('');
           return null;
         }
@@ -493,7 +493,7 @@ const renderCurrentStep = () => {
               setContinueUrl={setContinueUrl}
               logData={logMobilityAidData}
               />;
-    case 35:
+    case 36:
       return <EndingPage 
               previousStep={previousStep} 
               continueUrl={continueUrl} 
@@ -507,6 +507,12 @@ useEffect(() => {
 }, [currentStep]);
 
 const handleSubmit = async () => {
+  const ipAddress = await getIpAddress();
+
+  if (!ipAddress) {
+    console.error('Failed to fetch IP address');
+    return;
+  }
    
   if (validateCurrentStep()) {
     const endTime = Date.now(); 
@@ -526,6 +532,7 @@ const handleSubmit = async () => {
       sessionId, 
       userId, 
       currentStep,
+      ipAddress,
       logType,
       imageSelections,
       imageComparisons,
@@ -546,13 +553,20 @@ const logData = async () => {
   let logType = 'temp'; 
   const endTime = Date.now(); // Capture the end time
   const duration = endTime ? (endTime - startTime)/1000 : 0;
-  
+  const ipAddress = await getIpAddress();
+
+  if (!ipAddress) {
+    console.error('Failed to fetch IP address');
+    return;
+  }
+
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
         ...answers,  
         sessionId, 
         userId, 
         currentStep,
+        ipAddress,
         logType,
         imageSelections,
         imageComparisons,
@@ -572,12 +586,20 @@ const logMobilityAidData = async () => {
   const endTime = Date.now(); // Capture the end time
   const duration = endTime ? (endTime - startTime)/1000 : 0;
 
+  const ipAddress = await getIpAddress();
+
+  if (!ipAddress) {
+    console.error('Failed to fetch IP address');
+    return;
+  }
+
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
         ...answers,  
         sessionId, 
         userId, 
         currentStep,
+        ipAddress,
         logType,
         imageSelections,
         imageComparisons,

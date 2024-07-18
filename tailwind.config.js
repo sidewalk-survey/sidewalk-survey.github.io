@@ -10,8 +10,16 @@ module.exports = withMT({
       sans: ["Rubik", "sans-serif"],
     },
     extend: {
+      colors : {
+        teal: {
+          400: "#14b8a6",
+          // 500: "#14b8a6",
+        },
+      },
+
       fontSize: {
         'w': '1rem',
+        'instruction': '1.2rem',
       },
     },
   },

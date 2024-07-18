@@ -1,7 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Button, Card, CardBody,  } from "@material-tailwind/react";
 
 const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = () => {
+    setIsSubmitting(true);
+    onSubmit();
+  }
+
   return (
     
     <Card className=" mt-4 shadow-none">
@@ -38,7 +45,8 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
         className='lg-font-size-button'
         color="teal"
         size="lg"
-        onClick={onSubmit}
+        onClick={handleSubmit}
+        disabled={isSubmitting}
       >Submit
         </Button>
       {/* <span className="text-w text-teal-700">press Enter ↵</span> */}

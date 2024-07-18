@@ -84,16 +84,15 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
     };
 
     return (
-        <div className="image-selection-container">
             <div className="question-container">
-                <div className="image-content">
-                    <div className="text-center p-5 rounded mb-4">
-                        <h2 className="question-header">{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, do you feel confident passing this?`}</h2>
-                    </div>
-                    <div className="image-selection-options">
+                <div className="image-selection-content">
+                    <h2 className="text-left p-5 rounded mb-4" >{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, do you feel confident passing this?`}</h2>
+               
+                    <div className="image-and-selection-buttons">
+
                         {currentIndex < images.length ? (
-                            <div className="image-wrapper">
-                                <ImageComponent cropMetadata={images[currentIndex]} isFirstImage ={currentIndex === 0 } isFirstGroup={currentStep === IMAGE_STEP} />
+                            <div className="selection-image-wrapper">
+                            <ImageComponent cropMetadata={images[currentIndex]} isFirstImage ={currentIndex === 0 } isFirstGroup={currentStep === IMAGE_STEP} />
                             </div>
                         ) : (
                             // loading state
@@ -112,7 +111,6 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                 </div>
                 <PageNavigations onPrevious={previousStep} onNext={nextStep} />
             </div>
-        </div>
     );
 };
 

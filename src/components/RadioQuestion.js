@@ -9,8 +9,8 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
     <div className="question-container">
       <div className="question-content">
         <h2>{questionText}</h2>
-        <p style={{ fontSize: '0.8em', textAlign: 'left', marginBottom: '32px' }}>{instructionText}</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.8em', textAlign: 'left' }} className="text-base">
+        <p className="text-instruction text-left mb-8 text-gray-600">{instructionText}</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '1em', textAlign: 'left' }} >
           {options.map((option, index) => (
             <Radio
               key={index}

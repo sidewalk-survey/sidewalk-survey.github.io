@@ -1,4 +1,4 @@
-//ImageComponent.js
+// ImageComponent.js
 import React, { useState, useEffect, useRef } from 'react';
 import './ImageComponent.css';
 
@@ -35,11 +35,11 @@ const ImageComponent = ({ cropMetadata, isFirstImage, isFirstGroup }) => {
   const { left, top } = getLabelPosition();
 
   return (
-    <div className="image-component-container" style={{ position: 'relative' }}>
+    <div className="image-component-container">
       <img
         ref={imageRef}
         className="crop-image"
-        src={`${process.env.PUBLIC_URL}/crops/gsv-${cropMetadata.City}-${cropMetadata.LabelID}-${cropMetadata.LabelTypeID}.png`}
+        src={`${process.env.PUBLIC_URL}/crops/gsv-${cropMetadata.City}-${cropMetadata.LabelID}-${cropMetadata.LabelTypeID}-${cropMetadata.Order}.png`}
         alt="Crop"
         onLoad={() => {
           setImageSize({
@@ -50,9 +50,9 @@ const ImageComponent = ({ cropMetadata, isFirstImage, isFirstGroup }) => {
         }}
       />
       {isFirstImage && isFirstGroup && (
-        <div className="tooltip text-w" style={{ left, top }}>
+      <div className="tooltip text-w" style={{ left, top }}>
           Please focus on this dot when evaluating images
-        </div>
+      </div>
       )}
       <div className={`label-marker ${isImageLoaded ? 'visible' : ''}`} style={{ left, top }}></div>
     </div>
