@@ -1,5 +1,5 @@
-//ImageComparison.js
-import React, { useState, useEffect, useRef } from 'react';
+// ImageComparison.js
+import React, { useState, useEffect } from 'react';
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
@@ -10,11 +10,11 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     const [currentPair, setCurrentPair] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [history, setHistory] = useState([]); 
-    const [historyIndex, setHistoryIndex] = useState(-1); 
+    const [history, setHistory] = useState([]);
+    const [historyIndex, setHistoryIndex] = useState(-1);
     const [maxComparisons, setMaxComparisons] = useState(0);
     const [hoverButton, setHoverButton] = useState(null);
-    const [comparisonSelectionMade, setComparisonSelectionMade] = useState(false);
+    const [selectionState, setSelectionState] = useState([]);
 
     const mobilityAid = answers.mobilityAid.toLowerCase();
 
@@ -64,12 +64,12 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 break;
             }
         } while (
-            pair[0].LabelID === pair[1].LabelID || 
-            history.some(h => 
-                (h[0].LabelID === pair[0].LabelID && h[1].LabelID === pair[1].LabelID) || 
+            pair[0].LabelID === pair[1].LabelID ||
+            history.some(h =>
+                (h[0].LabelID === pair[0].LabelID && h[1].LabelID === pair[1].LabelID) ||
                 (h[0].LabelID === pair[1].LabelID && h[1].LabelID === pair[0].LabelID))
         );
-    
+
         return pair;
     };
 
@@ -95,23 +95,25 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
             </div>
         );
     };
-    
+
     const displayImages = () => {
+        // console.log("Displaying new images");
         setLoading(true);
-        setComparisonSelectionMade(false);
         let nextPair;
         if (historyIndex + 1 < history.length) {
             nextPair = history[historyIndex + 1];
             setHistoryIndex(historyIndex + 1);
+            // console.log("Displaying next pair from history:", nextPair);
         } else {
             nextPair = getRandomImagePair();
             if (nextPair.length > 0) {
                 const newHistory = [...history, nextPair];
                 setHistory(newHistory);
                 setHistoryIndex(newHistory.length - 1);
+                setSelectionState([...selectionState, false]); // Add a new entry for the new pair
+                // console.log("Generated and displaying new random pair:", nextPair);
             }
         }
-        setComparisonSelectionMade(false);
         setCurrentPair(nextPair);
         setLoading(false);
     };
@@ -119,25 +121,38 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     const updateSelectionAndDisplayNext = (selectedImage, comparisonResult = {}) => {
         setSelectedImage(selectedImage);
         onSelectionComplete({ ...comparisonResult, comparisonContext });
+        setSelectionState(prevState => {
+            const newState = [...prevState];
+            newState[historyIndex] = true;
+            // console.log('Updated selectionState:', newState);
+            return newState;
+        });
         if (historyIndex + 1 >= maxComparisons) {
             onComplete();
         } else {
             displayImages();
-            
         }
     };
 
     const selectImage = (index) => {
+        // console.log('Image selected:', index);
         const selected = currentPair[index - 1];
         updateSelectionAndDisplayNext(selected, {
             image1LabelID: currentPair[0].LabelID,
-            image1City: currentPair[0].City, 
+            image1City: currentPair[0].City,
             image2LabelID: currentPair[1].LabelID,
             image2City: currentPair[1].City,
-            selectedImageLabelID: selected.LabelID, 
+            selectedImageLabelID: selected.LabelID,
             selectedImageCity: selected.City,
         });
-        setComparisonSelectionMade(true);
+        console.log('Image selected:', selected);
+
+        setSelectionState(prevState => {
+            const newState = [...prevState];
+            newState[historyIndex] = true;
+            // console.log('Updated selectionState:', newState);
+            return newState;
+        });
     };
 
     const selectLeftImage = () => {
@@ -156,13 +171,18 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
         if (currentPair.length === 2) {
             updateSelectionAndDisplayNext(null, {
                 image1LabelID: currentPair[0].LabelID,
-                image1City: currentPair[0].City, 
+                image1City: currentPair[0].City,
                 image2LabelID: currentPair[1].LabelID,
                 image2City: currentPair[1].City,
                 selection: 'equal',
             });
+
+            setSelectionState(prevState => {
+                const newState = [...prevState];
+                newState[historyIndex] = true;
+                return newState;
+            });
         }
-        setComparisonSelectionMade(true);
     };
 
     const handlePreviousClick = () => {
@@ -173,11 +193,11 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     };
 
     const handleNextClick = () => {
-        if (comparisonSelectionMade && (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1)) {
+        if (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) {
             if (historyIndex < history.length - 1) {
                 setHistoryIndex(historyIndex + 1);
                 setCurrentPair(history[historyIndex + 1]);
-            } else {
+            } else if (selectionState[historyIndex]) {
                 displayImages();
             }
         }
@@ -187,85 +207,81 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
         const activeColor = '#0d9488'; // Teal color
         const disabledColor = '#D8DEE9'; // Grey color
 
+        const isLeftArrowEnabled = historyIndex > 0;
+        const isRightArrowEnabled = (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && selectionState[historyIndex];
+
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
                 <CaretLeft
                     size={24}
-                    onClick={handlePreviousClick}
+                    onClick={isLeftArrowEnabled ? handlePreviousClick : null}
                     style={{
-                        cursor: historyIndex > 0 ? 'pointer' : 'not-allowed',
-                        color: historyIndex > 0 ? activeColor : disabledColor
+                        cursor: isLeftArrowEnabled ? 'pointer' : 'not-allowed',
+                        color: isLeftArrowEnabled ? activeColor : disabledColor
                     }}
                 />
                 {renderComparisonDots()}
                 <CaretRight
                     size={24}
-                    onClick={handleNextClick}
+                    onClick={isRightArrowEnabled ? handleNextClick : null}
                     style={{
-                        cursor: (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && comparisonSelectionMade ? 'pointer' : 'not-allowed',
-                        color: (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && comparisonSelectionMade ? activeColor : disabledColor
+                        cursor: isRightArrowEnabled ? 'pointer' : 'not-allowed',
+                        color: isRightArrowEnabled ? activeColor : disabledColor
                     }}
                 />
-                {console.log("Right arrow enabled:", (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && comparisonSelectionMade)}
-                {/* log more */}
-                {console.log("combo of 2 below", (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) )}
-                {console.log("historyIndex:", historyIndex < history.length - 1)}
-                {console.log("maxComparisons:", historyIndex < maxComparisons - 1)}
-                {console.log("comparisonSelectionMade:", comparisonSelectionMade)}
-
             </div>
         );
     };
 
     return (
         <div className="question-container">
-            <div className="image-comparison-content"> 
+            <div className="image-comparison-content">
                 <h2>{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, which one do you feel more confident passing?`}</h2>
                 <p className="text-instruction text-center mb-4 text-gray-600">If not confident in passing either, please select 'the same'.</p>
                 <div className="comparison-twin">
-                {currentPair.map((imageData, index) => (
-                        <div 
+                    {currentPair.map((imageData, index) => (
+                        <div
                             className={`comparison-image-wrapper ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-400 glow-shadow' : ''}`}
                             key={imageData.LabelID}
                             style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '4px' : '4px' }}
                             onClick={() => selectImage(index + 1)}
                         >
-                                <ImageComponent cropMetadata={imageData} />
+                            <ImageComponent cropMetadata={imageData} />
                         </div>
                     ))}
                 </div>
                 {renderDotsAndNavigation()}
                 <ResponseButtons
-                gap="24px"
-                disabled={loading} 
-                buttons={[
-                    {
-                    text: 'Left Image',
-                    shortcut: '←',
-                    onClick: selectLeftImage,
-                    onMouseEnter: () => handleMouseEnter('left'),
-                    onMouseLeave: handleMouseLeave,
-                    },
-                    {
-                    text: 'The Same',
-                    shortcut: '↓',
-                    onClick: recordEqualSelection,
-                    onMouseEnter: () => handleMouseEnter('equal'),
-                    onMouseLeave: handleMouseLeave,
-                    variant: 'outlined',
-                    },
-                    {
-                    text: 'Right Image',
-                    shortcut: '→',
-                    onClick: selectRightImage,
-                    onMouseEnter: () => handleMouseEnter('right'),
-                    onMouseLeave: handleMouseLeave,
-                    },
-                ]}
+                    gap="24px"
+                    disabled={loading}
+                    buttons={[
+                        {
+                            text: 'Left Image',
+                            shortcut: '←',
+                            onClick: selectLeftImage,
+                            onMouseEnter: () => handleMouseEnter('left'),
+                            onMouseLeave: handleMouseLeave,
+                        },
+                        {
+                            text: 'The Same',
+                            shortcut: '↓',
+                            onClick: recordEqualSelection,
+                            onMouseEnter: () => handleMouseEnter('equal'),
+                            onMouseLeave: handleMouseLeave,
+                            variant: 'outlined',
+                        },
+                        {
+                            text: 'Right Image',
+                            shortcut: '→',
+                            onClick: selectRightImage,
+                            onMouseEnter: () => handleMouseEnter('right'),
+                            onMouseLeave: handleMouseLeave,
+                        },
+                    ]}
                 />
             </div>
             <PageNavigations onPrevious={previousStep} onNext={nextStep} />
-            </div>
+        </div>
     );
 };
 
