@@ -15,10 +15,6 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     const [hoverButton, setHoverButton] = useState(null);
 
     const mobilityAid = answers.mobilityAid.toLowerCase();
-    
-    const leftButtonRef = useRef(null);
-    const rightButtonRef = useRef(null);
-    const equalButtonRef = useRef(null);
 
     useEffect(() => {
         const n = images.length;
@@ -190,7 +186,6 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                     onClick: selectLeftImage,
                     onMouseEnter: () => handleMouseEnter('left'),
                     onMouseLeave: handleMouseLeave,
-                    buttonRef: leftButtonRef // Updated to pass buttonRef
                     },
                     {
                     text: 'The Same',
@@ -199,7 +194,6 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                     onMouseEnter: () => handleMouseEnter('equal'),
                     onMouseLeave: handleMouseLeave,
                     variant: 'outlined',
-                    buttonRef: equalButtonRef // Updated to pass buttonRef
                     },
                     {
                     text: 'Right Image',
@@ -207,7 +201,6 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                     onClick: selectRightImage,
                     onMouseEnter: () => handleMouseEnter('right'),
                     onMouseLeave: handleMouseLeave,
-                    buttonRef: rightButtonRef // Updated to pass buttonRef
                     },
                 ]}
                 />
