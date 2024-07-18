@@ -240,20 +240,14 @@ const SurveyComponent = () => {
   const calculateCompletedGroups = Math.floor((currentStep - IMAGE_STEP) / STEPS_PER_GROUP);
 
 
-  const nextStep = () => {
-    console.log("Current Step:", currentStep); // Debugging log
-    if (validateCurrentStep()) {
-      console.log("Validation passed for step:", currentStep); // Debugging log
-      if (currentStep < TOTAL_STEPS) {
-        setCurrentStep(prevStep => prevStep + 1);
-      } 
-      if (currentStep < TOTAL_STEPS - 1) {
-        // log all data before continuing to the next mobility aid
-        logData();
-      }
-    }
-  };
-  
+const nextStep = () => {
+  if (validateCurrentStep()) {
+    if (currentStep < TOTAL_STEPS) {
+      logData();
+      setCurrentStep(currentStep + 1);
+    } 
+  }
+};
 
   const previousStep = () => {
     if (currentStep > 1) {
@@ -534,12 +528,12 @@ const handleSubmit = async () => {
 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+      ...answers, 
       sessionId, 
       userId, 
       currentStep,
       ipAddress,
       logType,
-      ...answers, 
       imageSelections,
       imageComparisons,
       timestamp: serverTimestamp(), 
@@ -568,12 +562,12 @@ const logData = async () => {
 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        ...answers,  
         sessionId, 
         userId, 
         currentStep,
         ipAddress,
         logType,
-        ...answers,
         imageSelections,
         imageComparisons,
         timestamp: serverTimestamp(),
@@ -601,12 +595,12 @@ const logMobilityAidData = async () => {
 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        ...answers,  
         sessionId, 
         userId, 
         currentStep,
         ipAddress,
         logType,
-        ...answers,
         imageSelections,
         imageComparisons,
         timestamp: serverTimestamp(),
