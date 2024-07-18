@@ -43,6 +43,17 @@ const STEPS_PER_GROUP = 3;
 const GROUP_ORDER = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5', 'group6', 'group7', 'group8'];
 const shuffledGroupOrder = shuffleArray([...GROUP_ORDER]);
 
+const generateInitialImageSelections = () => {
+  const initialState = {};
+  for (let i = 0; i <= 8; i++) {
+    initialState[`group${i}`] = {
+      [`group${i}A`]: [],
+      [`group${i}B`]: [],
+    };
+  }
+  return initialState;
+};
+
 const groupedCropsData = cropsData.reduce((acc, item) => {
   const groupKey = `group${item.Group}`;
   if (!acc[groupKey]) {
@@ -58,17 +69,7 @@ Object.keys(groupedCropsData).forEach(groupKey => {
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [imageSelections, setImageSelections] = useState({
-    group0: { group0A: [], group0B: [] },
-    group1: { group1A: [], group1B: [] },
-    group2: { group2A: [], group2B: [] },
-    group3: { group3A: [], group3B: [] },
-    group4: { group4A: [], group4B: [] },
-    group5: { group5A: [], group5B: [] },
-    group6: { group6A: [], group6B: [] },
-    group7: { group7A: [], group7B: [] },
-    group8: { group8A: [], group8B: [] },
-  });
+  const [imageSelections, setImageSelections] = useState(generateInitialImageSelections());
   const [imageComparisons, setImageComparisons] = useState([]);
   const [totalSteps, setTotalSteps] = useState(TOTAL_STEPS);
   const [sessionId, setSessionId] = useState(uuidv4()); 
@@ -89,7 +90,7 @@ const SurveyComponent = () => {
   const progressValue = (currentStep / totalSteps) * 100;
 
   const startSurvey = () => {
-    setCurrentStep(7); // Start the survey
+    setCurrentStep(1); // Start the survey
     setStartTime(new Date());
   };
   
@@ -179,17 +180,7 @@ const SurveyComponent = () => {
             setCurrentStep(MOBILITYAID_STEP);
           }
           
-          setImageSelections(data.imageSelections || {
-            group0: { group0A: [], group0B: [] },
-            group1: { group1A: [], group1B: [] },
-            group2: { group2A: [], group2B: [] },
-            group3: { group3A: [], group3B: [] },
-            group4: { group4A: [], group4B: [] },
-            group5: { group5A: [], group5B: [] },
-            group6: { group6A: [], group6B: [] },
-            group7: { group7A: [], group7B: [] },
-            group8: { group8A: [], group8B: [] },
-          });
+          setImageSelections(data.imageSelections || generateInitialImageSelections());
           setImageComparisons(data.imageComparisons || []);
           setAnswers({ ...data, isGroupContinue: false });
         } else {
