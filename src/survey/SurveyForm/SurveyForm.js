@@ -250,13 +250,14 @@ const handleGroupSelectionComplete = (group, selection) => {
 const nextStep = () => {
   if (validateCurrentStep()) {
     if (currentStep < TOTAL_STEPS) {
-      setCurrentStep(currentStep + 1);
-    } 
+      // setCurrentStep(currentStep + 1);
+      const newStep = currentStep + 1;
+      setCurrentStep(newStep);
 
-    if (currentStep < TOTAL_STEPS - 1) {
-      // log all data before continuing to the next mobility aid
-      logData();
-    }
+      if (newStep < TOTAL_STEPS) {
+        logData();
+      }
+    } 
   }
 };
 
@@ -526,11 +527,11 @@ const handleSubmit = async () => {
 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+      ...answers, 
       sessionId, 
       userId, 
       currentStep,
       logType,
-      ...answers, 
       imageSelections,
       imageComparisons,
       timestamp: serverTimestamp(), 
@@ -550,14 +551,14 @@ const logData = async () => {
   let logType = 'temp'; 
   const endTime = Date.now(); // Capture the end time
   const duration = endTime ? (endTime - startTime)/1000 : 0;
-
+  
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        ...answers,  
         sessionId, 
         userId, 
         currentStep,
         logType,
-        ...answers,
         imageSelections,
         imageComparisons,
         timestamp: serverTimestamp(),
@@ -578,11 +579,11 @@ const logMobilityAidData = async () => {
 
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        ...answers,  
         sessionId, 
         userId, 
         currentStep,
         logType,
-        ...answers,
         imageSelections,
         imageComparisons,
         timestamp: serverTimestamp(),
