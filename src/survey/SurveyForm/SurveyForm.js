@@ -250,13 +250,8 @@ const handleGroupSelectionComplete = (group, selection) => {
 const nextStep = () => {
   if (validateCurrentStep()) {
     if (currentStep < TOTAL_STEPS) {
-      // setCurrentStep(currentStep + 1);
-      const newStep = currentStep + 1;
-      setCurrentStep(newStep);
-
-      if (newStep < TOTAL_STEPS) {
-        logData();
-      }
+      logData();
+      setCurrentStep(currentStep + 1);
     } 
   }
 };
