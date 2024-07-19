@@ -459,6 +459,7 @@ const renderCurrentStep = () => {
       return <InstructionsPage1 
               nextStep={nextStep} 
               previousStep={previousStep} 
+              answers={answers}
              />;
    case 8:
       return <InstructionsPage2
