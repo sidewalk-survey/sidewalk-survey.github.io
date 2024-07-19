@@ -16,6 +16,8 @@ import WelcomePage from '../StartEndPages/WelcomePage';
 import EndingPage from '../StartEndPages/EndingPage';
 import ContinuePage from '../Questions/ContinuePage';
 import BreakPage from '../StartEndPages/BreakPage';
+import InstructionsPage1 from '../StartEndPages/InstructionsPage1';
+import InstructionsPage2 from '../StartEndPages/InstructionsPage2';
 import { v4 as uuidv4 } from 'uuid';
 import RankQuestion from '../Questions/RankQuestion';
 import cropsData from '../CropsData/cropsData';
@@ -36,9 +38,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
-const TOTAL_STEPS = 36;
+const TOTAL_STEPS = 38;
 const MOBILITYAID_STEP = 6;
-const IMAGE_STEP = 7;
+const IMAGE_STEP = 9;
 const STEPS_PER_GROUP = 3;
 const GROUP_ORDER = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5', 'group6', 'group7', 'group8'];
 const shuffledGroupOrder = shuffleArray([...GROUP_ORDER]);
@@ -396,7 +398,7 @@ const renderImageStep = (group, step) => {
 const renderCurrentStep = () => {
   for (let i = 0; i < groups.length; i++) {
     const group = groups[i];
-    group.startStep = 7 + i * 3;  //each group uses 3 steps (1 selection + 2 comparisons)
+    group.startStep = IMAGE_STEP + i * 3;  //each group uses 3 steps (1 selection + 2 comparisons)
     if (currentStep >= group.startStep && currentStep < group.startStep + 3) {
       return renderImageStep(group, currentStep);
     }
@@ -452,6 +454,22 @@ const renderCurrentStep = () => {
               handleChange={handleChange}
               singleMobilityAid={singleMobilityAid} 
               errors= {errors}// Pass the skip state
+             />;
+   case 7:
+      return <InstructionsPage1 
+              stepNumber={currentStep} 
+              nextStep={nextStep} 
+              previousStep={previousStep} 
+              answers={answers} 
+              handleChange={handleChange}
+             />;
+   case 8:
+      return <InstructionsPage2
+              stepNumber={currentStep} 
+              nextStep={nextStep} 
+              previousStep={previousStep} 
+              answers={answers} 
+              handleChange={handleChange}
              />;
     case 34:
       return <RankQuestion
