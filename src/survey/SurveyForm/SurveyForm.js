@@ -366,7 +366,7 @@ const renderImageStep = (group, step) => {
   if (index === 0) {
     // Image selection step
     return <ImageSelection
-      stepNumber={step}
+      stepNumber={step-3}
       answers={answers}
       nextStep={nextStep}
       previousStep={previousStep}
@@ -381,7 +381,7 @@ const renderImageStep = (group, step) => {
     const comparisonKey = group.comparisons[index - 1];
     return <ImageComparison
       key={comparisonKey}
-      stepNumber={step}
+      stepNumber={step-3}
       answers={answers}
       nextStep={nextStep}
       previousStep={() => setCurrentStep(step - 1)}
@@ -411,14 +411,14 @@ const renderCurrentStep = () => {
               />;
     case 2:
       return <Question1 
-              stepNumber={currentStep} 
+              stepNumber={currentStep-1} 
               nextStep={nextStep} 
               handleChange={handleChange}
               errors= {errors} 
               />;
     case 3:
       return <Question2 
-              stepNumber={currentStep} 
+              stepNumber={currentStep-1} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               handleChange={handleChange}
@@ -426,7 +426,7 @@ const renderCurrentStep = () => {
               />;
     case 4:
       return <Question3 
-              stepNumber={currentStep} 
+              stepNumber={currentStep-1} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               updateAnswers={updateAnswers}
@@ -438,7 +438,7 @@ const renderCurrentStep = () => {
         return null; 
       }
       return <Question4
-              stepNumber={currentStep}
+              stepNumber={currentStep-1}
               nextStep={nextStep}
               previousStep={previousStep}
               answers={answers}
@@ -447,7 +447,7 @@ const renderCurrentStep = () => {
             />;
     case 6:
       return <Question5 
-              stepNumber={currentStep} 
+              stepNumber={currentStep-1} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               answers={answers} 
@@ -457,23 +457,17 @@ const renderCurrentStep = () => {
              />;
    case 7:
       return <InstructionsPage1 
-              stepNumber={currentStep} 
               nextStep={nextStep} 
               previousStep={previousStep} 
-              answers={answers} 
-              handleChange={handleChange}
              />;
    case 8:
       return <InstructionsPage2
-              stepNumber={currentStep} 
               nextStep={nextStep} 
-              previousStep={previousStep} 
-              answers={answers} 
-              handleChange={handleChange}
+              previousStep={previousStep}
              />;
-    case 34:
+    case 36:
       return <RankQuestion
-              stepNumber={currentStep}
+              stepNumber={currentStep-3}
               nextStep={nextStep}
               previousStep={previousStep}
               answers={answers}
@@ -481,14 +475,14 @@ const renderCurrentStep = () => {
               errors= {errors}
             />
     
-    case 35: 
+    case 37: 
       if (answers.mobilityAidOptions.mobilityAidOptions.length === 1 ||  // if only one mobility aid option
         (answers.answeredMobilityAids && answers.answeredMobilityAids.length > 0) // if answered mobility aids exist
       ) {
         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
         
         if(remainingOptions.length === 1) {
-          setCurrentStep(36);
+          setCurrentStep(38);
           setContinueUrl('');
           return null;
         }
@@ -502,7 +496,7 @@ const renderCurrentStep = () => {
               setContinueUrl={setContinueUrl}
               logData={logMobilityAidData}
               />;
-    case 36:
+    case 38:
       return <EndingPage 
               previousStep={previousStep} 
               continueUrl={continueUrl} 
