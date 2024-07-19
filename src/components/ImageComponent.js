@@ -49,11 +49,11 @@ const ImageComponent = ({ cropMetadata, isFirstImage, isFirstGroup }) => {
           setIsImageLoaded(true);
         }}
       />
-      {isFirstImage && isFirstGroup && (
+      {/* {isFirstImage && isFirstGroup && (
       <div className="tooltip text-w" style={{ left, top }}>
           Please focus on this dot when evaluating images
       </div>
-      )}
+      )} */}
       <div className={`label-marker ${isImageLoaded ? 'visible' : ''}`} style={{ left, top }}></div>
     </div>
   );

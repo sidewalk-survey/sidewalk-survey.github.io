@@ -1,11 +1,13 @@
 import ResponseButtons from '../../components/ResponseButtons';
 import PageNavigations from "../../components/PageNavigations";
 
-const InstructionsPage1 = ({ nextStep, previousStep }) => {
+const InstructionsPage1 = ({ nextStep, previousStep, answers }) => {
 
   const handleResponse = (response) => {
     nextStep();
   }
+
+  const mobilityAid = answers.mobilityAid.toLowerCase();
 
   return (
     <div className="max-w-5xl mx-auto p-8 text-left text-xl flex flex-col items-center">
@@ -17,7 +19,7 @@ const InstructionsPage1 = ({ nextStep, previousStep }) => {
         There are no right or wrong answers—we are interested in your personal perceptions and experiences.
       </p>
       <p className="mb-4">
-        Here’s an example. When using your mobility device, can you <b>comfortably pass</b> this barrier? Please focus on the red dot.
+        Here’s an example. When using your {mobilityAid}, can you <b>comfortably pass</b> this barrier? Please focus on the red dot.
       </p>
       <div className="mb-4 flex flex-col items-center  ">
       <div className="selection-image-wrapper">
