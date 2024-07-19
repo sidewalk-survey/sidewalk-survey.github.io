@@ -4,7 +4,7 @@ import DraggableQuestion from '../../components/DraggableQuestion';
 const rankOptions = [
     { id: '1', value: "Uneven sidewalk panels" },
     { id: '2', value: "Broken surface or cracks on sidewalk" },
-    { id: '3', value: "Utility panels on sidewalk" },
+    { id: '3', value: "Manholes on sidewalk" },
     { id: '4', value: "Brick or cobblestone surface" },
     { id: '5', value: "Grass surface" },
     { id: '6', value: "Sand or gravel surface" },
