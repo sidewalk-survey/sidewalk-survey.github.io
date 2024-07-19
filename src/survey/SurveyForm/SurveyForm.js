@@ -89,6 +89,21 @@ const SurveyComponent = () => {
     setTotalSteps(steps);
   }, []);
 
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      const confirmationMessage = 'Are you sure you want to leave? Changes may not be saved.';
+      event.returnValue = confirmationMessage; // For most browsers
+      return confirmationMessage; // For some browsers
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   const progressValue = (currentStep / totalSteps) * 100;
 
   const startSurvey = () => {
