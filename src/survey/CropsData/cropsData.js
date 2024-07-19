@@ -63,11 +63,11 @@ const cropsData = [
     "Order":0
   },
   {
-    "City":"teaneck",
-    "LabelID":3433,
+    "City":"st_louis",
+    "LabelID":3850,
     "LabelTypeID":3,
-    "CanvasX":228,
-    "CanvasY":101,
+    "CanvasX":380,
+    "CanvasY":220,
     "Group":1,
     "Order":1
   },
