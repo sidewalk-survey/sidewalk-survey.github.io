@@ -334,7 +334,7 @@ const nextStep = () => {
   const onSelectionComplete = (data) => {
     setImageComparisons(prev => [...prev, { ...data }]);
     // log the data
-    // logData();
+    logData();
     setAnswers(prevAnswers => ({
       ...prevAnswers,
       imageComparisons: imageComparisons,
@@ -367,7 +367,7 @@ const handleSelectionComplete = (group, selection) => {
   }));
   setCurrentStep(currentStep + 1);  // Move to the first comparison step
   //log the data
-  // logData();
+  logData();
   setAnswers(prevAnswers => ({
     ...prevAnswers,
     imageComparisons: imageComparisons,
