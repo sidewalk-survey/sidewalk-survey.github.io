@@ -6,6 +6,7 @@ import './DraggableQuestion.css';
 
 const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep }) => {
   const [shuffledOptions, setShuffledOptions] = useState([]);
+  const [showNumbers, setShowNumbers] = useState(false);
 
   useEffect(() => {
     // Function to shuffle the options array
@@ -30,6 +31,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
 
     setShuffledOptions(newItems);
     handleChange(newItems);
+    setShowNumbers(true); // Show numbers after the first drag
   };
 
   const handleDropdownChange = (e, currentIndex) => {
@@ -91,11 +93,13 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                       >
                         <DotsSixVertical weight='bold' style={{ marginRight: '2px', color:"#0d9488"}} />
                         <select 
-                          value={index + 1} 
+                          value={showNumbers ? index + 1 : '-'} 
                           onChange={(e) => handleDropdownChange(e, index)}
                           style={{ fontSize: '0.8em', marginRight: '8px' }}
+                          disabled={!showNumbers}
                         >
-                          {shuffledOptions.map((_, i) => (
+                          {!showNumbers && <option value="-">-</option>}
+                          {showNumbers && shuffledOptions.map((_, i) => (
                             <option key={i} value={i + 1}>
                               {i + 1}
                             </option>
