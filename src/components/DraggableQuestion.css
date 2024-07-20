@@ -8,7 +8,7 @@
 
 .gradient-line{
   width: 6px;
-  height: 100%;
+  height: 96%;
   background: linear-gradient(
   360deg,
   #009392 0%,    
@@ -26,15 +26,18 @@
 
 .draggable-legend{
   display: flex;
+  align-items: center;
   margin-right: 12px;
 }
 
 .legend-labels{
+  align-items: flex-end;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-right: 8px;
-  align-items: flex-end;
+  height: 100%;
+
 }
 
 #easy{
