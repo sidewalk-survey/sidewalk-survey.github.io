@@ -16,6 +16,7 @@ import WelcomePage from '../StartEndPages/WelcomePage';
 import EndingPage from '../StartEndPages/EndingPage';
 import ContinuePage from '../Questions/ContinuePage';
 import BreakPage from '../StartEndPages/BreakPage';
+import MobileWarningModal from '../StartEndPages/MobileWarningModal';
 import InstructionsPage1 from '../StartEndPages/InstructionsPage1';
 import InstructionsPage2 from '../StartEndPages/InstructionsPage2';
 import { v4 as uuidv4 } from 'uuid';
@@ -83,6 +84,8 @@ const SurveyComponent = () => {
   const [loading, setLoading] = useState(true);
   const [showBreakOverlay, setShowBreakOverlay] = useState(false);
   const { id } = useParams(); 
+  const [showMobileWarning, setShowMobileWarning] = useState(false);
+  const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
     let steps = TOTAL_STEPS; // base number of steps
@@ -103,6 +106,27 @@ const SurveyComponent = () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setScreenSize({ width, height });
+  
+      if (width < 768) { // Assuming 768px is the breakpoint for tablets
+        setShowMobileWarning(true);
+      }
+    };
+  
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+  
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
+  
+  
 
   const progressValue = (currentStep / totalSteps) * 100;
 
@@ -589,6 +613,7 @@ const logData = async () => {
         logType,
         imageSelections,
         imageComparisons,
+        screenSize,
         timestamp: serverTimestamp(),
         duration
       });
@@ -622,6 +647,7 @@ const logMobilityAidData = async () => {
         logType,
         imageSelections,
         imageComparisons,
+        screenSize,
         timestamp: serverTimestamp(),
         duration
       });
@@ -643,6 +669,7 @@ if (loading) {
 
 return (
   <div>
+     {showMobileWarning && <MobileWarningModal onClose={() => setShowMobileWarning(false)} />}
     {currentStep > 0 && (
       <div style={{ position: 'fixed', top: 0, width: '100%', left:-4}}>
         <Progress value={progressValue} color="teal" size="sm"/>
