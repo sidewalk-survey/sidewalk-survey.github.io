@@ -5,3 +5,42 @@
     text-align: left;
     /* background-color: aquamarine; */
   }
+
+.gradient-line{
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(
+  360deg,
+  #009392 0%,    
+  #72aaa1 20%,   
+  #b1c7b3 40%,  
+  #e5b9ad 60%,   
+  #d98994 80%,   
+  #d0587e 100%     
+);
+}
+
+.draggable-options-and-legend{
+  display: flex;
+}
+
+.draggable-legend{
+  display: flex;
+  margin-right: 12px;
+}
+
+.legend-labels{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 8px;
+  align-items: flex-end;
+}
+
+#easy{
+  color: #009392;
+}
+
+#difficult{
+  color: #d0587e;
+}
