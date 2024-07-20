@@ -1,5 +1,5 @@
 import React from 'react';
-import TextQuestion from '../../components/TextQuestion'; 
+import TextAreaQuestion from '../../components/TextAreaQuestion'; 
 
 const Question5 = ({ stepNumber, nextStep, previousStep, answers, handleChange, singleMobilityAid }) => {
   const answeredMobilityAids = answers.answeredMobilityAids || [];
@@ -18,7 +18,7 @@ const Question5 = ({ stepNumber, nextStep, previousStep, answers, handleChange, 
   // }
 
   return (
-    <TextQuestion
+    <TextAreaQuestion
       questionText={<span>{stepNumber}. When using your <strong>{mobilityAid}</strong>, what are the most difficult sidewalk barriers that you encounter?</span>}
       inputId="sidewalkBarriers"
       placeholderText="For example, missing curb ramps, poles..."
