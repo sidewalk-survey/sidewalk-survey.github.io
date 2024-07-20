@@ -1,25 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@material-tailwind/react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { DotsSixVertical } from '@phosphor-icons/react';
 import './DraggableQuestion.css';
 
 const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep }) => {
+  const [shuffledOptions, setShuffledOptions] = useState([]);
+
+  useEffect(() => {
+    // Function to shuffle the options array
+    const shuffleArray = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    };
+
+    // Shuffle the options and update state
+    setShuffledOptions(shuffleArray([...options]));
+  }, []); // Empty dependency array ensures this runs only once
+
   const onDragEnd = (result) => {
     if (!result.destination) return;
 
-    const newItems = Array.from(options);
+    const newItems = Array.from(shuffledOptions);
     const [reorderedItem] = newItems.splice(result.source.index, 1);
     newItems.splice(result.destination.index, 0, reorderedItem);
 
+    setShuffledOptions(newItems);
     handleChange(newItems);
   };
 
   const handleDropdownChange = (e, currentIndex) => {
     const newOrder = parseInt(e.target.value, 10) - 1;
-    const newItems = Array.from(options);
+    const newItems = Array.from(shuffledOptions);
     const [movedItem] = newItems.splice(currentIndex, 1);
     newItems.splice(newOrder, 0, movedItem);
+    setShuffledOptions(newItems);
     handleChange(newItems);
   };
 
@@ -49,7 +67,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                   gap: '12px', 
                 }}
               >
-                {options.map((item, index) => (
+                {shuffledOptions.map((item, index) => (
                   <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided) => (
                       <div
@@ -77,7 +95,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                           onChange={(e) => handleDropdownChange(e, index)}
                           style={{ fontSize: '0.8em', marginRight: '8px' }}
                         >
-                          {options.map((_, i) => (
+                          {shuffledOptions.map((_, i) => (
                             <option key={i} value={i + 1}>
                               {i + 1}
                             </option>
