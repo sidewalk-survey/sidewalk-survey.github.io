@@ -5,7 +5,7 @@ const MobileWarningModal = ({ onClose }) => (
   <Dialog open={true} handler={onClose} size="sm" className="max-w-sm mx-auto text-2xl">
     <DialogHeader>
       <span className="flex items-center">
-        <Devices size={32} weight="bold" className="mr-4" />
+        <Devices size={32} weight="bold" className="mr-2" />
         Looks like you're on your phone!
       </span>
     </DialogHeader>

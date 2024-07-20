@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from '@material-tailwind/react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { firestore } from '../../config';
@@ -34,7 +34,12 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
 
   return (
     <Dialog open={isOpen} handler={handleClose} size="mg" className='text-2xl'>
-      <DialogHeader> <HandsClapping size={32} /> Great job!</DialogHeader>
+      <DialogHeader> 
+      <span className="flex items-center">
+        <HandsClapping size={32} className="mr-2"/> 
+        Great job!
+        </span>
+        </DialogHeader>
       <DialogBody className='text-xl'>
         {!continueUrl && 
         <p>You have completed rating {completedGroups} out of 9 groups of images.</p>
@@ -74,7 +79,9 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
         className='lg-font-size-button'
         color="teal" 
         size='lg' 
-        onClick={onContinue}>
+        onClick={onContinue}
+        autoFocus
+        >
           Next Group
           </Button>
         </div>
