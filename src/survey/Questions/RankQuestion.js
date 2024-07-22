@@ -39,7 +39,7 @@ const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswe
       <DraggableQuestion
         questionText={<span>{stepNumber}. When using your <strong>{mobilityAid}</strong>,  please rank the following barriers based on passibility, with 1 being the most difficult and  {rankedOptions.length} being the easiest.</span>}
         inputId="rankedOptions" 
-        instructionText="Drag and drop the options to rank them."
+        instructionText="Drag and drop the options to rank them. You may click on the image icon to see an example."
         options={rankedOptions}
         handleChange={handleRankingChange}
         previousStep={previousStep}

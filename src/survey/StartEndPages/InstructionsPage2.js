@@ -8,7 +8,7 @@ const InstructionsPage2 = ({ nextStep , previousStep}) => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-8 text-left text-xl">
+    <div className="max-w-6xl mx-auto p-8 text-left text-xl">
       <p className="mb-4">
         As you evaluate each image, you might consider different ways of maneuvering around a barrier depending on your ability and the perceived problem. So, to consider if something is passable, please think about what you would be capable of doing in real life. For example:
       </p>

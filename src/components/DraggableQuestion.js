@@ -53,7 +53,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     <div className="question-container">
       <div className="draggable-question-content">
         <h2>{questionText}</h2>
-        <p style={{ fontSize: '0.8em', textAlign: 'left', marginTop: '24px', marginBottom: '24px' }}>{instructionText}</p>
+        <p className = "text-instruction text-left mb-8 text-gray-600">{instructionText}</p>
         <div className="draggable-options-and-legend">
           <div className="draggable-legend">
             <div className="legend-labels">

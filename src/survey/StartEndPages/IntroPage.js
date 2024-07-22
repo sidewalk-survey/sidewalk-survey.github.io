@@ -11,7 +11,7 @@ const IntroPage = ({ nextStep }) => {
         <img src={`${process.env.PUBLIC_URL}/img/label-examples.png`} alt="Welcome" />
       </div>
       <p className="mb-4">
-        In this survey, we will ask you about <b>your perceptions of various sidewalk barriers</b> such as obstacles and surface problems as shown in images similar to the above. Our goal is to understand how people using different mobility devices perceive barriers in urban environments.
+        In this survey, we will ask you about <b>your perceptions of various sidewalk barriers</b> such as obstacles and surface similar to the images above. Our goal is to understand how people using different mobility devices perceive barriers in urban environments.
       </p>
       <p className="mb-4">
         You may <b>save your responses</b> when prompted and come back at a later time. Your responses will be kept confidential and will be used for research purposes only.

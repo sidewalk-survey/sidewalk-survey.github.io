@@ -1,9 +1,10 @@
 /* ImageSelection.css */
 .selection-image-wrapper {
   display: flex;
-  /* margin: 1rem; */
+  margin: 1rem;
   overflow: hidden;
   height: 50vh;
+  border-radius: 0.5rem;
 }
 
 .image-and-selection-buttons {
