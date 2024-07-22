@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@material-tailwind/react';
+import { Button, Popover, PopoverHandler, PopoverContent } from '@material-tailwind/react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { DotsSixVertical, Image } from '@phosphor-icons/react';
 import './DraggableQuestion.css';
@@ -7,8 +7,7 @@ import './DraggableQuestion.css';
 const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep }) => {
   const [shuffledOptions, setShuffledOptions] = useState([]);
   const [showNumbers, setShowNumbers] = useState(false);
-  const [showTooltip, setShowTooltip] = useState({});
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [popoverOpen, setPopoverOpen] = useState({});
 
   useEffect(() => {
     const shuffleArray = (array) => {
@@ -20,7 +19,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     };
 
     setShuffledOptions(shuffleArray([...options]));
-  }, []); // Empty dependency array ensures this runs only once
+  }, [options]);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -43,18 +42,10 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     handleChange(newItems);
   };
 
-  const handleMouseEnter = (index) => {
-    setShowTooltip((prev) => ({
+  const handlePopoverOpen = (index) => {
+    setPopoverOpen((prev) => ({
       ...prev,
-      [index]: true,
-    }));
-    setSelectedImage(shuffledOptions[index].image);
-  };
-
-  const handleMouseLeave = (index) => {
-    setShowTooltip((prev) => ({
-      ...prev,
-      [index]: false,
+      [index]: !prev[index],
     }));
   };
 
@@ -121,18 +112,20 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                           ))}
                         </select>
                         {item.value}
-                        <Image 
-                          size={20} 
-                          weight="bold" 
-                          style={{ marginLeft: 'auto', cursor: 'pointer' }} 
-                          onMouseEnter={() => handleMouseEnter(index)}
-                          onMouseLeave={() => handleMouseLeave(index)}
-                        />
-                        {showTooltip[index] && (
-                          <div className="tooltip">
-                            <img src={selectedImage} alt="Option" />
-                          </div>
-                        )}
+                        <Popover placement="right" open={popoverOpen[index]} handler={() => handlePopoverOpen(index)}>
+                          <PopoverHandler>
+                            <Image 
+                              size={20} 
+                              weight="bold" 
+                              style={{ marginLeft: 'auto', cursor: 'pointer' }} 
+                              onClick={() => handlePopoverOpen(index)}
+                            />
+                          </PopoverHandler>
+                          <PopoverContent>
+                              <img src={item.image} alt="Option" style={{ width: '25vw', height: 'auto' }} />
+                          </PopoverContent>
+
+                        </Popover>
                       </div>
                     )}
                   </Draggable>
