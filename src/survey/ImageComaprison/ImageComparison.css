@@ -1,10 +1,10 @@
 .comparison-image-wrapper {
   display: flex;
-  margin: 1rem; /* Adjusted from m-4 for clarity */
-  width: 45%; /* Adjusted width to fit within viewport */
-  cursor: pointer; /* Change cursor to pointer on hover */
+  margin: 1rem; 
+  width: 45%;
+  cursor: pointer;
+  border-radius: 0.75rem;
   overflow: hidden;
-  border-radius: 0.75em;
   height: 50vh;
 }
 
