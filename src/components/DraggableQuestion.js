@@ -19,7 +19,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     };
 
     setShuffledOptions(shuffleArray([...options]));
-  }, [options]);
+  }, []);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -115,7 +115,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                         <Popover placement="right" open={popoverOpen[index]} handler={() => handlePopoverOpen(index)}>
                           <PopoverHandler>
                             <Image 
-                              size={20} 
+                              size={24} 
                               weight="bold" 
                               style={{ marginLeft: 'auto', cursor: 'pointer' }} 
                               onClick={() => handlePopoverOpen(index)}

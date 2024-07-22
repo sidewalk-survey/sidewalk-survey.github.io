@@ -10,7 +10,7 @@ const rankOptions = [
     { id: '6', value: "Sand or gravel surface", image: `${process.env.PUBLIC_URL}/crops/gsv-seattle-273517-4-1.png`  },
     { id: '7', value: "Narrow sidewalk (width less than 1.2m / 4 ft)", image: `${process.env.PUBLIC_URL}/crops/gsv-oradell-5518-4-3.png`  },
     { id: '8', value: "Missing curb ramp at intersections" , image: `${process.env.PUBLIC_URL}/crops/gsv-seattle-175408-2-4.png` },
-    { id: '9', value: "Steep slope (sidewalk incline greater than 5%)" , image: `${process.env.PUBLIC_URL}/crops/gsv-lapiedad-997-3-0.png` },
+    { id: '9', value: "Steep slope (sidewalk incline greater than 5%) " , image: `${process.env.PUBLIC_URL}/crops/gsv-lapiedad-997-3-0.png` },
   ];
 
 const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswers }) => {
