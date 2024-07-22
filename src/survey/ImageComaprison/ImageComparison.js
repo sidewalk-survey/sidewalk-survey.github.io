@@ -16,6 +16,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     const [maxComparisons, setMaxComparisons] = useState(0);
     const [hoverButton, setHoverButton] = useState(null);
     const [selectionState, setSelectionState] = useState([]);
+    const responsiveSize = window.innerWidth >= 2560 ? '32px' : '24px';
 
     const mobilityAid = answers.mobilityAid.toLowerCase();
 
@@ -215,7 +216,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
                 <Tooltip content="prev pair">
                     <CaretLeft
-                        size={24}
+                        size={responsiveSize}
                         weight='bold'
                         onClick={isLeftArrowEnabled ? handlePreviousClick : null}
                         style={{
@@ -227,7 +228,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 {renderComparisonDots()}
                 <Tooltip content="next pair">
                 <CaretRight
-                    size={24}
+                    size={responsiveSize}
                     weight='bold'
                     onClick={isRightArrowEnabled ? handleNextClick : null}
                     style={{
@@ -245,6 +246,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
             <div className="image-comparison-content">
                 <h2>{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, which one do you feel more confident in passing?`}</h2>
                 <p className="text-instruction text-center mb-4 text-gray-600">If not confident in passing either, please select 'the same'.</p>
+                <div className="image-comparison-and-buttons"> 
                 <div className="comparison-twin">
                     {currentPair.map((imageData, index) => (
                         <div
@@ -286,6 +288,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                         },
                     ]}
                 />
+                </div>
             </div>
             <PageNavigations onPrevious={previousStep} onNext={nextStep} />
         </div>

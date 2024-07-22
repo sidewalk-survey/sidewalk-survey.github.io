@@ -22,8 +22,17 @@
   align-items: center;
 }
 
+.image-comparison-and-buttons{
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
 .image-comparison-content {
   max-height: 90vh; /* Ensure content height is within viewport */
   overflow-y: auto; /* Enable vertical scrolling for content */
   padding: 1rem; /* Add padding for better spacing */
 }
+
