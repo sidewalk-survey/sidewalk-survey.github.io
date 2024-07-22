@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import DraggableQuestion from '../../components/DraggableQuestion';
 
 const rankOptions = [
-    { id: '1', value: "Uneven sidewalk panels" },
-    { id: '2', value: "Broken surface or cracks on sidewalk" },
-    { id: '3', value: "Manholes on sidewalk" },
-    { id: '4', value: "Brick or cobblestone surface" },
-    { id: '5', value: "Grass surface" },
-    { id: '6', value: "Sand or gravel surface" },
-    { id: '7', value: "Narrow sidewalk (width less than 1.2m / 4 ft)" },
-    { id: '8', value: "Missing curb ramp at intersections" },
-    { id: '9', value: "Steep slope (sidewalk incline greater than 5%)" },
+    { id: '1', value: "Uneven sidewalk panels", image: `${process.env.PUBLIC_URL}/img/example-barrier.png` },
+    { id: '2', value: "Broken surface or cracks on sidewalk", image: `${process.env.PUBLIC_URL}/img/example-barrier.png`  },
+    { id: '3', value: "Manholes on sidewalk", image: `${process.env.PUBLIC_URL}/img/example-barrier.png`  },
+    { id: '4', value: "Brick or cobblestone surface", image: `${process.env.PUBLIC_URL}/img/example-barrier.png`  },
+    { id: '5', value: "Grass surface", image: `${process.env.PUBLIC_URL}/img/example-barrier.png` },
+    { id: '6', value: "Sand or gravel surface", image: `${process.env.PUBLIC_URL}/img/example-barrier.png`  },
+    { id: '7', value: "Narrow sidewalk (width less than 1.2m / 4 ft)", image: `${process.env.PUBLIC_URL}/img/example-barrier.png`  },
+    { id: '8', value: "Missing curb ramp at intersections" , image: `${process.env.PUBLIC_URL}/img/example-barrier.png` },
+    { id: '9', value: "Steep slope (sidewalk incline greater than 5%)" , image: `${process.env.PUBLIC_URL}/img/example-barrier.png` },
   ];
 
 const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswers }) => {

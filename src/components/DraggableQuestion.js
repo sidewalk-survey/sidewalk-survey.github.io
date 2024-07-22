@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@material-tailwind/react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { DotsSixVertical } from '@phosphor-icons/react';
+import { DotsSixVertical, Image } from '@phosphor-icons/react';
 import './DraggableQuestion.css';
 
 const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep }) => {
   const [shuffledOptions, setShuffledOptions] = useState([]);
   const [showNumbers, setShowNumbers] = useState(false);
+  const [showTooltip, setShowTooltip] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    // Function to shuffle the options array
     const shuffleArray = (array) => {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -18,7 +19,6 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
       return array;
     };
 
-    // Shuffle the options and update state
     setShuffledOptions(shuffleArray([...options]));
   }, []); // Empty dependency array ensures this runs only once
 
@@ -31,7 +31,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
 
     setShuffledOptions(newItems);
     handleChange(newItems);
-    setShowNumbers(true); // Show numbers after the first drag
+    setShowNumbers(true);
   };
 
   const handleDropdownChange = (e, currentIndex) => {
@@ -41,6 +41,21 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     newItems.splice(newOrder, 0, movedItem);
     setShuffledOptions(newItems);
     handleChange(newItems);
+  };
+
+  const handleMouseEnter = (index) => {
+    setShowTooltip((prev) => ({
+      ...prev,
+      [index]: true,
+    }));
+    setSelectedImage(shuffledOptions[index].image);
+  };
+
+  const handleMouseLeave = (index) => {
+    setShowTooltip((prev) => ({
+      ...prev,
+      [index]: false,
+    }));
   };
 
   return (
@@ -106,6 +121,18 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                           ))}
                         </select>
                         {item.value}
+                        <Image 
+                          size={20} 
+                          weight="bold" 
+                          style={{ marginLeft: 'auto', cursor: 'pointer' }} 
+                          onMouseEnter={() => handleMouseEnter(index)}
+                          onMouseLeave={() => handleMouseLeave(index)}
+                        />
+                        {showTooltip[index] && (
+                          <div className="tooltip">
+                            <img src={selectedImage} alt="Option" />
+                          </div>
+                        )}
                       </div>
                     )}
                   </Draggable>
