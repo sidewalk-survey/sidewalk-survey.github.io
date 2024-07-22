@@ -1,5 +1,6 @@
 // ImageComparison.js
 import React, { useState, useEffect } from 'react';
+import { Tooltip } from "@material-tailwind/react";
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
@@ -212,23 +213,29 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
 
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
-                <CaretLeft
-                    size={24}
-                    onClick={isLeftArrowEnabled ? handlePreviousClick : null}
-                    style={{
-                        cursor: isLeftArrowEnabled ? 'pointer' : 'not-allowed',
-                        color: isLeftArrowEnabled ? activeColor : disabledColor
-                    }}
-                />
+                <Tooltip content="prev pair">
+                    <CaretLeft
+                        size={24}
+                        weight='bold'
+                        onClick={isLeftArrowEnabled ? handlePreviousClick : null}
+                        style={{
+                            cursor: isLeftArrowEnabled ? 'pointer' : 'not-allowed',
+                            color: isLeftArrowEnabled ? activeColor : disabledColor
+                        }}
+                    />
+                </Tooltip>
                 {renderComparisonDots()}
+                <Tooltip content="next pair">
                 <CaretRight
                     size={24}
+                    weight='bold'
                     onClick={isRightArrowEnabled ? handleNextClick : null}
                     style={{
                         cursor: isRightArrowEnabled ? 'pointer' : 'not-allowed',
                         color: isRightArrowEnabled ? activeColor : disabledColor
                     }}
                 />
+                </Tooltip>
             </div>
         );
     };

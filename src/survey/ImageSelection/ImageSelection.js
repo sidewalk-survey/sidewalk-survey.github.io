@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Tooltip } from "@material-tailwind/react";
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
@@ -83,17 +84,23 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
     const renderDotsAndNavigation = () => {
         const activeColor = '#0d9488'; // Teal color
         const disabledColor = '#D8DEE9'; // Grey color
-
+    
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
-                <CaretLeft
-                    size={24}
-                    onClick={handlePreviousClick}
-                    style={{
-                        cursor: currentIndex > 0 ? 'pointer' : 'not-allowed',
-                        color: currentIndex > 0 ? activeColor : disabledColor
-                    }}
-                />
+                <Tooltip content="prev image">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <CaretLeft
+                            size={24}
+                            weight='bold'
+                            onClick={handlePreviousClick}
+                            style={{
+                                cursor: currentIndex > 0 ? 'pointer' : 'not-allowed',
+                                color: currentIndex > 0 ? activeColor : disabledColor
+                            }}
+                        />
+                    </div>
+                </Tooltip>
+                
                 {images.map((_, index) => (
                     <span
                         key={index}
@@ -105,17 +112,25 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                         }}
                     ></span>
                 ))}
-                <CaretRight
-                    size={24}
-                    onClick={handleNextClick}
-                    style={{
-                        cursor: (currentIndex < images.length - 1 && selectionMade) ? 'pointer' : 'not-allowed',
-                        color: (currentIndex < images.length - 1 && selectionMade) ? activeColor : disabledColor
-                    }}
-                />
+                
+                <Tooltip content="next image">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <CaretRight
+                            size={24}
+                            weight='bold'
+                            onClick={handleNextClick}
+                            style={{
+                                cursor: (currentIndex < images.length - 1 && selectionMade) ? 'pointer' : 'not-allowed',
+                                color: (currentIndex < images.length - 1 && selectionMade) ? activeColor : disabledColor
+                            }}
+                        />
+                    </div>
+                </Tooltip>
             </div>
         );
     };
+    
+    
 
     return (
         <div className="question-container">

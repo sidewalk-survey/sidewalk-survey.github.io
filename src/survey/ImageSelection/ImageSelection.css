@@ -12,7 +12,7 @@
   display: flex;
   height: auto;
   flex-direction: column;
-  gap: 1em;
+  gap: 1rem;
   align-items: center;
   margin-bottom: 4rem; /* Adjusted to use rem for consistency */
 }
