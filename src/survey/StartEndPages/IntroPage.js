@@ -4,10 +4,13 @@ import { Button } from "@material-tailwind/react";
 const IntroPage = ({ nextStep }) => {
 
   return (
-    <div className="max-w-5xl mx-auto p-8 text-left text-xl">
-      <h2 className="text-3xl font-semibold mb-8">Welcome to our study on mobility devices and sidewalk accessibility!</h2>
-      <div className="mb-4">
-        {/* Image */}
+    <div className="max-w-6xl mx-auto p-8 text-left"
+    style={{ textAlign: 'left', marginBottom: '1.2vw', fontSize: '0.75em', lineHeight: '1.3' }}
+    >
+     <h1 style={{ textAlign: 'left', marginBottom: '1.2vw', fontSize: '1.5em', fontWeight: '600' }}>
+        Welcome to our study on mobility devices and sidewalk accessibility!
+      </h1>
+      <div className="mb-4" >
         <img src={`${process.env.PUBLIC_URL}/img/label-examples.png`} alt="Welcome" />
       </div>
       <p className="mb-4">

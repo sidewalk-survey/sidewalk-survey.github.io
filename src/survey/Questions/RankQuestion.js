@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DraggableQuestion from '../../components/DraggableQuestion';
 
 const rankOptions = [
-    { id: '1', value: "Uneven sidewalk panels", image: `${process.env.PUBLIC_URL}/crops/gsv-st_louis-2697-4-5.png` },
+    { id: '1', value: "Uneven sidewalk panels", image: `${process.env.PUBLIC_URL}/crops/gsv-st_louis-5941-4-5.png` },
     { id: '2', value: "Broken surface or cracks on sidewalk", image: `${process.env.PUBLIC_URL}//crops/gsv-seattle-209069-4-2.png`  },
     { id: '3', value: "Manholes on sidewalk", image: `${process.env.PUBLIC_URL}/crops/gsv-chicago-39245-4-0.png`  },
     { id: '4', value: "Brick or cobblestone surface", image: `${process.env.PUBLIC_URL}/crops/gsv-columbus-39006-4-1.png`  },
