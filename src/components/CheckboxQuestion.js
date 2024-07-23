@@ -48,6 +48,7 @@ const CheckboxQuestion = ({
             <Input
               variant="static"
               type="text"
+              color="teal"
               placeholder="Please specify"
               value={customValue}
               onChange={handleCustomChange}
