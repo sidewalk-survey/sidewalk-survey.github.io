@@ -1,37 +1,37 @@
 const cropsData = [
   {
     "City":"seattle",
-    "LabelID":231433,
-    "LabelTypeID":3,
-    "CanvasX":391,
-    "CanvasY":223,
-    "Group":0,
-    "Order":0
-  },
-  {
-    "City":"seattle",
     "LabelID":264820,
     "LabelTypeID":3,
     "CanvasX":369,
     "CanvasY":183,
     "Group":0,
-    "Order":1
+    "Order":0
   },
   {
     "City":"seattle",
     "LabelID":191782,
     "LabelTypeID":3,
-    "CanvasX":361,
-    "CanvasY":328,
+    "CanvasX":330,
+    "CanvasY":310,
+    "Group":0,
+    "Order":1
+  },
+  {
+    "City":"chicago",
+    "LabelID":46864,
+    "LabelTypeID":3,
+    "CanvasX":374,
+    "CanvasY":289,
     "Group":0,
     "Order":2
   },
   {
-    "City":"oradell",
-    "LabelID":12344,
+    "City":"chicago",
+    "LabelID":15148,
     "LabelTypeID":3,
-    "CanvasX":312,
-    "CanvasY":279,
+    "CanvasX":330,
+    "CanvasY":300,
     "Group":0,
     "Order":3
   },
@@ -45,31 +45,13 @@ const cropsData = [
     "Order":4
   },
   {
-    "City":"lapiedad",
-    "LabelID":1524,
+    "City":"oradell",
+    "LabelID":12344,
     "LabelTypeID":3,
-    "CanvasX":242,
-    "CanvasY":275,
+    "CanvasX":308,
+    "CanvasY":270,
     "Group":0,
     "Order":5
-  },
-  {
-    "City":"st_louis",
-    "LabelID":7558,
-    "LabelTypeID":3,
-    "CanvasX":344,
-    "CanvasY":188,
-    "Group":1,
-    "Order":0
-  },
-  {
-    "City":"teaneck",
-    "LabelID":3433,
-    "LabelTypeID":3,
-    "CanvasX":228,
-    "CanvasY":101,
-    "Group":1,
-    "Order":1
   },
   {
     "City":"seattle",
@@ -78,16 +60,16 @@ const cropsData = [
     "CanvasX":213,
     "CanvasY":230,
     "Group":1,
-    "Order":2
+    "Order":0
   },
   {
-    "City":"seattle",
-    "LabelID":229205,
+    "City":"st_louis",
+    "LabelID":3850,
     "LabelTypeID":3,
-    "CanvasX":245,
-    "CanvasY":296,
+    "CanvasX":380,
+    "CanvasY":240,
     "Group":1,
-    "Order":3
+    "Order":1
   },
   {
     "City":"oradell",
@@ -96,7 +78,16 @@ const cropsData = [
     "CanvasX":377,
     "CanvasY":178,
     "Group":1,
-    "Order":4
+    "Order":2
+  },
+  {
+    "City":"st_louis",
+    "LabelID":7558,
+    "LabelTypeID":3,
+    "CanvasX":344,
+    "CanvasY":188,
+    "Group":1,
+    "Order":3
   },
   {
     "City":"columbus",
@@ -105,34 +96,16 @@ const cropsData = [
     "CanvasX":390,
     "CanvasY":163,
     "Group":1,
-    "Order":5
-  },
-  {
-    "City":"teaneck",
-    "LabelID":3430,
-    "LabelTypeID":3,
-    "CanvasX":373,
-    "CanvasY":217,
-    "Group":2,
-    "Order":0
-  },
-  {
-    "City":"teaneck",
-    "LabelID":5274,
-    "LabelTypeID":3,
-    "CanvasX":341,
-    "CanvasY":234,
-    "Group":2,
-    "Order":1
+    "Order":4
   },
   {
     "City":"seattle",
-    "LabelID":139731,
+    "LabelID":229205,
     "LabelTypeID":3,
-    "CanvasX":318,
-    "CanvasY":203,
-    "Group":2,
-    "Order":2
+    "CanvasX":394,
+    "CanvasY":308,
+    "Group":1,
+    "Order":5
   },
   {
     "City":"seattle",
@@ -141,7 +114,16 @@ const cropsData = [
     "CanvasX":193,
     "CanvasY":190,
     "Group":2,
-    "Order":3
+    "Order":0
+  },
+  {
+    "City":"columbus",
+    "LabelID":36038,
+    "LabelTypeID":3,
+    "CanvasX":265,
+    "CanvasY":230,
+    "Group":2,
+    "Order":1
   },
   {
     "City":"seattle",
@@ -150,32 +132,50 @@ const cropsData = [
     "CanvasX":370,
     "CanvasY":135,
     "Group":2,
+    "Order":2
+  },
+  {
+    "City":"teaneck",
+    "LabelID":3430,
+    "LabelTypeID":3,
+    "CanvasX":290,
+    "CanvasY":300,
+    "Group":2,
+    "Order":3
+  },
+  {
+    "City":"seattle",
+    "LabelID":139731,
+    "LabelTypeID":3,
+    "CanvasX":318,
+    "CanvasY":203,
+    "Group":2,
     "Order":4
   },
   {
-    "City":"columbus",
-    "LabelID":29039,
+    "City":"seattle",
+    "LabelID":208754,
     "LabelTypeID":3,
-    "CanvasX":485,
-    "CanvasY":235,
+    "CanvasX":385,
+    "CanvasY":300,
     "Group":2,
     "Order":5
   },
   {
-    "City":"st_louis",
-    "LabelID":2022,
+    "City":"oradell",
+    "LabelID":11350,
     "LabelTypeID":4,
-    "CanvasX":317,
-    "CanvasY":107,
+    "CanvasX":175,
+    "CanvasY":370,
     "Group":3,
     "Order":0
   },
   {
-    "City":"st_louis",
-    "LabelID":5941,
+    "City":"oradell",
+    "LabelID":11707,
     "LabelTypeID":4,
-    "CanvasX":378,
-    "CanvasY":183,
+    "CanvasX":440,
+    "CanvasY":230,
     "Group":3,
     "Order":1
   },
@@ -190,57 +190,66 @@ const cropsData = [
   },
   {
     "City":"oradell",
-    "LabelID":11350,
-    "LabelTypeID":4,
-    "CanvasX":175,
-    "CanvasY":365,
-    "Group":3,
-    "Order":3
-  },
-  {
-    "City":"oradell",
     "LabelID":562,
     "LabelTypeID":4,
     "CanvasX":368,
     "CanvasY":269,
     "Group":3,
+    "Order":3
+  },
+  {
+    "City":"st_louis",
+    "LabelID":2022,
+    "LabelTypeID":4,
+    "CanvasX":320,
+    "CanvasY":140,
+    "Group":3,
     "Order":4
   },
   {
-    "City":"oradell",
-    "LabelID":11707,
+    "City":"st_louis",
+    "LabelID":5941,
     "LabelTypeID":4,
-    "CanvasX":434,
-    "CanvasY":238,
+    "CanvasX":382,
+    "CanvasY":200,
     "Group":3,
     "Order":5
   },
   {
-    "City":"amsterdam",
-    "LabelID":26619,
+    "City":"chicago",
+    "LabelID":39245,
     "LabelTypeID":4,
-    "CanvasX":312,
-    "CanvasY":229,
+    "CanvasX":350,
+    "CanvasY":330,
     "Group":4,
     "Order":0
   },
   {
-    "City":"st_louis",
-    "LabelID":2815,
+    "City":"columbus",
+    "LabelID":39006,
     "LabelTypeID":4,
-    "CanvasX":530,
-    "CanvasY":278,
+    "CanvasX":350,
+    "CanvasY":240,
     "Group":4,
     "Order":1
   },
   {
     "City":"st_louis",
-    "LabelID":3101,
+    "LabelID":2080,
     "LabelTypeID":4,
-    "CanvasX":346,
-    "CanvasY":273,
+    "CanvasX":350,
+    "CanvasY":270,
     "Group":4,
     "Order":2
+  },
+  {
+    "City":"columbus",
+    "LabelID":30419,
+    "LabelTypeID":4,
+    "CanvasX":350,
+    "CanvasY":340,
+    "Group":4,
+    "Order":3
   },
   {
     "City":"st_louis",
@@ -249,70 +258,16 @@ const cropsData = [
     "CanvasX":258,
     "CanvasY":181,
     "Group":4,
-    "Order":3
-  },
-  {
-    "City":"chicago",
-    "LabelID":39245,
-    "LabelTypeID":4,
-    "CanvasX":406,
-    "CanvasY":116,
-    "Group":4,
     "Order":4
   },
   {
-    "City":"chicago",
-    "LabelID":11195,
+    "City":"amsterdam",
+    "LabelID":26619,
     "LabelTypeID":4,
-    "CanvasX":220,
-    "CanvasY":363,
+    "CanvasX":450,
+    "CanvasY":290,
     "Group":4,
     "Order":5
-  },
-  {
-    "City":"st_louis",
-    "LabelID":2697,
-    "LabelTypeID":4,
-    "CanvasX":377,
-    "CanvasY":168,
-    "Group":5,
-    "Order":0
-  },
-  {
-    "City":"st_louis",
-    "LabelID":3172,
-    "LabelTypeID":4,
-    "CanvasX":548,
-    "CanvasY":275,
-    "Group":5,
-    "Order":1
-  },
-  {
-    "City":"walla_walla",
-    "LabelID":555,
-    "LabelTypeID":4,
-    "CanvasX":301,
-    "CanvasY":172,
-    "Group":5,
-    "Order":2
-  },
-  {
-    "City":"oradell",
-    "LabelID":456,
-    "LabelTypeID":4,
-    "CanvasX":393,
-    "CanvasY":195,
-    "Group":5,
-    "Order":3
-  },
-  {
-    "City":"chicago",
-    "LabelID":631,
-    "LabelTypeID":4,
-    "CanvasX":176,
-    "CanvasY":275,
-    "Group":5,
-    "Order":4
   },
   {
     "City":"chicago",
@@ -321,14 +276,59 @@ const cropsData = [
     "CanvasX":322,
     "CanvasY":293,
     "Group":5,
+    "Order":0
+  },
+  {
+    "City":"seattle",
+    "LabelID":273517,
+    "LabelTypeID":4,
+    "CanvasX":350,
+    "CanvasY":330,
+    "Group":5,
+    "Order":1
+  },
+  {
+    "City":"oradell",
+    "LabelID":456,
+    "LabelTypeID":4,
+    "CanvasX":393,
+    "CanvasY":195,
+    "Group":5,
+    "Order":2
+  },
+  {
+    "City":"chicago",
+    "LabelID":631,
+    "LabelTypeID":4,
+    "CanvasX":370,
+    "CanvasY":244,
+    "Group":5,
+    "Order":3
+  },
+  {
+    "City":"st_louis",
+    "LabelID":3172,
+    "LabelTypeID":4,
+    "CanvasX":548,
+    "CanvasY":275,
+    "Group":5,
+    "Order":4
+  },
+  {
+    "City":"st_louis",
+    "LabelID":2697,
+    "LabelTypeID":4,
+    "CanvasX":350,
+    "CanvasY":270,
+    "Group":5,
     "Order":5
   },
   {
     "City":"oradell",
     "LabelID":669,
     "LabelTypeID":3,
-    "CanvasX":320,
-    "CanvasY":190,
+    "CanvasX":392,
+    "CanvasY":260,
     "Group":6,
     "Order":0
   },
@@ -337,18 +337,9 @@ const cropsData = [
     "LabelID":1777,
     "LabelTypeID":3,
     "CanvasX":305,
-    "CanvasY":139,
+    "CanvasY":132,
     "Group":6,
     "Order":1
-  },
-  {
-    "City":"oradell",
-    "LabelID":5518,
-    "LabelTypeID":4,
-    "CanvasX":325,
-    "CanvasY":177,
-    "Group":6,
-    "Order":2
   },
   {
     "City":"st_louis",
@@ -357,7 +348,43 @@ const cropsData = [
     "CanvasX":327,
     "CanvasY":166,
     "Group":6,
+    "Order":2
+  },
+  {
+    "City":"oradell",
+    "LabelID":5518,
+    "LabelTypeID":4,
+    "CanvasX":320,
+    "CanvasY":240,
+    "Group":6,
     "Order":3
+  },
+  {
+    "City":"seattle",
+    "LabelID":258182,
+    "LabelTypeID":1,
+    "CanvasX":392,
+    "CanvasY":386,
+    "Group":7,
+    "Order":0
+  },
+  {
+    "City":"chicago",
+    "LabelID":3047,
+    "LabelTypeID":1,
+    "CanvasX":388,
+    "CanvasY":286,
+    "Group":7,
+    "Order":1
+  },
+  {
+    "City":"seattle",
+    "LabelID":16482,
+    "LabelTypeID":1,
+    "CanvasX":340,
+    "CanvasY":250,
+    "Group":7,
+    "Order":2
   },
   {
     "City":"la_piedad",
@@ -366,7 +393,7 @@ const cropsData = [
     "CanvasX":443,
     "CanvasY":304,
     "Group":7,
-    "Order":0
+    "Order":3
   },
   {
     "City":"cdmx",
@@ -375,7 +402,7 @@ const cropsData = [
     "CanvasX":358,
     "CanvasY":253,
     "Group":7,
-    "Order":1
+    "Order":4
   },
   {
     "City":"cdmx",
@@ -384,86 +411,59 @@ const cropsData = [
     "CanvasX":325,
     "CanvasY":214,
     "Group":7,
-    "Order":2
-  },
-  {
-    "City":"oradell",
-    "LabelID":13228,
-    "LabelTypeID":1,
-    "CanvasX":287,
-    "CanvasY":191,
-    "Group":7,
-    "Order":3
-  },
-  {
-    "City":"seattle",
-    "LabelID":142303,
-    "LabelTypeID":1,
-    "CanvasX":182,
-    "CanvasY":166,
-    "Group":7,
-    "Order":4
-  },
-  {
-    "City":"seattle",
-    "LabelID":148927,
-    "LabelTypeID":1,
-    "CanvasX":330,
-    "CanvasY":219,
-    "Group":7,
     "Order":5
   },
   {
     "City":"seattle",
-    "LabelID":101117,
+    "LabelID":141806,
     "LabelTypeID":2,
-    "CanvasX":362,
-    "CanvasY":240,
+    "CanvasX":250,
+    "CanvasY":310,
     "Group":8,
     "Order":0
   },
   {
     "City":"seattle",
-    "LabelID":105218,
+    "LabelID":145241,
     "LabelTypeID":2,
-    "CanvasX":184,
-    "CanvasY":332,
+    "CanvasX":290,
+    "CanvasY":350,
     "Group":8,
     "Order":1
   },
   {
     "City":"seattle",
-    "LabelID":186808,
+    "LabelID":156512,
     "LabelTypeID":2,
-    "CanvasX":466,
-    "CanvasY":160,
+    "CanvasX":240,
+    "CanvasY":386,
     "Group":8,
     "Order":2
   },
   {
     "City":"seattle",
-    "LabelID":278024,
+    "LabelID":168483,
     "LabelTypeID":2,
-    "CanvasX":298,
-    "CanvasY":170,
+    "CanvasX":250,
+    "CanvasY":290,
     "Group":8,
     "Order":3
   },
   {
     "City":"seattle",
-    "LabelID":74650,
+    "LabelID":175408,
     "LabelTypeID":2,
-    "CanvasX":320,
-    "CanvasY":274,
+    "CanvasX":175,
+    "CanvasY":350,
     "Group":8,
     "Order":4
   },
   {
     "City":"seattle",
-    "LabelID":155890,
+    "LabelID":176648,
     "LabelTypeID":2,
-    "CanvasX":214,
-    "CanvasY":310,
+    "CanvasX":390,
+    "CanvasY":350,
     "Group":8,
     "Order":5
   }

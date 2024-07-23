@@ -10,7 +10,7 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
       <div className="question-content">
         <h2>{questionText}</h2>
         <p className="text-instruction text-left mb-8 text-gray-600">{instructionText}</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '1em', textAlign: 'left' }} >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.8em', textAlign: 'left' }} >
           {options.map((option, index) => (
             <Radio
               key={index}
@@ -33,7 +33,7 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
             <span className="text-w text-teal-700" >press Enter ↵</span>
         </div>
       </div>
-      {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
+      <PageNavigations onPrevious={previousStep} onNext={nextStep} />
     </div>
   );
 };

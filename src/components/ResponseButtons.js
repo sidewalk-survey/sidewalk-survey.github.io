@@ -25,4 +25,3 @@ const ResponseButtons = ({ buttons, gap, disabled = false }) => {
 };
 
 export default ResponseButtons;
-

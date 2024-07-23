@@ -1,5 +1,6 @@
-//ImageSelection.js
 import React, { useState, useEffect } from 'react';
+import { Tooltip } from "@material-tailwind/react";
+import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import PageNavigations from '../../components/PageNavigations';
 import ResponseButtons from '../../components/ResponseButtons';
 import ImageComponent from '../../components/ImageComponent';
@@ -7,19 +8,25 @@ import './ImageSelection.css';
 
 const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, onComplete, currentStep, IMAGE_STEP }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [groupAImages, setGroupAImages] = useState([]);
-    const [groupBImages, setGroupBImages] = useState([]);
+    const [responses, setResponses] = useState(Array(images.length).fill(null));
+    const [selectionMade, setSelectionMade] = useState(false);
     const mobilityAid = answers.mobilityAid.toLowerCase();
 
     useEffect(() => {
-        // Check if the user has responded to the last image
-        if (currentIndex >= images.length) {
-            // Call onComplete with the latest state
+        if (currentIndex > images.length - 1) {
+            // Form groups based on responses when the survey is complete
+            const groupAImages = images.filter((_, index) => responses[index] === 'yes' || responses[index] === 'unsure');
+            const groupBImages = images.filter((_, index) => responses[index] === 'no' || responses[index] === 'unsure');
+            console.log('Group A Images:', groupAImages);
+            console.log('Group B Images:', groupBImages);
             onComplete({ groupAImages, groupBImages });
         }
-    }, [currentIndex, groupAImages, groupBImages, images.length, onComplete]);
+    }, [currentIndex, responses, images, onComplete]);
 
-    // keydown event listener
+    useEffect(() => {
+        setSelectionMade(responses[currentIndex] !== null);
+    }, [currentIndex, responses]);
+
     useEffect(() => {
         const handleKeyPress = (event) => {
             if (event.key === 'n') {
@@ -30,7 +37,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                 handleResponse('yes');
             }
         };
-        
+
         document.addEventListener('keydown', handleKeyPress);
 
         return () => {
@@ -40,77 +47,118 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
 
     const handleResponse = (response) => {
         if (currentIndex >= images.length) {
-            // Prevent further action if we've already gone through all images
             console.log("All images have been processed.");
             return;
         }
-        const updatedGroupA = [...groupAImages];
-        const updatedGroupB = [...groupBImages];
-        
-        // Add image to Group A if response is Yes or Unsure
-        if (response === 'yes' || response === 'unsure') {
-            updatedGroupA.push(images[currentIndex]);
-        }
-        // Add image to Group B if response is No or Unsure
-        if (response === 'no' || response === 'unsure') {
-            updatedGroupB.push(images[currentIndex]);
-        }
 
-        // Update state with the new groups
-        setGroupAImages(updatedGroupA);
-        setGroupBImages(updatedGroupB);
+        const updatedResponses = [...responses];
+        updatedResponses[currentIndex] = response;
+        setResponses(updatedResponses);
+        setSelectionMade(true);
 
-        // Move to the next image or complete the selection
-        const nextIndex = currentIndex + 1;
-        setCurrentIndex(nextIndex);
+        const currentImage = images[currentIndex];
+        console.log(`Image ${currentIndex + 1} LabelID ${currentImage.LabelID}: ${response}`);
+
+        // Move to the next image
+        if (currentIndex < images.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+        } else {
+            // Proceed to the next step if this is the last image
+            setCurrentIndex(currentIndex + 1); // Increment to trigger useEffect for onComplete
+        }
+    };
+
+    const handlePreviousClick = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (currentIndex < images.length - 1 && selectionMade) {
+            setCurrentIndex(currentIndex + 1);
+            setSelectionMade(responses[currentIndex + 1] !== null);
+        }
     };
 
     const renderDotsAndNavigation = () => {
+        const activeColor = '#0d9488'; // Teal color
+        const disabledColor = '#D8DEE9'; // Grey color
+    
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.2em', padding: '0.1em 0' }}>
+                <Tooltip content="prev image">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.1em' }}>
+                        <CaretLeft
+                      size={'1em'}
+                            weight='bold'
+                            onClick={handlePreviousClick}
+                            style={{
+                                cursor: currentIndex > 0 ? 'pointer' : 'not-allowed',
+                                color: currentIndex > 0 ? activeColor : disabledColor
+                            }}
+                        />
+                    </div>
+                </Tooltip>
+                
                 {images.map((_, index) => (
                     <span
                         key={index}
                         style={{
-                            height: '8px',
-                            width: '8px',
+                            height: '0.3em',
+                            width: '0.3em',
                             borderRadius: '50%',
-                            backgroundColor: currentIndex >= index ? '#0d9488' : '#D8DEE9',
+                            margin: '0.1em',
+                            backgroundColor: currentIndex >= index ? activeColor : disabledColor,
                         }}
                     ></span>
                 ))}
+                
+                <Tooltip content="next image">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.1em' }}>
+                        <CaretRight
+                          size={'1em'}
+                            weight='bold'
+                            onClick={handleNextClick}
+                            style={{
+                                cursor: (currentIndex < images.length - 1 && selectionMade) ? 'pointer' : 'not-allowed',
+                                color: (currentIndex < images.length - 1 && selectionMade) ? activeColor : disabledColor
+                            }}
+                        />
+                    </div>
+                </Tooltip>
             </div>
         );
     };
+    
+    
 
     return (
-            <div className="question-container">
-                <div className="image-selection-content">
-                    <h2 className="text-left p-5 rounded mb-4" >{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, do you feel confident passing this?`}</h2>
-               
-                    <div className="image-and-selection-buttons">
+        <div className="question-container">
+            <div className="image-selection-content">
+                <h2 className="text-left p-5 rounded mb-4">{`${stepNumber}. When using your `}<strong>{mobilityAid}</strong>{`, do you feel confident in passing this?`}</h2>
 
-                        {currentIndex < images.length ? (
-                            <div className="selection-image-wrapper">
-                            <ImageComponent cropMetadata={images[currentIndex]} isFirstImage ={currentIndex === 0 } isFirstGroup={currentStep === IMAGE_STEP} />
-                            </div>
-                        ) : (
-                            // loading state
-                            <div>Loading next part of the survey...</div>
-                        )}
-                        {renderDotsAndNavigation()}
-                        <ResponseButtons
-                            gap="12px"
-                            buttons={[
-                                { text: 'No', shortcut:'N', onClick: () => handleResponse('no') },
-                                { text: 'Unsure', shortcut:'U', onClick: () => handleResponse('unsure'), variant: 'outlined' },
-                                { text: 'Yes', shortcut:'Y', onClick: () => handleResponse('yes') }
-                            ]}
-                        />
-                    </div>
+                <div className="image-and-selection-buttons">
+                    {currentIndex < images.length ? (
+                        <div className="selection-image-wrapper">
+                            <ImageComponent cropMetadata={images[currentIndex]} isFirstImage={currentIndex === 0} isFirstGroup={currentStep === IMAGE_STEP} />
+                        </div>
+                    ) : (
+                        <div>Loading next part of the survey...</div>
+                    )}
+                    {renderDotsAndNavigation()}
+                    <ResponseButtons
+                        gap="12px"
+                        buttons={[
+                            { text: 'No', shortcut: 'N', onClick: () => handleResponse('no') },
+                            { text: 'Unsure', shortcut: 'U', onClick: () => handleResponse('unsure'), variant: 'outlined' },
+                            { text: 'Yes', shortcut: 'Y', onClick: () => handleResponse('yes') }
+                        ]}
+                    />
                 </div>
-                <PageNavigations onPrevious={previousStep} onNext={nextStep} />
             </div>
+            <PageNavigations onPrevious={previousStep} onNext={nextStep} />
+        </div>
     );
 };
 

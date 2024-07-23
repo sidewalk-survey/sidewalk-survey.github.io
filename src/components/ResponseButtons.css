@@ -1,15 +1,14 @@
 .shortcut-key {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    line-height: 24px;
+  display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1.2em;
     text-align: center;
-    /* border: 1px solid #000; */
     margin-right: 8px;
     margin-top:0px;
-    /* font-size: 12px; */
     font-weight: bold;
-    border-radius: 3px;
+    border-radius: 0.2em;
+    font-size: 1em;
     background-color: #e0f2f1;
     color:#0f766e;
   }

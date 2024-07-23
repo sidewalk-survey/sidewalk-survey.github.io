@@ -1,11 +1,10 @@
 /* ImageSelection.css */
 .selection-image-wrapper {
   display: flex;
-  margin: 1rem; /* Adjusted from m-4 for clarity */
-  cursor: pointer; /* Change cursor to pointer on hover */
+  margin: 1rem;
   overflow: hidden;
-  border-radius: 0.75em;
   height: 50vh;
+  border-radius: 0.5em;
 }
 
 .image-and-selection-buttons {
@@ -14,7 +13,7 @@
   display: flex;
   height: auto;
   flex-direction: column;
-  gap: 1em;
+  gap: 1rem;
   align-items: center;
   margin-bottom: 4rem; /* Adjusted to use rem for consistency */
 }

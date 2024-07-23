@@ -31,7 +31,7 @@ const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, pr
             <span className="text-w text-teal-700" >press Enter ↵</span>
           </div>
         </div>
-        {/* <PageNavigations onPrevious={previousStep} onNext={nextStep} /> */}
+        <PageNavigations onPrevious={previousStep} onNext={nextStep} />
       </div>
     </div>
   );

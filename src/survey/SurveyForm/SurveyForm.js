@@ -16,6 +16,9 @@ import WelcomePage from '../StartEndPages/WelcomePage';
 import EndingPage from '../StartEndPages/EndingPage';
 import ContinuePage from '../Questions/ContinuePage';
 import BreakPage from '../StartEndPages/BreakPage';
+import MobileWarningModal from '../StartEndPages/MobileWarningModal';
+import InstructionsPage1 from '../StartEndPages/InstructionsPage1';
+import InstructionsPage2 from '../StartEndPages/InstructionsPage2';
 import { v4 as uuidv4 } from 'uuid';
 import RankQuestion from '../Questions/RankQuestion';
 import cropsData from '../CropsData/cropsData';
@@ -36,12 +39,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
-const TOTAL_STEPS = 36;
+const TOTAL_STEPS = 38;
 const MOBILITYAID_STEP = 6;
-const IMAGE_STEP = 7;
+const IMAGE_STEP = 9;
 const STEPS_PER_GROUP = 3;
 const GROUP_ORDER = ['group0', 'group1', 'group2', 'group3', 'group4', 'group5', 'group6', 'group7', 'group8'];
 const shuffledGroupOrder = shuffleArray([...GROUP_ORDER]);
+
+const generateInitialImageSelections = () => {
+  const initialState = {};
+  for (let i = 0; i <= 8; i++) {
+    initialState[`group${i}`] = {
+      [`group${i}A`]: [],
+      [`group${i}B`]: [],
+    };
+  }
+  return initialState;
+};
 
 const groupedCropsData = cropsData.reduce((acc, item) => {
   const groupKey = `group${item.Group}`;
@@ -58,17 +72,7 @@ Object.keys(groupedCropsData).forEach(groupKey => {
 
 const SurveyComponent = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [imageSelections, setImageSelections] = useState({
-    group0: { group0A: [], group0B: [] },
-    group1: { group1A: [], group1B: [] },
-    group2: { group2A: [], group2B: [] },
-    group3: { group3A: [], group3B: [] },
-    group4: { group4A: [], group4B: [] },
-    group5: { group5A: [], group5B: [] },
-    group6: { group6A: [], group6B: [] },
-    group7: { group7A: [], group7B: [] },
-    group8: { group8A: [], group8B: [] },
-  });
+  const [imageSelections, setImageSelections] = useState(generateInitialImageSelections());
   const [imageComparisons, setImageComparisons] = useState([]);
   const [totalSteps, setTotalSteps] = useState(TOTAL_STEPS);
   const [sessionId, setSessionId] = useState(uuidv4()); 
@@ -80,16 +84,54 @@ const SurveyComponent = () => {
   const [loading, setLoading] = useState(true);
   const [showBreakOverlay, setShowBreakOverlay] = useState(false);
   const { id } = useParams(); 
+  const [showMobileWarning, setShowMobileWarning] = useState(false);
+  const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
     let steps = TOTAL_STEPS; // base number of steps
     setTotalSteps(steps);
   }, []);
 
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      const confirmationMessage = 'Are you sure you want to leave? Changes may not be saved.';
+      event.returnValue = confirmationMessage; // For most browsers
+      return confirmationMessage; // For some browsers
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setScreenSize({ width, height });
+  
+      if (width < 768) { // Assuming 768px is the breakpoint for tablets
+        setShowMobileWarning(true);
+      }
+    };
+  
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+  
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
+  
+  
+
   const progressValue = (currentStep / totalSteps) * 100;
 
   const startSurvey = () => {
-    setCurrentStep(1); // Start the survey
+    setCurrentStep(15); // Start the survey
     setStartTime(new Date());
   };
   
@@ -179,17 +221,7 @@ const SurveyComponent = () => {
             setCurrentStep(MOBILITYAID_STEP);
           }
           
-          setImageSelections(data.imageSelections || {
-            group0: { group0A: [], group0B: [] },
-            group1: { group1A: [], group1B: [] },
-            group2: { group2A: [], group2B: [] },
-            group3: { group3A: [], group3B: [] },
-            group4: { group4A: [], group4B: [] },
-            group5: { group5A: [], group5B: [] },
-            group6: { group6A: [], group6B: [] },
-            group7: { group7A: [], group7B: [] },
-            group8: { group8A: [], group8B: [] },
-          });
+          setImageSelections(data.imageSelections || generateInitialImageSelections());
           setImageComparisons(data.imageComparisons || []);
           setAnswers({ ...data, isGroupContinue: false });
         } else {
@@ -210,7 +242,7 @@ const SurveyComponent = () => {
       const subGroupImages = imageSelections[currentGroup.selectionKey][`${currentGroup.selectionKey}${subGroupKey}`];
       
       if (subGroupImages.length < 2) {
-        const nextStep = currentStep === currentGroup.steps.comparisonA ? currentGroup.steps.comparisonB : currentGroup.steps.selection + 3; // Assumes the next selection step or the next group's first step
+        const nextStep = currentStep === currentGroup.steps.comparisonA ? currentGroup.steps.comparisonB : currentGroup.steps.selection + 3;
         setCurrentStep(nextStep);
       }
     }
@@ -326,7 +358,7 @@ const nextStep = () => {
   const onSelectionComplete = (data) => {
     setImageComparisons(prev => [...prev, { ...data }]);
     // log the data
-    // logData();
+    logData();
     setAnswers(prevAnswers => ({
       ...prevAnswers,
       imageComparisons: imageComparisons,
@@ -359,7 +391,7 @@ const handleSelectionComplete = (group, selection) => {
   }));
   setCurrentStep(currentStep + 1);  // Move to the first comparison step
   //log the data
-  // logData();
+  logData();
   setAnswers(prevAnswers => ({
     ...prevAnswers,
     imageComparisons: imageComparisons,
@@ -373,7 +405,7 @@ const renderImageStep = (group, step) => {
   if (index === 0) {
     // Image selection step
     return <ImageSelection
-      stepNumber={step}
+      stepNumber={step-3}
       answers={answers}
       nextStep={nextStep}
       previousStep={previousStep}
@@ -388,7 +420,7 @@ const renderImageStep = (group, step) => {
     const comparisonKey = group.comparisons[index - 1];
     return <ImageComparison
       key={comparisonKey}
-      stepNumber={step}
+      stepNumber={step-3}
       answers={answers}
       nextStep={nextStep}
       previousStep={() => setCurrentStep(step - 1)}
@@ -405,7 +437,7 @@ const renderImageStep = (group, step) => {
 const renderCurrentStep = () => {
   for (let i = 0; i < groups.length; i++) {
     const group = groups[i];
-    group.startStep = 7 + i * 3;  //each group uses 3 steps (1 selection + 2 comparisons)
+    group.startStep = IMAGE_STEP + i * 3;  //each group uses 3 steps (1 selection + 2 comparisons)
     if (currentStep >= group.startStep && currentStep < group.startStep + 3) {
       return renderImageStep(group, currentStep);
     }
@@ -418,14 +450,14 @@ const renderCurrentStep = () => {
               />;
     case 2:
       return <Question1 
-              stepNumber={currentStep} 
+              stepNumber={currentStep-1} 
               nextStep={nextStep} 
               handleChange={handleChange}
               errors= {errors} 
               />;
     case 3:
       return <Question2 
-              stepNumber={currentStep} 
+              stepNumber={currentStep-1} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               handleChange={handleChange}
@@ -433,7 +465,7 @@ const renderCurrentStep = () => {
               />;
     case 4:
       return <Question3 
-              stepNumber={currentStep} 
+              stepNumber={currentStep-1} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               updateAnswers={updateAnswers}
@@ -445,7 +477,7 @@ const renderCurrentStep = () => {
         return null; 
       }
       return <Question4
-              stepNumber={currentStep}
+              stepNumber={currentStep-1}
               nextStep={nextStep}
               previousStep={previousStep}
               answers={answers}
@@ -454,7 +486,7 @@ const renderCurrentStep = () => {
             />;
     case 6:
       return <Question5 
-              stepNumber={currentStep} 
+              stepNumber={currentStep-1} 
               nextStep={nextStep} 
               previousStep={previousStep} 
               answers={answers} 
@@ -462,9 +494,20 @@ const renderCurrentStep = () => {
               singleMobilityAid={singleMobilityAid} 
               errors= {errors}// Pass the skip state
              />;
-    case 34:
+   case 7:
+      return <InstructionsPage1 
+              nextStep={nextStep} 
+              previousStep={previousStep} 
+              answers={answers}
+             />;
+   case 8:
+      return <InstructionsPage2
+              nextStep={nextStep} 
+              previousStep={previousStep}
+             />;
+    case 36:
       return <RankQuestion
-              stepNumber={currentStep}
+              stepNumber={currentStep-3}
               nextStep={nextStep}
               previousStep={previousStep}
               answers={answers}
@@ -472,14 +515,14 @@ const renderCurrentStep = () => {
               errors= {errors}
             />
     
-    case 35: 
+    case 37: 
       if (answers.mobilityAidOptions.mobilityAidOptions.length === 1 ||  // if only one mobility aid option
         (answers.answeredMobilityAids && answers.answeredMobilityAids.length > 0) // if answered mobility aids exist
       ) {
         const remainingOptions = answers.mobilityAidOptions.mobilityAidOptions.filter(option => !answers.answeredMobilityAids.includes(option));
         
         if(remainingOptions.length === 1) {
-          setCurrentStep(36);
+          setCurrentStep(38);
           setContinueUrl('');
           return null;
         }
@@ -493,7 +536,7 @@ const renderCurrentStep = () => {
               setContinueUrl={setContinueUrl}
               logData={logMobilityAidData}
               />;
-    case 36:
+    case 38:
       return <EndingPage 
               previousStep={previousStep} 
               continueUrl={continueUrl} 
@@ -570,6 +613,7 @@ const logData = async () => {
         logType,
         imageSelections,
         imageComparisons,
+        screenSize,
         timestamp: serverTimestamp(),
         duration
       });
@@ -603,6 +647,7 @@ const logMobilityAidData = async () => {
         logType,
         imageSelections,
         imageComparisons,
+        screenSize,
         timestamp: serverTimestamp(),
         duration
       });
@@ -624,6 +669,7 @@ if (loading) {
 
 return (
   <div>
+     {showMobileWarning && <MobileWarningModal onClose={() => setShowMobileWarning(false)} />}
     {currentStep > 0 && (
       <div style={{ position: 'fixed', top: 0, width: '100%', left:-4}}>
         <Progress value={progressValue} color="teal" size="sm"/>
