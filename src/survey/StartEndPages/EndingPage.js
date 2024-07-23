@@ -21,14 +21,16 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
       </div>
       <div className="ending-page-right-container">
       <div className="ending-page-text-container">
-        <h2>Thank you completing this survey!</h2>
+        <h2>
+          {continueUrl ? 'Thank you for completing this section of the survey!' : 'Thank you for completing this survey!'}
+          </h2>
         {!continueUrl && (
           <p className="text-left" style={{ fontSize: '1em', lineHeight: '1.3' }}>
             Your responses will be used to inform <b>personalized routing</b> algorithms and maps for <b>people who use mobility devices.</b>
           </p>
         )}
         {continueUrl && (
-          <div className="text-left">
+          <div className="text-left" style={{ fontSize: '0.8em', lineHeight: '1.3' }}>
             <p>You can resume your survey later using the following link:</p>
             <a href={continueUrl} className="text-cyan-800 underline">{continueUrl}</a>
           </div>
@@ -58,9 +60,9 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
       </div>
       <div className='ending-page-contact-info'>
             <p>For any questions or concerns, please contact:</p>
-            <p className="text-cyan-800">
-              <a href="mailto:chuchuli@cs.washington.edu" className="text-teal-700 underline">chuchuli@cs.washington.edu</a>.
-              </p>
+            <p className="text-cyan-800 underline">
+              <a href="mailto:chuchuli@cs.uw.edu">chuchuli@cs.uw.edu</a>.
+            </p>
       </div>
       </div>
     </div>

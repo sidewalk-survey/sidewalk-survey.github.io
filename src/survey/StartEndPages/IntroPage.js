@@ -20,10 +20,10 @@ const IntroPage = ({ nextStep }) => {
         You may <b>save your responses</b> when prompted and come back at a later time. Your responses will be kept confidential and will be used for research purposes only.
       </p>
       <p className="mb-4">
-        One out of every 30 respondents will earn a <b>$50 gift certificate to Amazon</b>.
+      One in 30 respondents will have a chance to win a <b>$50 reward</b>, available as either a Tango e-gift card or a check.
       </p>
       <p className="mb-16">
-        This work is led by researchers from the University of Washington. If you have any questions, please contact: <a href="mailto:chuchuli@cs.washington.edu" className="text-teal-700 underline">chuchuli@cs.washington.edu</a>.
+        This work is led by researchers from the University of Washington. If you have any questions, please contact: <a href="mailto:chuchuli@cs.uw.edu" className="text-cyan-800 underline">chuchuli@cs.uw.edu</a>.
       </p>
       <div className="flex justify-end items-center">
         <Button style={{fontSize: '0.7em'}} size="lg" color="teal" onClick={nextStep}>Let’s get started</Button>
