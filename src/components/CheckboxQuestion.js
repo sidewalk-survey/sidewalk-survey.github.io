@@ -31,8 +31,8 @@ const CheckboxQuestion = ({
     <div className="question-container">
       <div className="question-content">
         <h2>{questionText}</h2>
-        <p style={{ fontSize: '0.8em', textAlign: 'left', marginBottom: '32px' }}>{instructionText}</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.8em', textAlign: 'left' }} className="text-base">
+        <p style={{ fontSize: '0.8em', textAlign: 'left', marginBottom: '0.4em' }}>{instructionText}</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4em', fontSize: '0.8em', textAlign: 'left' }} className="text-base">
           {options.map((option, index) => (
             <div key={index}>
               <Checkbox

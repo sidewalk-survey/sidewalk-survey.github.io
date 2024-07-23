@@ -23,7 +23,7 @@ const WelcomePage = ({ onStart }) => {
             <img src={`${process.env.PUBLIC_URL}/img/ps_logo.jpg`} alt="Welcome" className="w-full" />
           </div>
           <h2>Perceptions of Sidewalk Barriers Survey</h2>
-          <div className="question-button-group flex flex-col">
+          <div className="flex flex-col items-center p-8 gap-4">
             <Button
               className='lg-font-size-button'
               color="teal"

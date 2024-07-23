@@ -5,7 +5,7 @@ import withEnterKeyHandler from './withEnterKeyHandler';
 
 const TextAreaQuestion = ({ questionText, inputId, placeholderText, handleChange, previousStep, nextStep, error }) => {
   const textareaStyle = {
-    border: "2px solid #e2e8f0",
+    border: "0.2em solid #e2e8f0",
     boxShadow: "none",
     minHeight: "30vh", 
     width: "100%", 
