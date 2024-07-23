@@ -111,7 +111,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                             </option>
                           ))}
                         </select>
-                        {item.value}
+                        <span style={{ marginRight: '1em' }}>{item.value}</span> 
                         <Popover placement="right" open={popoverOpen[index]} handler={() => handlePopoverOpen(index)}>
                           <PopoverHandler>
                             <Image 
