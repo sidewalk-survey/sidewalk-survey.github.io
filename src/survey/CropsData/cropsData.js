@@ -30,7 +30,7 @@ const cropsData = [
     "City":"chicago",
     "LabelID":15148,
     "LabelTypeID":3,
-    "CanvasX":328,
+    "CanvasX":330,
     "CanvasY":300,
     "Group":0,
     "Order":3
@@ -102,8 +102,8 @@ const cropsData = [
     "City":"seattle",
     "LabelID":229205,
     "LabelTypeID":3,
-    "CanvasX":245,
-    "CanvasY":296,
+    "CanvasX":394,
+    "CanvasY":308,
     "Group":1,
     "Order":5
   },
@@ -264,8 +264,8 @@ const cropsData = [
     "City":"amsterdam",
     "LabelID":26619,
     "LabelTypeID":4,
-    "CanvasX":312,
-    "CanvasY":229,
+    "CanvasX":450,
+    "CanvasY":290,
     "Group":4,
     "Order":5
   },
@@ -327,8 +327,8 @@ const cropsData = [
     "City":"oradell",
     "LabelID":669,
     "LabelTypeID":3,
-    "CanvasX":320,
-    "CanvasY":190,
+    "CanvasX":392,
+    "CanvasY":260,
     "Group":6,
     "Order":0
   },
@@ -363,8 +363,8 @@ const cropsData = [
     "City":"seattle",
     "LabelID":258182,
     "LabelTypeID":1,
-    "CanvasX":360,
-    "CanvasY":310,
+    "CanvasX":392,
+    "CanvasY":386,
     "Group":7,
     "Order":0
   },
@@ -415,10 +415,10 @@ const cropsData = [
   },
   {
     "City":"seattle",
-    "LabelID":74650,
+    "LabelID":141806,
     "LabelTypeID":2,
-    "CanvasX":154,
-    "CanvasY":220,
+    "CanvasX":250,
+    "CanvasY":310,
     "Group":8,
     "Order":0
   },

@@ -41,7 +41,7 @@
 
 .image-component-container {
   width: 100%;
-  border-radius: 0.5rem;
+  border-radius: 0.5em;
   overflow: hidden;
   position: relative; /* Ensure relative positioning for tooltip */
 }
