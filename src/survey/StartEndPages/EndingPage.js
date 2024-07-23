@@ -13,29 +13,27 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
   return (
     <div className="ending-page-container">
       <div className="ending-page-image-container">
-        {!continueUrl && (
-          <img 
-            src={`${process.env.PUBLIC_URL}/img/access-score.png`} 
+        <img 
+          src={`${process.env.PUBLIC_URL}/img/access-score.png`} 
             alt="Welcome" 
             className="w-full h-full" 
-          />
-        )}
+        />
       </div>
       <div className="ending-page-right-container">
       <div className="ending-page-text-container">
-        <h2>Thank you so much for completing this survey!</h2>
+        <h2>Thank you completing this survey!</h2>
         {!continueUrl && (
           <p className="text-left" style={{ fontSize: '1em', lineHeight: '1.3' }}>
             Your responses will be used to inform <b>personalized routing</b> algorithms and maps for <b>people who use mobility devices.</b>
           </p>
         )}
         {continueUrl && (
-          <div className="text-right">
+          <div className="text-left">
             <p>You can resume your survey later using the following link:</p>
             <a href={continueUrl} className="text-cyan-800 underline">{continueUrl}</a>
           </div>
         )}
-        <div className="flex flex-col items-start gap-4">
+        <div className="flex flex-row items-start gap-4">
           {continueUrl && (
             <Button
               className='lg-font-size-button'
