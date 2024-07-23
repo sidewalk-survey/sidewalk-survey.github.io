@@ -36,7 +36,7 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
     <Dialog open={isOpen} handler={handleClose} size="mg" className='text-3xl'>
       <DialogHeader> 
       <span className="flex items-center">
-        <HandsClapping size={'1em'} className="mr-2"/> 
+        <HandsClapping size={'1.5em'} className="mr-2"/> 
         Great job!
         </span>
         </DialogHeader>

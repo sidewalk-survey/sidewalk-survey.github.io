@@ -131,7 +131,7 @@ const SurveyComponent = () => {
   const progressValue = (currentStep / totalSteps) * 100;
 
   const startSurvey = () => {
-    setCurrentStep(36); // Start the survey
+    setCurrentStep(15); // Start the survey
     setStartTime(new Date());
   };
   
@@ -242,7 +242,7 @@ const SurveyComponent = () => {
       const subGroupImages = imageSelections[currentGroup.selectionKey][`${currentGroup.selectionKey}${subGroupKey}`];
       
       if (subGroupImages.length < 2) {
-        const nextStep = currentStep === currentGroup.steps.comparisonA ? currentGroup.steps.comparisonB : currentGroup.steps.selection + 3; // Assumes the next selection step or the next group's first step
+        const nextStep = currentStep === currentGroup.steps.comparisonA ? currentGroup.steps.comparisonB : currentGroup.steps.selection + 3;
         setCurrentStep(nextStep);
       }
     }
