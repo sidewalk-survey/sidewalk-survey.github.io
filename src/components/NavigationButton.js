@@ -11,13 +11,13 @@ const NavigationButton = ({ direction, onClick, style = {} }) => {
     <Button
       color="teal"
       variant="text"
-      size='sm'
+      size='lg'
       onClick={onClick}
       style={{
         // aspectRatio: '1 / 1',
         // change radius to 0
         borderRadius: 0,
-        padding: '8px',
+        padding: '0.5em',
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -29,7 +29,7 @@ const NavigationButton = ({ direction, onClick, style = {} }) => {
       }}
       title={title} // Added the title attribute
     >
-      <Icon size={24} weight="bold" />
+      <Icon size={'2rem'} weight="bold" />
     </Button>
   );
 };

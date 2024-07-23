@@ -86,11 +86,11 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
         const disabledColor = '#D8DEE9'; // Grey color
     
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.2em', padding: '0.1em 0' }}>
                 <Tooltip content="prev image">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.1em' }}>
                         <CaretLeft
-                            size={24}
+                      size={'1em'}
                             weight='bold'
                             onClick={handlePreviousClick}
                             style={{
@@ -105,18 +105,19 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                     <span
                         key={index}
                         style={{
-                            height: '8px',
-                            width: '8px',
+                            height: '0.3em',
+                            width: '0.3em',
                             borderRadius: '50%',
+                            margin: '0.1em',
                             backgroundColor: currentIndex >= index ? activeColor : disabledColor,
                         }}
                     ></span>
                 ))}
                 
                 <Tooltip content="next image">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.1em' }}>
                         <CaretRight
-                            size={24}
+                          size={'1em'}
                             weight='bold'
                             onClick={handleNextClick}
                             style={{

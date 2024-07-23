@@ -85,10 +85,10 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                         style={{
                           userSelect: 'none',
                           fontSize: '0.8em',
-                          padding: '6px 12px 6px 0px',
-                          margin: '0 0 4px 0',
+                          padding: '0.1em 0.3em 0.1em 0px',
+                          margin: '0 0 0.2em 0',
                           backgroundColor: '#E0F2F1',
-                          borderRadius: '8px',
+                          borderRadius: '0.2em',
                           textAlign: 'left',
                           maxWidth: '80vw', 
                           display: 'flex',
@@ -101,7 +101,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                         <select 
                           value={showNumbers ? index + 1 : '-'} 
                           onChange={(e) => handleDropdownChange(e, index)}
-                          style={{ fontSize: '0.8em', marginRight: '8px' }}
+                          style={{ fontSize: '0.8em', marginRight: '0.2em' }}
                           disabled={!showNumbers}
                         >
                           {!showNumbers && <option value="-">-</option>}
@@ -115,7 +115,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                         <Popover placement="right" open={popoverOpen[index]} handler={() => handlePopoverOpen(index)}>
                           <PopoverHandler>
                             <Image 
-                              size={24} 
+                              size={'1em'} 
                               weight="bold" 
                               style={{ marginLeft: 'auto', cursor: 'pointer' }} 
                               onClick={() => handlePopoverOpen(index)}

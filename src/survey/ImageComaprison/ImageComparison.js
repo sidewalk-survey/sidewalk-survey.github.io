@@ -16,7 +16,6 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     const [maxComparisons, setMaxComparisons] = useState(0);
     const [hoverButton, setHoverButton] = useState(null);
     const [selectionState, setSelectionState] = useState([]);
-    const responsiveSize = window.innerWidth >= 2560 ? '32px' : '24px';
 
     const mobilityAid = answers.mobilityAid.toLowerCase();
 
@@ -82,10 +81,10 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 <span
                     key={i}
                     style={{
-                        height: '8px',
-                        width: '8px',
+                        height: '0.3em',
+                        width: '0.3em',
                         borderRadius: '50%',
-                        margin: '4px',
+                        margin: '0.2em',
                         backgroundColor: i < historyIndex ? '#0d9488' : '#D8DEE9',
                     }}
                 ></span>
@@ -213,10 +212,10 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
         const isRightArrowEnabled = (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && selectionState[historyIndex];
 
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', padding: '4px 0' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.2em', padding: '0.1em 0' }}>
                 <Tooltip content="prev pair">
                     <CaretLeft
-                        size={responsiveSize}
+                        size={'1em'}
                         weight='bold'
                         onClick={isLeftArrowEnabled ? handlePreviousClick : null}
                         style={{
@@ -228,7 +227,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 {renderComparisonDots()}
                 <Tooltip content="next pair">
                 <CaretRight
-                    size={responsiveSize}
+                    size={'1em'}
                     weight='bold'
                     onClick={isRightArrowEnabled ? handleNextClick : null}
                     style={{
@@ -252,7 +251,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                         <div
                             className={`comparison-image-wrapper ${hoverButton === (index === 0 ? 'left' : 'right') ? 'border-teal-400 glow-shadow' : ''}`}
                             key={imageData.LabelID}
-                            style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '4px' : '4px' }}
+                            style={{ borderWidth: hoverButton === (index === 0 ? 'left' : 'right') ? '0.2em' : '0.2em' }}
                             onClick={() => selectImage(index + 1)}
                         >
                             <ImageComponent cropMetadata={imageData} />
@@ -261,7 +260,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 </div>
                 {renderDotsAndNavigation()}
                 <ResponseButtons
-                    gap="24px"
+                    gap="0.8em"
                     disabled={loading}
                     buttons={[
                         {
