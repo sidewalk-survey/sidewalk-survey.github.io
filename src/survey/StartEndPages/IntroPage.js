@@ -26,8 +26,8 @@ const IntroPage = ({ nextStep }) => {
         This work is led by researchers from the University of Washington. If you have any questions, please contact: <a href="mailto:chuchuli@cs.washington.edu" className="text-teal-700 underline">chuchuli@cs.washington.edu</a>.
       </p>
       <div className="flex justify-end items-center">
-        <Button size="lg" color="teal" onClick={nextStep}>Let’s get started</Button>
-        <span className="ml-4 text-teal-700">press Enter ↵</span>
+        <Button style={{fontSize: '0.7em'}} size="lg" color="teal" onClick={nextStep}>Let’s get started</Button>
+        <span className="text-w ml-4 text-teal-700">press Enter ↵</span>
       </div>
     </div>
   );

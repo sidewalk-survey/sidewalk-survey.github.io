@@ -131,7 +131,7 @@ const SurveyComponent = () => {
   const progressValue = (currentStep / totalSteps) * 100;
 
   const startSurvey = () => {
-    setCurrentStep(7); // Start the survey
+    setCurrentStep(1); // Start the survey
     setStartTime(new Date());
   };
   

@@ -28,7 +28,7 @@ const InstructionsPage2 = ({ nextStep , previousStep}) => {
       </div>
       <div className="flex justify-end items-center">
         <Button  style={{fontSize: '0.7em'}} size="lg" color="teal" onClick={handleResponse}>Continue</Button>
-        <span className="text-xl ml-4 text-teal-700">press Enter ↵</span>
+        <span className="text-w ml-4 text-teal-700">press Enter ↵</span>
       </div> 
       <PageNavigations onPrevious={previousStep} onNext={nextStep} /> 
       </div>

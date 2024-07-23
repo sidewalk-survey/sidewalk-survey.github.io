@@ -33,14 +33,14 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
   }
 
   return (
-    <Dialog open={isOpen} handler={handleClose} size="mg" className='text-2xl'>
+    <Dialog open={isOpen} handler={handleClose} size="mg" className='text-3xl'>
       <DialogHeader> 
       <span className="flex items-center">
         <HandsClapping size={32} className="mr-2"/> 
         Great job!
         </span>
         </DialogHeader>
-      <DialogBody className='text-xl'>
+      <DialogBody className='text-2xl'>
         {!continueUrl && 
         <p>You have completed rating {completedGroups} out of 9 groups of images.</p>
   }
