@@ -14,7 +14,7 @@ const TextAreaQuestion = ({ questionText, inputId, placeholderText, handleChange
   };
 
   const focusStyle = {
-    border: "3px solid #26a69a",
+    border: "0.3rem solid #26a69a",
   };
 
   return (

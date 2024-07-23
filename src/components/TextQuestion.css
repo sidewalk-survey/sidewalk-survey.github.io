@@ -39,9 +39,10 @@
   }
 
   .question-input-group input {
-    border-bottom-width: 2px !important; 
+    border-bottom-width: 0.1em !important; 
     border-style: solid !important; 
     font-size: 1em;
+    padding-bottom: 0.5em;
   }
 
   .lg-font-size-button {
@@ -62,3 +63,6 @@
     box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.5); /* Subtle shadow around the textarea */
   }
   
+  /* .question-input-group label::after {
+    border-bottom: none !important;
+  } */

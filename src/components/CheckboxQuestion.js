@@ -56,7 +56,7 @@ const CheckboxQuestion = ({
         </div>
         {(error || localError) && (
           <div className="flex items-center mt-2 text-red-700 bg-red-50 p-2 rounded max-w-max">
-            <Warning size={24} weight="fill" className="mr-2" />
+            <Warning size={'1.2em'} weight="fill" className="mr-2" />
             <p className="text-w">{error || localError}</p>
           </div>
         )}

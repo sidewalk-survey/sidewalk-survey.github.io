@@ -48,3 +48,16 @@
 
 
 
+@media (min-width: 2560px) {
+  html {
+    font-size: 20px; /* Adjust for screens larger than 2560px */
+  }
+}
+
+
+@media (min-width: 3200px) {
+  html {
+    font-size: 24px; /* Adjust for screens larger than 3200px */
+  }
+}
+

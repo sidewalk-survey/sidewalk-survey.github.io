@@ -18,7 +18,7 @@ module.exports = withMT({
       },
 
       fontSize: {
-        'w': '1rem',
+        'w': '0.8em',
         'instruction': '0.9em',
       },
     },
