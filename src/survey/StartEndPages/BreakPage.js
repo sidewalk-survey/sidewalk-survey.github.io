@@ -36,7 +36,7 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
         timestamp: serverTimestamp()
       });
 
-      const resumeUrl = `${window.location.origin}/access-survey/#/resume-survey/${docRef.id}`;
+      const resumeUrl = `${window.location.origin}/#/resume-survey/${docRef.id}`;
       setContinueUrl(resumeUrl);
     } catch (error) {
       console.error("Error saving document: ", error);
