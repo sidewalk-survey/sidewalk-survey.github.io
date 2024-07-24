@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DraggableQuestion from '../../components/DraggableQuestion';
 
+
 const rankOptions = [
     { id: '1', value: "Uneven sidewalk panels", image: `${process.env.PUBLIC_URL}/crops/gsv-st_louis-5941-4-5.png` },
     { id: '2', value: "Broken surface or cracks on sidewalk", image: `${process.env.PUBLIC_URL}//crops/gsv-seattle-209069-4-2.png`  },
@@ -13,7 +14,7 @@ const rankOptions = [
     { id: '9', value: "Steep slope (sidewalk incline greater than 5%) " , image: `${process.env.PUBLIC_URL}/crops/gsv-lapiedad-997-3-0.png` },
   ];
 
-const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswers }) => {
+const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswers,}) => {
     const mobilityAid = answers.mobilityAid.toLowerCase();
     const [rankedOptions, setRankedOptions] = useState(rankOptions);
   
@@ -37,7 +38,7 @@ const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswe
   
     return (
       <DraggableQuestion
-        questionText={<span>{stepNumber}. When using your <strong>{mobilityAid}</strong>,  please rank the following barriers based on passibility, with 1 being the most difficult and  {rankedOptions.length} being the easiest.</span>}
+        questionText={<span>{stepNumber}. When using your <strong>{mobilityAid}</strong>,  please rank the following barriers based on passibility, with 1 being the most difficult and  {rankedOptions.length} being the easiest.*</span>}
         inputId="rankedOptions" 
         instructionText="Drag and drop the options to rank them. You may click on the image icon to see an example."
         options={rankedOptions}

@@ -157,7 +157,11 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                     />
                 </div>
             </div>
-            <PageNavigations onPrevious={previousStep} onNext={nextStep} />
+            <PageNavigations
+                onPrevious={previousStep}
+                onNext={nextStep}
+                isDownActive={false}
+            />
         </div>
     );
 };

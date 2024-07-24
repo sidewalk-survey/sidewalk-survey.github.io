@@ -47,6 +47,17 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
               Email Me the Link
             </Button>
           )}
+            {!continueUrl && (
+            <Button
+              className='lg-font-size-button'
+              color="teal"
+              variant="outlined"
+              size="lg"
+              onClick={previousStep}
+            >
+              Go Back
+            </Button>
+          )}
           <Button
             className='lg-font-size-button'
             color="teal"

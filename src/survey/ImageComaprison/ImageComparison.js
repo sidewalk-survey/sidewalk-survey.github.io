@@ -289,7 +289,11 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 />
                 </div>
             </div>
-            <PageNavigations onPrevious={previousStep} onNext={nextStep} />
+            <PageNavigations
+                onPrevious={previousStep}
+                onNext={nextStep}
+                isDownActive={false}
+            />
         </div>
     );
 };

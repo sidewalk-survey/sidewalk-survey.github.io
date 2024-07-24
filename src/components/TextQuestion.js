@@ -5,7 +5,7 @@ import './TextQuestion.css';
 import PageNavigations from './PageNavigations';
 import withEnterKeyHandler from './withEnterKeyHandler';
 
-const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, previousStep, nextStep, error }) => {
+const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, previousStep, nextStep, error, isFirstQuestion }) => {
   return (
     <div className="question-container">
       <div className="question-content">
@@ -31,7 +31,7 @@ const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, pr
             <span className="text-w text-teal-700" >press Enter ↵</span>
           </div>
         </div>
-        <PageNavigations onPrevious={previousStep} onNext={nextStep} />
+        <PageNavigations onPrevious={previousStep} onNext={nextStep} isUpActive={!isFirstQuestion} />
       </div>
     </div>
   );
