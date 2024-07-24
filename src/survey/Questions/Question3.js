@@ -14,6 +14,9 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber, setSingl
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [customValue, setCustomValue] = useState(''); // this is for something else option
 
+  
+
+
   const handleChange = (event) => {
     const { value, checked } = event.target;
     setSelectedOptions((prevSelectedOptions) => {
@@ -37,6 +40,7 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber, setSingl
       .map((option) => (option === "Something else" ? customValue : option));
   
     updateAnswers('mobilityAidOptions', { mobilityAidOptions: orderedSelectedOptions });
+    console.log('Mobility Aid Options:', orderedSelectedOptions);
 
     if (orderedSelectedOptions.length === 1) {
       updateAnswers('mobilityAid', orderedSelectedOptions[0]); // Update the single selected option
