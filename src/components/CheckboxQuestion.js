@@ -20,7 +20,9 @@ const CheckboxQuestion = ({
 
   const handleNextStep = () => {
     if (selectedOptions.length === 0) {
-      setLocalError('Please select at least one option');
+      setLocalError('Please select at least one option.');
+    } else if (selectedOptions.includes("Something else") && !customValue.trim()) {
+      setLocalError('Please specify the option.');
     } else {
       setLocalError('');
       nextStep();
