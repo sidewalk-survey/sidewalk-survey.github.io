@@ -29,7 +29,7 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
         console.log("Saving reminders...");
   
         // Save the reminder document to Firestore
-        const reminderRef = await addDoc(collection(firestore, "reminders"), {
+        const reminderRef = await addDoc(collection(firestore, "reminders2407"), {
           ...answers,
           isGroupContinue: true,
           currentStep: currentStep,
