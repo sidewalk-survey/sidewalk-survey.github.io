@@ -23,6 +23,34 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const saveReminder = async () => {
+      try {
+        console.log("Saving reminders...");
+  
+        // Save the reminder document to Firestore
+        const reminderRef = await addDoc(collection(firestore, "reminders"), {
+          ...answers,
+          isGroupContinue: true,
+          currentStep: currentStep,
+          timestamp: serverTimestamp(),
+          pauseStep: currentStep,
+          resumeUrl: continueUrl
+        });
+  
+        console.log("Reminder saved with ID: ", reminderRef.id);
+      } catch (error) {
+        console.error("Error saving reminder document: ", error);
+      }
+    };
+  
+    if (continueUrl) {
+      saveReminder();
+    }
+  }, [continueUrl, answers, currentStep]); 
+  
+  
+
 
 
   console.log('completedGroups', completedGroups);
