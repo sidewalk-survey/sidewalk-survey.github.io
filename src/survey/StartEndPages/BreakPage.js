@@ -12,6 +12,10 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
   const nextGroupButtonRef = useRef(null);
 
   useEffect(() => {
+    console.log('BreakPage mounted');
+    console.log(isOpen);
+    console.log(currentStep);
+    console.log(completedGroups);
     if (isOpen) {
       const timeoutId = setTimeout(() => {
         if (nextGroupButtonRef.current) {
@@ -50,9 +54,6 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
   }, [continueUrl, answers, currentStep]); 
   
   
-
-
-
   console.log('completedGroups', completedGroups);
   const onSave = async () => {
     setIsSaving(true);
@@ -73,11 +74,11 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
   }
 
   const handleClose = () => {
-    setIsOpen(false);
+    setIsOpen(true);
   }
 
   return (
-    <Dialog open={isOpen} handler={handleClose} size="mg" className='text-3xl'>
+    <Dialog open={isOpen} handler={handleClose} size="md" className='text-3xl'>
       <DialogHeader> 
       <span className="flex items-center">
         <HandsClapping size={'1.5em'} className="mr-2"/> 
