@@ -41,7 +41,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
     } else if (selectedOption === "later") {
       answers.answeredMobilityAids.push(answers.mobilityAid);
       try {
-        const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
           ...answers,
           timestamp: serverTimestamp()
         });

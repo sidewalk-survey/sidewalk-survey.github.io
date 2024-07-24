@@ -193,7 +193,7 @@ const SurveyComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        const docRef = doc(firestore, "surveyAnswers", id);
+        const docRef = doc(firestore, "surveyAnswers2407", id);
         const docSnap = await getDoc(docRef);
         console.log("Fetching data...");
 
@@ -281,11 +281,14 @@ const nextStep = () => {
   }
 };
 
-  const previousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
+const previousStep = () => {
+  if (currentStep === 6 && singleMobilityAid) {
+    setCurrentStep(4); // Skip to Question 3 if singleMobilityAid is true
+  } else if (currentStep > 1) {
+    setCurrentStep(currentStep - 1);
+  }
+};
+
   
 
   const validateCurrentStep = () => {
@@ -570,7 +573,7 @@ const handleSubmit = async () => {
  
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
       ...answers, 
       sessionId, 
       userId, 
@@ -604,7 +607,7 @@ const logData = async () => {
   }
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
         ...answers,  
         sessionId, 
         userId, 
@@ -638,7 +641,7 @@ const logMobilityAidData = async () => {
   }
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
         ...answers,  
         sessionId, 
         userId, 

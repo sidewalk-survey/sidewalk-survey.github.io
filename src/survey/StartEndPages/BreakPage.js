@@ -54,7 +54,7 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
   const onSave = async () => {
     setIsSaving(true);
     try {
-      const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+      const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
         ...answers,
         isGroupContinue: true,
         currentStep: currentStep,
