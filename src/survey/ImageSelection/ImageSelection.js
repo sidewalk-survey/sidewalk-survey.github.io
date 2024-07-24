@@ -10,6 +10,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
     const [currentIndex, setCurrentIndex] = useState(0);
     const [responses, setResponses] = useState(Array(images.length).fill(null));
     const [selectionMade, setSelectionMade] = useState(false);
+    const [loading, setLoading] = useState(true); // track image loading status
     const mobilityAid = answers.mobilityAid.toLowerCase();
 
     useEffect(() => {
@@ -75,7 +76,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
     };
 
     const handleNextClick = () => {
-        if (currentIndex < images.length - 1 && selectionMade) {
+        if (currentIndex < images.length - 1 && selectionMade && !loading) {
             setCurrentIndex(currentIndex + 1);
             setSelectionMade(responses[currentIndex + 1] !== null);
         }
@@ -90,7 +91,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                 <Tooltip content="prev image">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.1em' }}>
                         <CaretLeft
-                      size={'1em'}
+                            size={'1em'}
                             weight='bold'
                             onClick={handlePreviousClick}
                             style={{
@@ -117,12 +118,12 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                 <Tooltip content="next image">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.1em' }}>
                         <CaretRight
-                          size={'1em'}
+                            size={'1em'}
                             weight='bold'
                             onClick={handleNextClick}
                             style={{
-                                cursor: (currentIndex < images.length - 1 && selectionMade) ? 'pointer' : 'not-allowed',
-                                color: (currentIndex < images.length - 1 && selectionMade) ? activeColor : disabledColor
+                                cursor: (currentIndex < images.length - 1 && selectionMade && !loading) ? 'pointer' : 'not-allowed',
+                                color: (currentIndex < images.length - 1 && selectionMade && !loading) ? activeColor : disabledColor
                             }}
                         />
                     </div>
@@ -130,8 +131,6 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
             </div>
         );
     };
-    
-    
 
     return (
         <div className="question-container">
@@ -141,7 +140,13 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                 <div className="image-and-selection-buttons">
                     {currentIndex < images.length ? (
                         <div className="selection-image-wrapper">
-                            <ImageComponent cropMetadata={images[currentIndex]} isFirstImage={currentIndex === 0} isFirstGroup={currentStep === IMAGE_STEP} />
+                            <ImageComponent
+                                cropMetadata={images[currentIndex]}
+                                isFirstImage={currentIndex === 0}
+                                isFirstGroup={currentStep === IMAGE_STEP}
+                                onLoad={() => setLoading(false)} // Set loading to false when image loads
+                                onError={() => setLoading(false)} // Handle error case
+                            />
                         </div>
                     ) : (
                         <div>Loading next part of the survey...</div>
@@ -150,9 +155,9 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                     <ResponseButtons
                         gap="0.8em"
                         buttons={[
-                            { text: 'No', shortcut: 'N', onClick: () => handleResponse('no') },
-                            { text: 'Unsure', shortcut: 'U', onClick: () => handleResponse('unsure'), variant: 'outlined' },
-                            { text: 'Yes', shortcut: 'Y', onClick: () => handleResponse('yes') }
+                            { text: 'No', shortcut: 'N', onClick: () => handleResponse('no'), disabled: loading },
+                            { text: 'Unsure', shortcut: 'U', onClick: () => handleResponse('unsure'), variant: 'outlined', disabled: loading },
+                            { text: 'Yes', shortcut: 'Y', onClick: () => handleResponse('yes'), disabled: loading }
                         ]}
                     />
                 </div>
