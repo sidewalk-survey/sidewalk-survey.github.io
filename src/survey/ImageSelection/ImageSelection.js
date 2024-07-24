@@ -148,7 +148,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
                     )}
                     {renderDotsAndNavigation()}
                     <ResponseButtons
-                        gap="12px"
+                        gap="0.8em"
                         buttons={[
                             { text: 'No', shortcut: 'N', onClick: () => handleResponse('no') },
                             { text: 'Unsure', shortcut: 'U', onClick: () => handleResponse('unsure'), variant: 'outlined' },
