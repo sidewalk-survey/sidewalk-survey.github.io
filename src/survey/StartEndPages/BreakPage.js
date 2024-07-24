@@ -12,10 +12,6 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
   const nextGroupButtonRef = useRef(null);
 
   useEffect(() => {
-    console.log('BreakPage mounted');
-    console.log(isOpen);
-    console.log(currentStep);
-    console.log(completedGroups);
     if (isOpen) {
       const timeoutId = setTimeout(() => {
         if (nextGroupButtonRef.current) {
