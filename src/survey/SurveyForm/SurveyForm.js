@@ -89,8 +89,30 @@ const SurveyComponent = () => {
   const [showMobileWarning, setShowMobileWarning] = useState(false);
   const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const [userLocation, setUserLocation] = useState(null);
-  // const { latitude, longitude } = userLocation || {}; // Destructure userLocation
-  // const geolocation = userLocation ? [latitude, longitude] : null; // Create a tuple for location
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // Log the event to Google Analytics
+      if (analytics) {
+        const logData = {
+          event: 'survey_exit',
+          step: currentStep,
+          timestamp: new Date().toISOString()
+        };
+        
+        navigator.sendBeacon(
+          'https://www.google-analytics.com/collect',
+          new Blob([JSON.stringify(logData)], { type: 'application/json' })
+        );
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [currentStep, analytics]);
 
   useEffect(() => {
     if ('geolocation' in navigator) {
