@@ -88,7 +88,26 @@ const SurveyComponent = () => {
   const { id } = useParams(); 
   const [showMobileWarning, setShowMobileWarning] = useState(false);
   const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [userLocation, setUserLocation] = useState(null);
+  // const { latitude, longitude } = userLocation || {}; // Destructure userLocation
+  // const geolocation = userLocation ? [latitude, longitude] : null; // Create a tuple for location
 
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
+          console.log('User location:', { latitude, longitude });
+        },
+        (error) => {
+          console.error('Geolocation error:', error);
+        }
+      );
+    } else {
+      console.warn('Geolocation is not supported by this browser.');
+    }
+  }, []);
 
   useEffect(() => {
     logEvent(analytics, 'page_view', {
@@ -601,6 +620,7 @@ const handleSubmit = async () => {
       imageComparisons,
       timestamp: serverTimestamp(), 
       duration,
+      userLocation,
     });
     console.log("Document written with ID: ", docRef.id);
     console.log("Survey completed in ", duration, " seconds");
@@ -642,7 +662,8 @@ const logData = async () => {
         imageComparisons,
         screenSize,
         timestamp: serverTimestamp(),
-        duration
+        duration,
+        userLocation,
       });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -676,7 +697,8 @@ const logMobilityAidData = async () => {
         imageComparisons,
         screenSize,
         timestamp: serverTimestamp(),
-        duration
+        duration,
+        userLocation,
       });
     console.log("Document written with ID: ", docRef.id);
     console.log("Session completed in ", duration, " seconds");
