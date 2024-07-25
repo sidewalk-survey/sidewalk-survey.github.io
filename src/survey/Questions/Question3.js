@@ -38,7 +38,7 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber, setSingl
       .map((option) => (option === "Something else" ? customValue : option));
   
     updateAnswers('mobilityAidOptions', { mobilityAidOptions: orderedSelectedOptions });
-    console.log('Mobility Aid Options:', orderedSelectedOptions);
+    // console.log('Mobility Aid Options:', orderedSelectedOptions);
 
     if (orderedSelectedOptions.length === 1) {
       updateAnswers('mobilityAid', orderedSelectedOptions[0]); // Update the single selected option

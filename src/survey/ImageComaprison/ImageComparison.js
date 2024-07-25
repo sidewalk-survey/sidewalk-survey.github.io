@@ -207,8 +207,8 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     };
 
     const renderDotsAndNavigation = () => {
-        const activeColor = '#0d9488'; // Teal color
-        const disabledColor = '#D8DEE9'; // Grey color
+        const activeColor = '#0d9488'; // teal
+        const disabledColor = '#D8DEE9'; //grey
 
         const isLeftArrowEnabled = historyIndex > 0;
         const isRightArrowEnabled = (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && selectionState[historyIndex];

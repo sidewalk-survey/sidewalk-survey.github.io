@@ -18,8 +18,8 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
             // Form groups based on responses when the survey is complete
             const groupAImages = images.filter((_, index) => responses[index] === 'yes' || responses[index] === 'unsure');
             const groupBImages = images.filter((_, index) => responses[index] === 'no' || responses[index] === 'unsure');
-            console.log('Group A Images:', groupAImages);
-            console.log('Group B Images:', groupBImages);
+            // console.log('Group A Images:', groupAImages);
+            // console.log('Group B Images:', groupBImages);
             onComplete({ groupAImages, groupBImages });
         }
     }, [currentIndex, responses, images, onComplete]);
@@ -48,7 +48,7 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
 
     const handleResponse = (response) => {
         if (currentIndex >= images.length) {
-            console.log("All images have been processed.");
+            // console.log("All images have been processed.");
             return;
         }
 
@@ -57,8 +57,8 @@ const ImageSelection = ({ stepNumber, answers, nextStep, previousStep, images, o
         setResponses(updatedResponses);
         setSelectionMade(true);
 
-        const currentImage = images[currentIndex];
-        console.log(`Image ${currentIndex + 1} LabelID ${currentImage.LabelID}: ${response}`);
+        // const currentImage = images[currentIndex];
+        // console.log(`Image ${currentIndex + 1} LabelID ${currentImage.LabelID}: ${response}`);
 
         // Move to the next image
         if (currentIndex < images.length - 1) {
