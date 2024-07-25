@@ -1,6 +1,7 @@
 // SurveyForm.js
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 import { getFirestore, collection, doc, getDoc, addDoc, serverTimestamp } from 'firebase/firestore'; 
 import { Progress } from "@material-tailwind/react";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -38,6 +39,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+const analytics = getAnalytics(app);
 
 const TOTAL_STEPS = 38;
 const MOBILITYAID_STEP = 6;
@@ -87,6 +89,16 @@ const SurveyComponent = () => {
   const [showMobileWarning, setShowMobileWarning] = useState(false);
   const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
 
+
+  useEffect(() => {
+    logEvent(analytics, 'page_view', {
+      page_title: 'Survey Form',
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  }, []);
+  
+
   useEffect(() => {
     let steps = TOTAL_STEPS; // base number of steps
     setTotalSteps(steps);
@@ -133,6 +145,11 @@ const SurveyComponent = () => {
   const startSurvey = () => {
     setCurrentStep(1); // Start the survey
     setStartTime(new Date());
+
+    logEvent(analytics, 'survey_start', {
+      session_id: sessionId,
+      user_id: userId,
+    });
   };
   
   const [answers, setAnswers] = useState({
@@ -588,6 +605,13 @@ const handleSubmit = async () => {
     console.log("Document written with ID: ", docRef.id);
     console.log("Survey completed in ", duration, " seconds");
     window.alert('Your response has been recored successfully!');
+
+    logEvent(analytics, 'survey_complete', {
+      session_id: sessionId,
+      user_id: userId,
+      duration: duration,
+    });
+
   } catch (e) {
     console.error("Error adding document: ", e);
     window.alert('Failed to record your response. Please try again later.');
