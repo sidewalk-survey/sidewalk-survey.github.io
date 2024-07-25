@@ -146,7 +146,9 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
             selectedImageLabelID: selected.LabelID,
             selectedImageCity: selected.City,
         });
-        console.log('Image selected:', selected);
+        // console.log('Image1:', currentPair[0].LabelID);
+        // console.log('Image2:', currentPair[1].LabelID,);
+        // console.log('Image selected:', selected.LabelID);
 
         setSelectionState(prevState => {
             const newState = [...prevState];
