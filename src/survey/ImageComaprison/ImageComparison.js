@@ -260,7 +260,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 </div>
                 {renderDotsAndNavigation()}
                 <ResponseButtons
-                    gap="0.8em"
+                    gap="0.4em"
                     disabled={loading}
                     buttons={[
                         {

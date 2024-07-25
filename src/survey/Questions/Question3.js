@@ -14,8 +14,6 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber, setSingl
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [customValue, setCustomValue] = useState(''); // this is for something else option
 
-  
-
 
   const handleChange = (event) => {
     const { value, checked } = event.target;
@@ -53,6 +51,10 @@ const Question3 = ({ previousStep, nextStep, updateAnswers, stepNumber, setSingl
   };
 
   const [nextStepReady, setNextStepReady] = useState(false);
+
+  useEffect(() => {
+    setSingleMobilityAid(false);
+  }, []); // Empty dependency array to ensure it runs only once on mount
 
   useEffect(() => {
     if (nextStepReady) {
