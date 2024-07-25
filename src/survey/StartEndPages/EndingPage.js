@@ -15,7 +15,7 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
       <div className="ending-page-image-container">
         <img 
           src={`${process.env.PUBLIC_URL}/img/access-score.png`} 
-            alt="Welcome" 
+            alt="Example of an access score map" 
             className="w-full h-full" 
         />
       </div>

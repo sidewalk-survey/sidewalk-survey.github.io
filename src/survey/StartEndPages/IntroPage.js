@@ -11,7 +11,7 @@ const IntroPage = ({ nextStep }) => {
         Welcome to our study on mobility devices and sidewalk accessibility!
       </h1>
       <div className="mb-4" >
-        <img src={`${process.env.PUBLIC_URL}/img/label-examples.png`} alt="Welcome" />
+        <img src={`${process.env.PUBLIC_URL}/img/label-examples.png`} alt="Example images of sidewalk barriers" />
       </div>
       <p className="mb-4">
         In this survey, we will ask you about <b>your perceptions of various sidewalk barriers</b> such as obstacles and surface similar to the images above. Our goal is to understand how people using different mobility devices perceive barriers in urban environments.
