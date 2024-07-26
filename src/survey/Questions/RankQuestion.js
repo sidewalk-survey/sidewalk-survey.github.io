@@ -14,9 +14,10 @@ const rankOptions = [
     { id: '9', value: "Steep slope (sidewalk incline greater than 5%) " , image: `${process.env.PUBLIC_URL}/crops/gsv-lapiedad-997-3-0.png` },
   ];
 
-const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswers,}) => {
+const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswers, errors}) => {
     const mobilityAid = answers.mobilityAid.toLowerCase();
     const [rankedOptions, setRankedOptions] = useState(rankOptions);
+    const [hasDragged, setHasDragged] = useState(false);
   
     useEffect(() => {
       const initialOptions = rankOptions.map(option => ({
@@ -24,10 +25,14 @@ const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswe
         isSelected: option.value.toLowerCase() === mobilityAid
       }));
       setRankedOptions(initialOptions);
+      updateAnswers('hasDragged', false); 
     }, [mobilityAid]);
   
     const handleRankingChange = (newItems) => {
       setRankedOptions(newItems);
+      setHasDragged(true);
+      updateAnswers('hasDragged', true); // Update the hasDragged state in the parent component
+      // console.log("Options have been dragged:", hasDragged);
     };
   
     const handleNextStep = () => {
@@ -35,6 +40,11 @@ const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswe
       updateAnswers('rankedOptions', { rankedOptions: orderedOptions });
       nextStep();
     };
+
+    useEffect(() => {
+      // console.log('Errors in RankQuestion:', errors);
+    }, [errors]);
+    
   
     return (
       <DraggableQuestion
@@ -45,6 +55,7 @@ const RankQuestion = ({ stepNumber, nextStep, previousStep, answers, updateAnswe
         handleChange={handleRankingChange}
         previousStep={previousStep}
         nextStep={handleNextStep}
+        error={errors.hasDragged} 
       />
     );
   };

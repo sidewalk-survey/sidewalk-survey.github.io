@@ -390,6 +390,12 @@ const previousStep = () => {
         }
         break;
       // add more cases for other questions
+      case 36:  // RankQuestion step
+      if (answers.hasDragged === false) {
+        isValid = false;
+        newErrors.hasDragged = 'Please rank the options.';
+      }
+      break;
       default:
         break;
     }
