@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Button } from "@material-tailwind/react";
+import withEnterKeyHandler from '../../components/withEnterKeyHandler';
 
 const IntroPage = ({ nextStep }) => {
 
@@ -33,4 +33,4 @@ const IntroPage = ({ nextStep }) => {
   );
 };
 
-export default IntroPage;
+export default withEnterKeyHandler(IntroPage);

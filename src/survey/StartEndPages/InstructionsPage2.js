@@ -1,5 +1,6 @@
 import { Button } from "@material-tailwind/react";
 import PageNavigations from "../../components/PageNavigations";
+import withEnterKeyHandler from '../../components/withEnterKeyHandler';
 
 const InstructionsPage2 = ({ nextStep , previousStep}) => {
 
@@ -35,4 +36,4 @@ const InstructionsPage2 = ({ nextStep , previousStep}) => {
   );
 };
 
-export default InstructionsPage2;
+export default withEnterKeyHandler(InstructionsPage2);

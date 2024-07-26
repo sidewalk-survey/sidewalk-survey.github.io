@@ -4,6 +4,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { DotsSixVertical, Image } from '@phosphor-icons/react';
 import './DraggableQuestion.css';
 import PageNavigations from './PageNavigations';
+import withEnterKeyHandler from './withEnterKeyHandler';
 
 const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep,}) => {
   const [shuffledOptions, setShuffledOptions] = useState([]);
@@ -147,4 +148,4 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
   );
 };
 
-export default DraggableQuestion;
+export default withEnterKeyHandler(DraggableQuestion);
