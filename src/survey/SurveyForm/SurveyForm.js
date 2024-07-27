@@ -518,6 +518,7 @@ const renderCurrentStep = () => {
     case 2:
       return <Question1 
               stepNumber={currentStep-1} 
+              previousStep={previousStep} 
               nextStep={nextStep} 
               handleChange={handleChange}
               errors= {errors} 
@@ -598,7 +599,7 @@ const renderCurrentStep = () => {
               answers={answers}
               handleMobilityAidChange={handleMobilityAidChange}
               previousStep={previousStep} 
-              yesStep={() => {setCurrentStep(5);}}
+              yesStep={() => {setCurrentStep(MOBILITYAID_STEP);}}
               nextStep={nextStep}
               setContinueUrl={setContinueUrl}
               logData={logMobilityAidData}

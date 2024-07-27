@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@material-tailwind/react";
 import './EndingPage.css';
 
@@ -9,6 +9,20 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
     setIsSubmitting(true);
     onSubmit();
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      onSubmit();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
 
   return (
     <div className="ending-page-container">

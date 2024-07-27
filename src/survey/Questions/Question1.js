@@ -11,7 +11,7 @@ const Question1 = ({ previousStep, nextStep, handleChange, stepNumber, errors })
       previousStep={previousStep}
       nextStep={nextStep}
       error={errors.name}
-      isFirstQuestion={true} 
+      // isFirstQuestion={true} 
     />
   );
 };
