@@ -707,17 +707,17 @@ const logData = async () => {
   try {
     const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
         ...answers,  
-        sessionId, 
-        userId, 
-        currentStep,
-        ipAddress,
-        logType,
-        imageSelections,
-        imageComparisons,
-        screenSize,
+        sessionId: sessionId || "none", 
+        userId: userId || "none", 
+        currentStep: currentStep || "none",
+        ipAddress: ipAddress || "none", 
+        logType: logType || "none",
+        imageSelections: imageSelections || "none",
+        imageComparisons: imageComparisons || "none",
+        screenSize: screenSize || "none",
         timestamp: serverTimestamp(),
-        duration,
-        userLocation,
+        duration: duration || "none",
+        userLocation: userLocation || "none",
       });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
