@@ -49,6 +49,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
       try {
         const docRef = await addDoc(collection(firestore, COLLECTION_NAME), {
           ...answers,
+          logType: "continue",
           timestamp: serverTimestamp()
         });
 
