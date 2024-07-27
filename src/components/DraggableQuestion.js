@@ -43,6 +43,7 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
     newItems.splice(newOrder, 0, movedItem);
     setShuffledOptions(newItems);
     handleChange(newItems);
+    setShowNumbers(true);
   };
 
   const handlePopoverOpen = (index) => {
@@ -102,18 +103,17 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
                       >
                         <DotsSixVertical weight='bold' style={{ marginRight: '2px', color:"#0d9488"}} />
                         <select 
-                          value={showNumbers ? index + 1 : '-'} 
-                          onChange={(e) => handleDropdownChange(e, index)}
-                          style={{ fontSize: '0.8em', marginRight: '0.2em' }}
-                          disabled={!showNumbers}
-                        >
-                          {!showNumbers && <option value="-">-</option>}
-                          {showNumbers && shuffledOptions.map((_, i) => (
-                            <option key={i} value={i + 1}>
-                              {i + 1}
-                            </option>
-                          ))}
-                        </select>
+                            value={showNumbers ? index + 1 : '-'} 
+                            onChange={(e) => handleDropdownChange(e, index)}
+                            style={{ fontSize: '0.8em', marginRight: '0.2em' }}
+                          >
+                            {!showNumbers && <option value="-">-</option>} {/* Show placeholder only initially */}
+                            {shuffledOptions.map((_, i) => (
+                              <option key={i} value={i + 1}>
+                                {i + 1}
+                              </option>
+                            ))}
+                          </select>
                         <span style={{ marginRight: '1em' }}>{item.value}</span> 
                         <Popover placement="right" open={popoverOpen[index]} handler={() => handlePopoverOpen(index)}>
                           <PopoverHandler>

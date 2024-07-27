@@ -42,7 +42,7 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const analytics = getAnalytics(app);
 
-const COLLECTION_NAME = 'surveyAnswersProduction';
+const COLLECTION_NAME = 'surveyAnswers0727';
 // const COLLECTION_NAME = 'surveyAnswersTesting';
 
 const TOTAL_STEPS = 38;
