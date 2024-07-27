@@ -1,5 +1,6 @@
 import { Button } from "@material-tailwind/react";
 import PageNavigations from "../../components/PageNavigations";
+import withEnterKeyHandler from '../../components/withEnterKeyHandler';
 
 const InstructionsPage2 = ({ nextStep , previousStep}) => {
 
@@ -24,7 +25,7 @@ const InstructionsPage2 = ({ nextStep , previousStep}) => {
       </ul>
       </div>
       <div className="mt-12 mb-16">
-        <img src={`${process.env.PUBLIC_URL}/img/example-scenarios.png`} alt="Example Barrier" />
+        <img src={`${process.env.PUBLIC_URL}/img/example-scenarios.png`} alt="Example barriers and whether people can pass them or not. " />
       </div>
       <div className="flex justify-end items-center">
         <Button  style={{fontSize: '0.7em'}} size="lg" color="teal" onClick={handleResponse}>Continue</Button>
@@ -35,4 +36,4 @@ const InstructionsPage2 = ({ nextStep , previousStep}) => {
   );
 };
 
-export default InstructionsPage2;
+export default withEnterKeyHandler(InstructionsPage2);

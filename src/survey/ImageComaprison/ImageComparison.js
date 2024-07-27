@@ -146,7 +146,9 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
             selectedImageLabelID: selected.LabelID,
             selectedImageCity: selected.City,
         });
-        console.log('Image selected:', selected);
+        // console.log('Image1:', currentPair[0].LabelID);
+        // console.log('Image2:', currentPair[1].LabelID,);
+        // console.log('Image selected:', selected.LabelID);
 
         setSelectionState(prevState => {
             const newState = [...prevState];
@@ -205,8 +207,8 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
     };
 
     const renderDotsAndNavigation = () => {
-        const activeColor = '#0d9488'; // Teal color
-        const disabledColor = '#D8DEE9'; // Grey color
+        const activeColor = '#0d9488'; // teal
+        const disabledColor = '#D8DEE9'; //grey
 
         const isLeftArrowEnabled = historyIndex > 0;
         const isRightArrowEnabled = (historyIndex < history.length - 1 || historyIndex < maxComparisons - 1) && selectionState[historyIndex];
@@ -260,7 +262,7 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 </div>
                 {renderDotsAndNavigation()}
                 <ResponseButtons
-                    gap="0.8em"
+                    gap="0.4em"
                     disabled={loading}
                     buttons={[
                         {
@@ -289,7 +291,11 @@ const ImageComparison = ({ stepNumber, answers, nextStep, previousStep, images, 
                 />
                 </div>
             </div>
-            <PageNavigations onPrevious={previousStep} onNext={nextStep} />
+            <PageNavigations
+                onPrevious={previousStep}
+                onNext={nextStep}
+                isDownActive={false}
+            />
         </div>
     );
 };

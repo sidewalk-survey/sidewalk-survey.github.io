@@ -40,7 +40,7 @@ const ImageComponent = ({ cropMetadata, isFirstImage, isFirstGroup }) => {
         ref={imageRef}
         className="crop-image"
         src={`${process.env.PUBLIC_URL}/crops/gsv-${cropMetadata.City}-${cropMetadata.LabelID}-${cropMetadata.LabelTypeID}-${cropMetadata.Order}.png`}
-        alt="Crop"
+        alt={cropMetadata.altText || "Sidewalk Image"}
         onLoad={() => {
           setImageSize({
             width: imageRef.current.offsetWidth,

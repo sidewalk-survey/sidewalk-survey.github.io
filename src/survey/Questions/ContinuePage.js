@@ -41,13 +41,13 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
     } else if (selectedOption === "later") {
       answers.answeredMobilityAids.push(answers.mobilityAid);
       try {
-        const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+        const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
           ...answers,
           logType: "continue",
           timestamp: serverTimestamp()
         });
 
-        const resumeUrl = `${window.location.origin}/access-survey/#/resume-survey/${docRef.id}`;
+        const resumeUrl = `${window.location.origin}/#/resume-survey/${docRef.id}`;
         setLocalContinueUrl(resumeUrl);
         setContinueUrl(resumeUrl);
       } catch (error) {

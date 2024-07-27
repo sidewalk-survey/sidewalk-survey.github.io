@@ -1,10 +1,13 @@
+//DraggableQuestion.js
 import React, { useEffect, useState } from 'react';
 import { Button, Popover, PopoverHandler, PopoverContent } from '@material-tailwind/react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { DotsSixVertical, Image } from '@phosphor-icons/react';
+import { DotsSixVertical, Image, Warning } from '@phosphor-icons/react';
 import './DraggableQuestion.css';
+import PageNavigations from './PageNavigations';
+import withEnterKeyHandler from './withEnterKeyHandler';
 
-const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep }) => {
+const DraggableQuestion = ({ questionText, inputId, instructionText, options, handleChange, previousStep, nextStep, error}) => {
   const [shuffledOptions, setShuffledOptions] = useState([]);
   const [showNumbers, setShowNumbers] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState({});
@@ -136,13 +139,20 @@ const DraggableQuestion = ({ questionText, inputId, instructionText, options, ha
           </Droppable>
         </DragDropContext>
         </div>
+        {error && (
+            <div className="flex items-center mt-2 text-red-800 bg-red-50 p-2 rounded max-w-max">
+              <Warning size={24} weight="fill" className="mr-2" />
+              <p className="text-w">{error}</p>
+            </div>
+           )} 
         <div className="question-button-group items-center">
           <Button size='lg' className="lg-font-size-button" color="teal" onClick={nextStep}>OK</Button>
           <span className="text-w text-teal-700" >press Enter ↵</span>
         </div>
       </div>
+      <PageNavigations onPrevious={previousStep} onNext={nextStep} />
     </div>
   );
 };
 
-export default DraggableQuestion;
+export default withEnterKeyHandler(DraggableQuestion);

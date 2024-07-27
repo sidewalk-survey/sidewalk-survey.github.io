@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@material-tailwind/react";
 import './EndingPage.css';
 
@@ -10,12 +10,26 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
     onSubmit();
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      onSubmit();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
+
   return (
     <div className="ending-page-container">
       <div className="ending-page-image-container">
         <img 
           src={`${process.env.PUBLIC_URL}/img/access-score.png`} 
-            alt="Welcome" 
+            alt="Example of an access score map" 
             className="w-full h-full" 
         />
       </div>
@@ -45,6 +59,17 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
               onClick={onEmailLink}
             >
               Email Me the Link
+            </Button>
+          )}
+            {!continueUrl && (
+            <Button
+              className='lg-font-size-button'
+              color="teal"
+              variant="outlined"
+              size="lg"
+              onClick={previousStep}
+            >
+              Go Back
             </Button>
           )}
           <Button

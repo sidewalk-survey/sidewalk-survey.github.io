@@ -1,6 +1,7 @@
 // SurveyForm.js
 import React, { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 import { getFirestore, collection, doc, getDoc, addDoc, serverTimestamp } from 'firebase/firestore'; 
 import { Progress } from "@material-tailwind/react";
 import { useParams, useNavigate } from 'react-router-dom';
@@ -38,6 +39,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+const analytics = getAnalytics(app);
 
 const TOTAL_STEPS = 38;
 const MOBILITYAID_STEP = 6;
@@ -86,6 +88,57 @@ const SurveyComponent = () => {
   const { id } = useParams(); 
   const [showMobileWarning, setShowMobileWarning] = useState(false);
   const [screenSize, setScreenSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const [userLocation, setUserLocation] = useState(null);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // Log the event to Google Analytics
+      if (analytics) {
+        const logData = {
+          event: 'survey_exit',
+          step: currentStep,
+          timestamp: new Date().toISOString()
+        };
+        
+        navigator.sendBeacon(
+          'https://www.google-analytics.com/collect',
+          new Blob([JSON.stringify(logData)], { type: 'application/json' })
+        );
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [currentStep, analytics]);
+
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
+          console.log('User location:', { latitude, longitude });
+        },
+        (error) => {
+          console.error('Geolocation error:', error);
+        }
+      );
+    } else {
+      console.warn('Geolocation is not supported by this browser.');
+    }
+  }, []);
+
+  useEffect(() => {
+    logEvent(analytics, 'page_view', {
+      page_title: 'Survey Form',
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  }, []);
+  
 
   useEffect(() => {
     let steps = TOTAL_STEPS; // base number of steps
@@ -133,6 +186,11 @@ const SurveyComponent = () => {
   const startSurvey = () => {
     setCurrentStep(1); // Start the survey
     setStartTime(new Date());
+
+    logEvent(analytics, 'survey_start', {
+      session_id: sessionId,
+      user_id: userId,
+    });
   };
   
   const [answers, setAnswers] = useState({
@@ -193,7 +251,7 @@ const SurveyComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        const docRef = doc(firestore, "surveyAnswers", id);
+        const docRef = doc(firestore, "surveyAnswers2407", id);
         const docSnap = await getDoc(docRef);
         console.log("Fetching data...");
 
@@ -285,11 +343,14 @@ const nextStep = () => {
   }
 };
 
-  const previousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
+const previousStep = () => {
+  if (currentStep === 6 && singleMobilityAid) {
+    setCurrentStep(4); // Skip to Question 3 if singleMobilityAid is true
+  } else if (currentStep > 1) {
+    setCurrentStep(currentStep - 1);
+  }
+};
+
   
 
   const validateCurrentStep = () => {
@@ -333,6 +394,12 @@ const nextStep = () => {
         }
         break;
       // add more cases for other questions
+      case 36:  // RankQuestion step
+      if (answers.hasDragged === false) {
+        isValid = false;
+        newErrors.hasDragged = 'Please rank the options.';
+      }
+      break;
       default:
         break;
     }
@@ -455,6 +522,7 @@ const renderCurrentStep = () => {
     case 2:
       return <Question1 
               stepNumber={currentStep-1} 
+              previousStep={previousStep} 
               nextStep={nextStep} 
               handleChange={handleChange}
               errors= {errors} 
@@ -535,7 +603,7 @@ const renderCurrentStep = () => {
               answers={answers}
               handleMobilityAidChange={handleMobilityAidChange}
               previousStep={previousStep} 
-              yesStep={() => {setCurrentStep(5);}}
+              yesStep={() => {setCurrentStep(MOBILITYAID_STEP);}}
               nextStep={nextStep}
               setContinueUrl={setContinueUrl}
               logData={logMobilityAidData}
@@ -574,7 +642,7 @@ const handleSubmit = async () => {
  
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
       ...answers, 
       sessionId, 
       userId, 
@@ -585,10 +653,18 @@ const handleSubmit = async () => {
       imageComparisons,
       timestamp: serverTimestamp(), 
       duration,
+      userLocation,
     });
     console.log("Document written with ID: ", docRef.id);
     console.log("Survey completed in ", duration, " seconds");
     window.alert('Your response has been recored successfully!');
+
+    logEvent(analytics, 'survey_complete', {
+      session_id: sessionId,
+      user_id: userId,
+      duration: duration,
+    });
+
   } catch (e) {
     console.error("Error adding document: ", e);
     window.alert('Failed to record your response. Please try again later.');
@@ -629,7 +705,7 @@ const logData = async () => {
   }
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
         ...answers,  
         sessionId, 
         userId, 
@@ -640,7 +716,8 @@ const logData = async () => {
         imageComparisons,
         screenSize,
         timestamp: serverTimestamp(),
-        duration
+        duration,
+        userLocation,
       });
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -665,7 +742,7 @@ const logMobilityAidData = async () => {
   }
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
         ...answers,  
         sessionId, 
         userId, 
@@ -676,7 +753,8 @@ const logMobilityAidData = async () => {
         imageComparisons,
         screenSize,
         timestamp: serverTimestamp(),
-        duration
+        duration,
+        userLocation,
       });
     console.log("Document written with ID: ", docRef.id);
     console.log("Session completed in ", duration, " seconds");

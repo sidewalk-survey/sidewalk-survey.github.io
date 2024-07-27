@@ -29,7 +29,7 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
         console.log("Saving reminders...");
   
         // Save the reminder document to Firestore
-        const reminderRef = await addDoc(collection(firestore, "reminders"), {
+        const reminderRef = await addDoc(collection(firestore, "reminders2407"), {
           ...answers,
           isGroupContinue: true,
           currentStep: currentStep,
@@ -54,14 +54,14 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
   const onSave = async () => {
     setIsSaving(true);
     try {
-      const docRef = await addDoc(collection(firestore, "surveyAnswers"), {
+      const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
         ...answers,
         isGroupContinue: true,
         currentStep: currentStep,
         timestamp: serverTimestamp()
       });
 
-      const resumeUrl = `${window.location.origin}/access-survey/#/resume-survey/${docRef.id}`;
+      const resumeUrl = `${window.location.origin}/#/resume-survey/${docRef.id}`;
       setContinueUrl(resumeUrl);
     } catch (error) {
       console.error("Error saving document: ", error);

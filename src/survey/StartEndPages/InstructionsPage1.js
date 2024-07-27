@@ -1,3 +1,4 @@
+import React, {useEffect } from 'react';
 import ResponseButtons from '../../components/ResponseButtons';
 import PageNavigations from "../../components/PageNavigations";
 
@@ -6,6 +7,24 @@ const InstructionsPage1 = ({ nextStep, previousStep, answers }) => {
   const handleResponse = (response) => {
     nextStep();
   }
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+        if (event.key === 'n') {
+            handleResponse('no');
+        } else if (event.key === 'u') {
+            handleResponse('unsure');
+        } else if (event.key === 'y') {
+            handleResponse('yes');
+        }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+        document.removeEventListener('keydown', handleKeyPress);
+    };
+}, []);
 
   const mobilityAid = answers.mobilityAid.toLowerCase();
 
