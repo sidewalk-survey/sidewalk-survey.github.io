@@ -3,7 +3,10 @@ import RadioQuestion from '../../components/RadioQuestion';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { firestore } from '../../config';
 
-const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep, nextStep, setContinueUrl, logData }) => {
+const COLLECTION_NAME = 'surveyAnswersProduction';
+// const COLLECTION_NAME = 'surveyAnswersTesting';
+
+const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep, nextStep, setContinueUrl, logData}) => {
   const [localContinueUrl, setLocalContinueUrl] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
 
@@ -28,6 +31,9 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
     }
   ];
 
+  // const continueAnswer = selectedOption;
+  // updateAnswers('continueAnswer', continueAnswer);
+
   const handleOptionChange = (event) => {
     const newValue = event.target.value;
     setSelectedOption(newValue);
@@ -41,7 +47,7 @@ const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep,
     } else if (selectedOption === "later") {
       answers.answeredMobilityAids.push(answers.mobilityAid);
       try {
-        const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
+        const docRef = await addDoc(collection(firestore, COLLECTION_NAME), {
           ...answers,
           timestamp: serverTimestamp()
         });

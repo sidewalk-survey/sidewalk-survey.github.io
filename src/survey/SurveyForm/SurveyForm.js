@@ -27,6 +27,7 @@ import emailjs from 'emailjs-com';
 import { shuffleArray } from '../../utils';
 import getIpAddress from '../../getIpAddress';
 
+
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyC5siaFnxhtfEbw1FaKuX8GkEQyN5rb6a0",
@@ -40,6 +41,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const analytics = getAnalytics(app);
+
+const COLLECTION_NAME = 'surveyAnswersProduction';
+// const COLLECTION_NAME = 'surveyAnswersTesting';
 
 const TOTAL_STEPS = 38;
 const MOBILITYAID_STEP = 6;
@@ -251,7 +255,7 @@ const SurveyComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        const docRef = doc(firestore, "surveyAnswers2407", id);
+        const docRef = doc(firestore, COLLECTION_NAME, id);
         const docSnap = await getDoc(docRef);
         console.log("Fetching data...");
 
@@ -603,6 +607,7 @@ const renderCurrentStep = () => {
               nextStep={nextStep}
               setContinueUrl={setContinueUrl}
               logData={logMobilityAidData}
+              // updateAnswers={updateAnswers}
               />;
     case 38:
       return <EndingPage 
@@ -638,7 +643,7 @@ const handleSubmit = async () => {
  
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
+    const docRef = await addDoc(collection(firestore, COLLECTION_NAME), {
       ...answers, 
       sessionId, 
       userId, 
@@ -680,7 +685,7 @@ const logData = async () => {
   }
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
+    const docRef = await addDoc(collection(firestore, COLLECTION_NAME), {
         ...answers,  
         sessionId, 
         userId, 
@@ -715,7 +720,7 @@ const logMobilityAidData = async () => {
   }
 
   try {
-    const docRef = await addDoc(collection(firestore, "surveyAnswers2407"), {
+    const docRef = await addDoc(collection(firestore, COLLECTION_NAME), {
         ...answers,  
         sessionId, 
         userId, 
