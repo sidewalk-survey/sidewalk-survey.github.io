@@ -207,7 +207,7 @@ const SurveyComponent = () => {
           // set the current mobility aid
           if (data.answeredMobilityAids && data.answeredMobilityAids.length > 0) {
             const remainingOptions = data.mobilityAidOptions.mobilityAidOptions.filter(option => !data.answeredMobilityAids.includes(option));
-            handleMobilityAidChange(remainingOptions[0]);
+            data.mobilityAid = remainingOptions[0];
           }
 
           if(data.isGroupContinue) { 
@@ -223,7 +223,11 @@ const SurveyComponent = () => {
           
           setImageSelections(data.imageSelections || generateInitialImageSelections());
           setImageComparisons(data.imageComparisons || []);
-          setAnswers({ ...data, isGroupContinue: false });
+
+          setAnswers({ 
+            ...data, 
+            isGroupContinue: false
+          });
         } else {
           console.log("No such document!");
         }
@@ -592,11 +596,32 @@ const handleSubmit = async () => {
   }
 };
 
+const updateAnswersforLogging = (newData = {}) => {
+  console.log("updating answers ...");
+  setAnswers(prevAnswers => {
+    const updatedAnswers = {
+      ...prevAnswers,
+      ...newData,
+      sessionId,
+      userId,
+      currentStep,
+      imageSelections,
+      imageComparisons,
+      screenSize,
+      timestamp: serverTimestamp()
+    };
+
+    return updatedAnswers;
+  });
+};
+
 const logData = async () => {
   let logType = 'temp'; 
   const endTime = Date.now(); // Capture the end time
   const duration = endTime ? (endTime - startTime)/1000 : 0;
   const ipAddress = await getIpAddress();
+
+  updateAnswersforLogging();
 
   if (!ipAddress) {
     console.error('Failed to fetch IP address');
@@ -631,6 +656,8 @@ const logMobilityAidData = async () => {
   const duration = endTime ? (endTime - startTime)/1000 : 0;
 
   const ipAddress = await getIpAddress();
+
+  updateAnswersforLogging();
 
   if (!ipAddress) {
     console.error('Failed to fetch IP address');
