@@ -287,6 +287,9 @@ const SurveyComponent = () => {
           if(data.logType === 'continue') {
             data.imageSelections = generateInitialImageSelections();
             data.imageComparisons = [];
+          } else {
+            setImageSelections(data.imageSelections);
+            setImageComparisons(data.imageComparisons);
           } 
 
           setAnswers({ 
