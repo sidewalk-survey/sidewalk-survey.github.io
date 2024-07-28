@@ -8,7 +8,7 @@ const UserLogPage = () => {
   const [logs, setLogs] = useState([]);
   const [selectedAid, setSelectedAid] = useState(null);
   const [barrier, setBarrier] = useState(null);
-  const [imageDetails, setImageDetails] = useState({});
+  const [imageSelection, setImageSelection] = useState({});
 
   useEffect(() => {
     const fetchLogs = async () => {
@@ -25,7 +25,9 @@ const UserLogPage = () => {
         } else {
           const logEntries = [];
           querySnapshot.forEach(doc => {
-            logEntries.push(doc.data());
+            const data = doc.data();
+            logEntries.push(data);
+            console.log("Fetched log data:", data); // Debugging log
           });
           setLogs(logEntries);
         }
@@ -41,14 +43,59 @@ const UserLogPage = () => {
 
   const handleAidClick = (aid) => {
     setSelectedAid(aid);
+    setShowDetails(false); 
     const matchingLog = logs.find(log => log.mobilityAid === aid);
     if (matchingLog) {
       setBarrier(matchingLog.sidewalkBarriers || "No barrier information available");
-      setImageDetails(matchingLog.imageSelections || {});
+      console.log("Selected log for aid:", matchingLog); // Debugging log
+      categorizeImages(matchingLog.imageSelections || {});
     } else {
       setBarrier("No barrier information available for the selected mobility aid.");
-      setImageDetails({});
+      setImageSelection({});
     }
+  };
+
+  const categorizeImages = (imageSelections) => {
+    console.log("Image Selections before categorization:", imageSelections); // Debugging log
+    const categorizedImages = {};
+
+    Object.entries(imageSelections).forEach(([group, subgroups]) => {
+      if (!categorizedImages[group]) {
+        categorizedImages[group] = { yes: [], no: [], unsure: [] };
+      }
+
+      const groupAImages = subgroups[`${group}A`] || [];
+      const groupBImages = subgroups[`${group}B`] || [];
+
+      const imageMap = new Map();
+
+      groupAImages.forEach(image => {
+        const key = `${image.City}-${image.LabelID}-${image.LabelTypeID}-${image.Order}`;
+        imageMap.set(key, { ...image, inGroupA: true });
+      });
+
+      groupBImages.forEach(image => {
+        const key = `${image.City}-${image.LabelID}-${image.LabelTypeID}-${image.Order}`;
+        if (imageMap.has(key)) {
+          imageMap.get(key).inGroupB = true;
+        } else {
+          imageMap.set(key, { ...image, inGroupB: true });
+        }
+      });
+
+      imageMap.forEach((imageData) => {
+        if (imageData.inGroupA && imageData.inGroupB) {
+          categorizedImages[group].unsure.push(imageData);
+        } else if (imageData.inGroupA) {
+          categorizedImages[group].yes.push(imageData);
+        } else if (imageData.inGroupB) {
+          categorizedImages[group].no.push(imageData);
+        }
+      });
+    });
+
+    console.log("Categorized Images:", categorizedImages); // Debugging log
+    setImageSelection(categorizedImages);
   };
 
   return (
@@ -72,7 +119,7 @@ const UserLogPage = () => {
             <div>
               <p><strong>Viewing Logs for:</strong> {selectedAid}</p>
               <p><strong>Sidewalk Barriers:</strong> {barrier}</p>
-              <ImageDetails details={imageDetails} />
+              <ImageSelection details={imageSelection} />
             </div>
           )}
         </div>
@@ -83,27 +130,31 @@ const UserLogPage = () => {
   );
 };
 
-const ImageDetails = ({ details }) => {
+const ImageSelection = ({ details }) => {
   if (!details || Object.keys(details).length === 0) return <p>No image details available.</p>;
 
   return (
     <div>
-      <h3>Image Details:</h3>
-      {Object.entries(details).map(([group, subgroups]) => (
+      <h3>Image Selection</h3>
+      {Object.entries(details).map(([group, categories]) => (
         <div key={group}>
           <h4>{group}</h4>
-          {Object.entries(subgroups).map(([subgroup, images]) => (
-            <div key={subgroup}>
-              <h5>{subgroup}</h5>
-              <ul>
-                {images.map((image, index) => (
-                    <img 
-                      src={`/crops/gsv-${image.City}-${image.LabelID}-${image.LabelTypeID}-${image.Order}.png`} 
-                      alt={image["Alt-text"]}
-                      style={{ width: '200px', height: 'auto' }} // Adjust size as needed
-                    />
-                ))}
-              </ul>
+          {['yes', 'no', 'unsure'].map(category => (
+            <div key={category}>
+              <h5>{category.charAt(0).toUpperCase() + category.slice(1)}</h5>
+              {categories[category].length > 0 ? (
+                <ul>
+                  {categories[category].map((image, index) => (
+                      <img 
+                        src={`/crops/gsv-${image.City}-${image.LabelID}-${image.LabelTypeID}-${image.Order}.png`} 
+                        alt={image["Alt-text"]}
+                        style={{ width: '200px', height: 'auto' }} // Adjust size as needed
+                      />
+                  ))}
+                </ul>
+              ) : (
+                <p>No images in this category.</p>
+              )}
             </div>
           ))}
         </div>

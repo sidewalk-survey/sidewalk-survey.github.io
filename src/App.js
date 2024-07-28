@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import UserLogPage from './components/UserLogPage';
 import { db } from './firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
+import './App.css';
 
 function App() {
   const [emails, setEmails] = useState([]);
@@ -27,7 +28,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className="app-container">
         <Routes>
           {/* Route for the main page */}
           <Route path="/" element={<EmailList emails={emails} />} />
