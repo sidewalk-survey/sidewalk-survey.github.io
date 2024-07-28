@@ -5,6 +5,10 @@ import { db } from './firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 import './App.css';
 
+// Replace these with your actual IP addresses
+const MY_IP_ADDRESS_1 = '18.29.47.47';
+const MY_IP_ADDRESS_2 = '130.44.181.246';
+
 function App() {
   const [emails, setEmails] = useState([]);
 
@@ -15,7 +19,10 @@ function App() {
         const emailSet = new Set();
         querySnapshot.forEach(doc => {
           let email = doc.data().email;
-          if (email) emailSet.add(email);
+          let ipAddress = doc.data().ipAddress; // Updated field name
+          if (email && ipAddress && ipAddress !== MY_IP_ADDRESS_1 && ipAddress !== MY_IP_ADDRESS_2) {
+            emailSet.add(email);
+          }
         });
         setEmails(Array.from(emailSet));
       } catch (error) {
@@ -43,7 +50,7 @@ function App() {
 function EmailList({ emails }) {
   return (
     <div>
-      <h1>Participants</h1>
+      <h1>Responses</h1>
       <ul>
         {emails.map((email, index) => (
           <li key={index}>
