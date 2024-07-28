@@ -42,3 +42,12 @@
   padding: 20px;
   text-align: left; /* Ensure text is left-aligned */
 }
+
+.image-comparison{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  /* justify-content: center; */
+  align-items: center;
+  margin: 20px;
+}
