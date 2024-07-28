@@ -282,8 +282,12 @@ const SurveyComponent = () => {
           } else {
             setCurrentStep(MOBILITYAID_STEP);
           }
-          setImageSelections(data.imageSelections || generateInitialImageSelections());
-          setImageComparisons(data.imageComparisons || []);
+          // setImageSelections(data.imageSelections || generateInitialImageSelections());
+          // setImageComparisons(data.imageComparisons || []);
+          if(data.logType === 'continue') {
+            data.imageSelections = generateInitialImageSelections();
+            data.imageComparisons = [];
+          } 
 
           setAnswers({ 
             ...data, 
