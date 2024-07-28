@@ -282,7 +282,6 @@ const SurveyComponent = () => {
           } else {
             setCurrentStep(MOBILITYAID_STEP);
           }
-          
           setImageSelections(data.imageSelections || generateInitialImageSelections());
           setImageComparisons(data.imageComparisons || []);
 
@@ -725,6 +724,7 @@ const logData = async () => {
         userLocation: userLocation || "none",
       });
     console.log("Document written with ID: ", docRef.id);
+    console.log("AHHHH", imageSelections);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -763,9 +763,13 @@ const logMobilityAidData = async () => {
       });
     console.log("Document written with ID: ", docRef.id);
     console.log("Session completed in ", duration, " seconds");
+    // console.log("AHHHH", imageSelections);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
+    // Reset imageSelections and imageComparisons after logging the data
+    setImageSelections(generateInitialImageSelections());
+    setImageComparisons([]);
 };
 
 if (loading) {
