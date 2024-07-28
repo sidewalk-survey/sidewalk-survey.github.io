@@ -46,7 +46,7 @@ const EndingPage = ({ previousStep, onSubmit, continueUrl, onEmailLink }) => {
         {continueUrl && (
           <div className="text-left" style={{ fontSize: '0.8em', lineHeight: '1.3' }}>
             <p>You can resume your survey later using the following link:</p>
-            <a href={continueUrl} className="text-cyan-800 underline">{continueUrl}</a>
+            <a target="_blank" href={continueUrl} className="text-cyan-800 underline">{continueUrl}</a>
           </div>
         )}
         <div className="flex flex-row items-start gap-4">
