@@ -60,6 +60,7 @@ const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailL
     try {
       const docRef = await addDoc(collection(firestore, COLLECTION_NAME), {
         ...answers,
+        logType: 'groupContinue',
         isGroupContinue: true,
         currentStep: currentStep,
         timestamp: serverTimestamp()
