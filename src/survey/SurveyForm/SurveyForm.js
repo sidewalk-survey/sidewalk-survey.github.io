@@ -284,9 +284,11 @@ const SurveyComponent = () => {
           }
           // setImageSelections(data.imageSelections || generateInitialImageSelections());
           // setImageComparisons(data.imageComparisons || []);
-          if(data.logType === 'continue') {
-            data.imageSelections = generateInitialImageSelections();
-            data.imageComparisons = [];
+          if(data.logType === 'groupContinue') {
+            // data.imageSelections = generateInitialImageSelections();
+            setImageSelections(data.imageSelections);
+            // data.imageComparisons = [];
+            setImageComparisons(data.imageComparisons)
           } 
 
           setAnswers({ 
