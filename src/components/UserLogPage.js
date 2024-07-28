@@ -43,7 +43,6 @@ const UserLogPage = () => {
 
   const handleAidClick = (aid) => {
     setSelectedAid(aid);
-    setShowDetails(false); 
     const matchingLog = logs.find(log => log.mobilityAid === aid);
     if (matchingLog) {
       setBarrier(matchingLog.sidewalkBarriers || "No barrier information available");
