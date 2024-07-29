@@ -8,6 +8,7 @@ const UserLogPage = () => {
   const [logs, setLogs] = useState([]);
   const [selectedAid, setSelectedAid] = useState(null);
   const [barrier, setBarrier] = useState(null);
+  const [ranking, setRanking] = useState(null);
   const [imageSelection, setImageSelection] = useState({});
   const [imageComparison, setImageComparison] = useState({});
   const [showImageSelection, setShowImageSelection] = useState(false);
@@ -64,7 +65,7 @@ const UserLogPage = () => {
     const matchingLog = logs.find(log => log.mobilityAid === aid);
     if (matchingLog) {
       setBarrier(matchingLog.sidewalkBarriers || "No barrier information available");
-      console.log("Selected log for aid:", matchingLog); // Debugging log
+      setRanking(matchingLog.rankedOptions?.rankedOptions || []);
       categorizeImages(matchingLog.imageSelections || {});
       categorizeComparisons(matchingLog.imageComparisons || []); // Call categorizeComparisons here
     } else {
@@ -75,7 +76,6 @@ const UserLogPage = () => {
   };
 
   const categorizeImages = (imageSelections) => {
-    console.log("Image Selections before categorization:", imageSelections); // Debugging log
     const categorizedImages = {};
 
     Object.entries(imageSelections).forEach(([group, subgroups]) => {
@@ -112,8 +112,6 @@ const UserLogPage = () => {
         }
       });
     });
-
-    console.log("Categorized Images:", categorizedImages); // Debugging log
     setImageSelection(categorizedImages);
   };
 
@@ -126,8 +124,6 @@ const UserLogPage = () => {
       if (!categorizedComparisons[comparisonContext]) {
         categorizedComparisons[comparisonContext] = [];
       }
-
-      console.log(`ComparisonContext: ${comparisonContext}, Comparison Data:`, comparison); // Detailed log
 
       if (comparison.image1City && comparison.image1LabelID && comparison.image2City && comparison.image2LabelID) {
         categorizedComparisons[comparisonContext].push(comparison);
@@ -161,6 +157,16 @@ const UserLogPage = () => {
             <div>
               <p><strong>Viewing Logs for:</strong> {selectedAid}</p>
               <p><strong>Sidewalk Barriers:</strong> {barrier}</p>
+              <p><strong>Ranking:</strong></p>
+              <ul>
+                {ranking && Array.isArray(ranking) ? (
+                  ranking.map((option, index) => (
+                    <li key={index}>{option}</li>
+                  ))
+                ) : (
+                  <p>No ranking information available.</p>
+                )}
+              </ul>
               <button onClick={() => setShowImageSelection(prev => !prev)}>
                 {showImageSelection ? 'Hide Image Selection' : 'Show Image Selection'}
               </button>
@@ -193,15 +199,13 @@ const ImageSelection = ({ details }) => {
             <div key={category}>
               <h5>{category.charAt(0).toUpperCase() + category.slice(1)}</h5>
               {categories[category].length > 0 ? (
-                <ul>
+                <ul className='image-selection'>
                   {categories[category].map((image, index) => (
-                    <li key={index}>
                       <img 
                         src={`/crops/gsv-${image.City}-${image.LabelID}.png`} 
                         alt={image["Alt-text"]}
                         style={{ width: '200px', height: 'auto' }} // Adjust size as needed
                       />
-                    </li>
                   ))}
                 </ul>
               ) : (
@@ -248,7 +252,7 @@ const renderImagePair = (pair) => {
   
     const getBorderStyle = (city, labelID) => {
       if (isEqual) return 'none';
-      if (city === pair.selectedImageCity && labelID === pair.selectedImageLabelID) return '3px solid teal';
+      if (city === pair.selectedImageCity && labelID === pair.selectedImageLabelID) return '4px solid #2dd4bf';
       return 'none';
     };
   
