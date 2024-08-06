@@ -20,7 +20,10 @@ const TextAreaQuestion = ({ questionText, inputId, placeholderText, handleChange
   return (
     <div className="question-container">
       <div className="question-content">
-        <h2>{questionText}</h2>
+        <h2
+          tabIndex="0"
+          aria-live="assertive"
+        >{questionText}</h2>
         <div className="question-input-group">
           <Textarea
             id={inputId}

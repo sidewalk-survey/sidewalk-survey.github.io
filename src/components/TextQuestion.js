@@ -9,7 +9,12 @@ const TextQuestion = ({ questionText, inputId, placeholderText, handleChange, pr
   return (
     <div className="question-container">
       <div className="question-content">
-        <h2>{questionText}</h2>
+        <h2
+        tabIndex={0}
+        aria-live="assertive"
+        >
+          {questionText}
+        </h2>
         <div className="question-input-group">
           <Input
             className={`question-input ${error ? 'border-red-500' : 'border-gray-300'}`}

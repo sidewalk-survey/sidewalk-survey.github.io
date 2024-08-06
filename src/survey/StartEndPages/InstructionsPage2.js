@@ -15,10 +15,10 @@ const InstructionsPage2 = ({ nextStep , previousStep}) => {
       <div className="flex flex-col items-start"
       style={{ textAlign: 'left', marginBottom: '1.2vw', fontSize: '0.7em', lineHeight: '1.3',  maxWidth: '60vw' }}
       > 
-      <p className="mb-4">
+      <p tabIndex= {0} className="mb-4">
         As you evaluate each image, you might consider different ways of maneuvering around a barrier depending on your ability and the perceived problem. So, to consider if something is passable, please think about what you would be capable of doing in real life. For example:
       </p>
-      <ul className="list-disc list-inside mb-4">
+      <ul tabIndex= {0} className="list-disc list-inside mb-4">
         <li>If you can <b>make it down the curb to the street</b>, then you might consider this a passable barrier</li>
         <li>If you can <b>squeeze by</b> to the left side of the pole, then you might also consider this a passable barrier</li>
         <li>But if you do not think you can comfortably pass this barrier, then you would mark <b>no</b>.</li>

@@ -8,7 +8,10 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
   return (
     <div className="question-container">
       <div className="question-content">
-        <h2>{questionText}</h2>
+        <h2
+          tabIndex="0"
+          aria-live="assertive"
+        >{questionText}</h2>
         <p className="text-instruction text-left mb-8 text-gray-600">{instructionText}</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.8em', textAlign: 'left' }} >
           {options.map((option, index) => (
@@ -18,7 +21,8 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
               name={inputId} 
               value={option.value}
               label={option.label}
-              onChange={handleChange} 
+              onChange={handleChange}
+              // aria-label={option.label} 
             />
           ))}
         </div>
@@ -29,7 +33,12 @@ const RadioQuestion = ({ questionText, inputId, instructionText, options, handle
           </div>
         )}
         <div className="question-button-group items-center">
-            <Button size='lg' className="lg-font-size-button" color="teal" onClick={nextStep}>OK</Button>
+            <Button 
+            size='lg' 
+            className="lg-font-size-button" 
+            color="teal" 
+            onClick={nextStep}
+            >OK</Button>
             <span className="text-w text-teal-700" >press Enter ↵</span>
         </div>
       </div>

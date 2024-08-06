@@ -35,13 +35,13 @@ const InstructionsPage1 = ({ nextStep, previousStep, answers }) => {
       <div className="flex flex-col items-start"
       style={{ textAlign: 'left', fontSize: '0.7em', lineHeight: '1.3',  maxWidth: '60vw' }}
       > 
-      <p className="mb-4">
+      <p tabIndex= {0} className="mb-4">
         In this section, we will show you <b>images of potential sidewalk barriers.</b> Imagine yourself <b>encountering these situations in real life</b>. Would you be able to pass by the barrier?
         </p>
-      <p className="mb-4">
+      <p tabIndex= {0} className="mb-4">
         There are no right or wrong answers—we are interested in your personal perceptions and experiences.
       </p>
-      <p className="mb-4">
+      <p tabIndex= {0}  className="mb-4">
         Here’s an example. When using your {mobilityAid}, are you <b>confident in passing</b> this barrier? Please focus on the red dot when evaluating images in this survey.
       </p>
       </div>
