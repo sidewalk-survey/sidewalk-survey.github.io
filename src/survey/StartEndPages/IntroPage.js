@@ -20,7 +20,7 @@ const IntroPage = ({ nextStep }) => {
         You may <b>save your responses</b> when prompted and come back at a later time. Your responses will be kept confidential and will be used for research purposes only.
       </p>
       <p className="mb-4">
-      One in 30 respondents will have a chance to win a <b>$50 reward</b>, available as either a Tango e-gift card or a check.
+      Each valid survey response will be compensated with <b>$10</b>, available as either a Tango e-gift card or a check.
       </p>
       <p className="mb-16">
         This work is led by researchers from the University of Washington. If you have any questions, please contact: <a href="mailto:chuchuli@cs.uw.edu" className="text-cyan-800 underline">chuchuli@cs.uw.edu</a>.

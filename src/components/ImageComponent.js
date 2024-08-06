@@ -33,6 +33,7 @@ const ImageComponent = ({ cropMetadata, isFirstImage, isFirstGroup }) => {
   };
 
   const { left, top } = getLabelPosition();
+  console.log('Alt text:', cropMetadata['Alt-text']);
 
   return (
     <div className="image-component-container">
@@ -40,7 +41,8 @@ const ImageComponent = ({ cropMetadata, isFirstImage, isFirstGroup }) => {
         ref={imageRef}
         className="crop-image"
         src={`${process.env.PUBLIC_URL}/crops/gsv-${cropMetadata.City}-${cropMetadata.LabelID}-${cropMetadata.LabelTypeID}-${cropMetadata.Order}.png`}
-        alt={cropMetadata.altText || "Sidewalk Image"}
+        alt={cropMetadata['Alt-text'] || "Sidewalk Image"}
+        tabIndex="0" 
         onLoad={() => {
           setImageSize({
             width: imageRef.current.offsetWidth,
