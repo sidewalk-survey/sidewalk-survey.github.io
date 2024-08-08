@@ -5,7 +5,7 @@ import { firestore } from '../../config';
 import { HandsClapping } from 'phosphor-react';
 
 
-const COLLECTION_NAME = 'surveyAnswers0727';
+const COLLECTION_NAME = 'surveyAnswers0807';
 // const COLLECTION_NAME = 'surveyAnswersTesting';
 
 const BreakPage = ({ currentStep, onContinue, answers, completedGroups, onEmailLink }) => {

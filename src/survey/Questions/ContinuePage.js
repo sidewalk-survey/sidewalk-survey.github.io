@@ -3,7 +3,7 @@ import RadioQuestion from '../../components/RadioQuestion';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { firestore } from '../../config';
 
-const COLLECTION_NAME = 'surveyAnswers0727';
+const COLLECTION_NAME = 'surveyAnswers0807';
 // const COLLECTION_NAME = 'surveyAnswersTesting';
 
 const ContinuePage = ({ answers, handleMobilityAidChange, previousStep, yesStep, nextStep, setContinueUrl, logData}) => {
