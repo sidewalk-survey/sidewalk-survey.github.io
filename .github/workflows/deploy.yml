@@ -23,9 +23,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Debug - Check secret length
+      - name: Debug - Check if secret is set
         run: |
-          echo "Secret length: ${{ length(secrets.REACT_APP_FIREBASE_API_KEY) }}"
+          if [ -n "$REACT_APP_FIREBASE_API_KEY" ]; then
+            echo "REACT_APP_FIREBASE_API_KEY is set"
+          else
+            echo "REACT_APP_FIREBASE_API_KEY is not set"
+          fi
 
       - name: Build project
         run: npm run build
