@@ -30,7 +30,7 @@ import getIpAddress from '../../getIpAddress';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC5siaFnxhtfEbw1FaKuX8GkEQyN5rb6a0",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "sidewalk-survey-f7904.firebaseapp.com",
   projectId: "sidewalk-survey-f7904",
   storageBucket: "sidewalk-survey-f7904.appspot.com",
@@ -38,6 +38,8 @@ const firebaseConfig = {
   appId: "1:116996397844:web:10d973cb146b348c040001",
   measurementId: "G-3MC54XMWQD"
 };
+console.log("hahahah");
+console.log(process.env.REACT_APP_FIREBASE_API_KEY);
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const analytics = getAnalytics(app);
