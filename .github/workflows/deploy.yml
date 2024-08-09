@@ -23,7 +23,7 @@ jobs:
       - name: Build project
         env:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
-        run: npm run build
+        run: CI=false npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
