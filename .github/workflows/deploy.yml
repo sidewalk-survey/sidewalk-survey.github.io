@@ -24,7 +24,8 @@ jobs:
         run: npm ci
 
       - name: Debug - Check secret length
-        run: echo "Secret length: ${#REACT_APP_FIREBASE_API_KEY}"
+        run: |
+          echo "Secret length: ${{ length(secrets.REACT_APP_FIREBASE_API_KEY) }}"
 
       - name: Build project
         run: npm run build
